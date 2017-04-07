@@ -63,10 +63,23 @@ def generate_data(lines):
             accumulated_essay += line
 
 print("Going through each paper and saving it as either a test or a training file...")
+jay = ham = mad = ""
 for num, author, text in generate_data(lines):
     if author == "disputed":
         with open("tests" + os.path.sep + author + str(num) + ".txt", 'w') as f:
             f.write(text)
     else:
-        with open("training" + os.path.sep + author + str(num) + ".txt", 'w') as f:
-            f.write(text)
+        if author.startswith("HAMILTON"):
+            ham += text
+        elif author.startswith("MADISON"):
+            mad += text
+        else:
+            jay += text
+
+with open("training" + os.path.sep + "jay.txt", 'w') as f:
+    f.write(jay)
+with open("training" + os.path.sep + "mad.txt", 'w') as f:
+    f.write(mad)
+with open("training" + os.path.sep + "ham.txt", 'w') as f:
+    f.write(ham)
+
