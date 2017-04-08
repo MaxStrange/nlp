@@ -3,6 +3,7 @@ This file takes the federalist papers .txt file and separates it into one traini
 The text file that this script takes as an input comes from:
 http://www.gutenberg.org/ebooks/1404
 """
+from __future__ import print_function
 import os
 import sys
 
