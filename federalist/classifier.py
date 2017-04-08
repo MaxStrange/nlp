@@ -6,24 +6,13 @@ a test file -> the file you want to test for authorship classification
 
 e.g.:
 python3 classifier.py 3 ham.txt jay.txt mad.txt test.txt
->>outputs: 0 if classifier predicts Hamilton, 1 for Jay, 2 for Madison.
+    >> outputs: 0 if classifier predicts Hamilton, 1 for Jay, 2 for Madison.
 """
 from __future__ import print_function
 import gzip
 import os
 import shutil
 import sys
-
-if len(sys.argv) <= 4:
-    print("USAGE: n A0 A1 A2 ... An T, where n is the number of classes and the number of training files, Ai is the ith class's training file, and T is the test file you want to classify.")
-    exit(1)
-else:
-    num_classes = int(sys.argv[1])
-    test_path = sys.argv[-1]
-    classifier_paths = [a for a in sys.argv[2:-1]]
-    if len(classifier_paths) != num_classes:
-        print("Number of files given must match the number given as the first argument.")
-        exit(1)
 
 def compress(path):
     with open(path, 'rb') as org:
@@ -44,17 +33,27 @@ def concatenate(path, test_path):
     os.remove(path + "tmp.txt")
     return sz
 
-training_file_lengths = [compress(a) for a in classifier_paths]
-print(training_file_lengths)
-concatenated = [concatenate(a, test_path) for a in classifier_paths]
-print(concatenated)
-sizes = [c - x for c, x in zip(concatenated, training_file_lengths)]
-print(sizes)
-yval = min(sizes)
-for index, sz in enumerate(sizes):
-    if sz == yval:
-        y = index
-        break
+def classify(classifier_paths, test_path):
+    training_file_lengths = [compress(a) for a in classifier_paths]
+    concatenated = [concatenate(a, test_path) for a in classifier_paths]
+    sizes = [c - x for c, x in zip(concatenated, training_file_lengths)]
+    yval = min(sizes)
+    for index, sz in enumerate(sizes):
+        if sz == yval:
+            return index + 1
 
-print(y, "(" + classifier_paths[y] + ")")
+if __name__ == "__main__":
+    if len(sys.argv) <= 4:
+        print("USAGE: n A0 A1 A2 ... An T, where n is the number of classes and the number of training files, Ai is the ith class's training file, and T is the test file you want to classify.")
+        exit(1)
+    else:
+        num_classes = int(sys.argv[1])
+        test_path = sys.argv[-1]
+        classifier_paths = [a for a in sys.argv[2:-1]]
+        if len(classifier_paths) != num_classes:
+            print("Number of files given must match the number given as the first argument.")
+            exit(1)
+
+    y = classify(classifier_paths, test_path)
+    print(y + 1, "(" + classifier_paths[y] + ")")
 
