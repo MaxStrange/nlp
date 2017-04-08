@@ -1,5 +1,7 @@
 """
 This file takes the federalist papers .txt file and separates it into one training file per author and a directory of test files.
+The text file that this script takes as an input comes from:
+http://www.gutenberg.org/ebooks/1404
 """
 import os
 import sys
