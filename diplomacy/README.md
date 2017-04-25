@@ -1,7 +1,7 @@
 # Diplomacy
 
 This is my NLP class project. It is an attempt to take the work of Niculae, Kumar, Boyd-Graber, and Danescu-Niculescu-Mizil in
-[Linguistic Harbingers of Betrayal](https://vene.ro/betrayal/#data). This paper discusses the linguistic cues that precede betrayal in a popular
+[Linguistic Harbingers of Betrayal](https://vene.ro/betrayal/). This paper discusses the linguistic cues that precede betrayal in a popular
 online board game. But despite the authors finding statistically significant differences between message exchanges between dyads destined to betrayal
 and dyads who do not end up in betrayal, the classifier that they trained to detect imminent betrayal only managed to attain 57% accuracy. I hope to
 take the features that the authors describe as significant and train different classifiers on them to attain better accuracy.
