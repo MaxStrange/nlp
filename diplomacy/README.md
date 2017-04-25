@@ -16,3 +16,42 @@ to detect imminent betrayal. Essentially, <b>the authors of this paper came up w
 a classifier that convinces me; my project is about taking their work and seeing if I can really train a classifier that works</b>, and along the way, I will explore some
 additional features perhaps. I will also collect a new batch of data to attempt validation on a set of data collected in a different context to see if whatever classifier
 I make generalizes well.
+
+## Usage
+
+This project aims to predict whether a betrayal is "about" to happen in the game of Diplomacy between two players. By "about" I mean that the program will give a confidence
+score to betrayal/not betrayal (and which person in a dyad is going to betray) at different times: i.e., will X betray Y in the next 10 turns? 5 turns? 1 turn?
+
+The ideal usage <b>will be</b> (it isn't implemented yet):
+
+```bash
+python3 betrayal.py msg_pairs_one.txt msg_pairs_two.txt msg_pairs_n.txt
+```
+
+This will output a matrix like this:
+
+```
+###########################################################################################
+|  Player  |  Betrays within 10 turns  | Betrays within 5 turns  | Betrays within 1 turn  |
+###########################################################################################
+|  Bob     |  40%                      |  35%                    |  23%                   |
+-------------------------------------------------------------------------------------------
+|  Alice   |  13%                      |  4%                     |  2%                    |
+-------------------------------------------------------------------------------------------
+```
+
+### Message Format
+
+It is important to adhere to the right format for the messages that you feed into the betrayal.py script. There is some metadata that is necessary.
+Each text file is a series of messages with some metadata from a single season in the game of Diplomacy and for a single pair of people. The series of files that
+you feed the program <b>must all be between the same two players</b>. To get best results, you should give the program all of the messages that have so far
+occurred between two players.
+
+Here is an example file:
+
+```yaml
+year: 1901                                  # <-- This is the year that is ABOUT to be played, not the one that was just played
+season: Winter                              # <-- This is the season that is ABOUT to be played, not the one that was just played
+message: "Hey Bob, this is Alice. Could you destroy everyone else for me, please? Thanks"
+```
+
