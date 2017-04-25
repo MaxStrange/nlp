@@ -25,7 +25,7 @@ score to betrayal/not betrayal (and which person in a dyad is going to betray) a
 The ideal usage <b>will be</b> (it isn't implemented yet):
 
 ```bash
-python3 betrayal.py msg_pairs_one.txt msg_pairs_two.txt msg_pairs_n.txt
+python3 betrayal.py msg_pairs_one.yml msg_pairs_two.yml msg_pairs_n.yml
 ```
 
 This will output a matrix like this:
@@ -43,7 +43,7 @@ This will output a matrix like this:
 ### Message Format
 
 It is important to adhere to the right format for the messages that you feed into the betrayal.py script. There is some metadata that is necessary.
-Each text file is a series of messages with some metadata from a single season in the game of Diplomacy and for a single pair of people. The series of files that
+Each file is a series of messages with some metadata from a single season in the game of Diplomacy and for a single pair of people. The series of files that
 you feed the program <b>must all be between the same two players</b>. To get best results, you should give the program all of the messages that have so far
 occurred between two players.
 
@@ -52,6 +52,8 @@ Here is an example file:
 ```yaml
 year: 1901                                  # <-- This is the year that is ABOUT to be played, not the one that was just played
 season: Winter                              # <-- This is the season that is ABOUT to be played, not the one that was just played
-message: "Hey Bob, this is Alice. Could you destroy everyone else for me, please? Thanks"
+message: >
+  Hey Bob, this is Alice. Could you destroy everyone else for me, please?
+  Thanks
 ```
 
