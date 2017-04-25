@@ -2,6 +2,7 @@
 This module provides utility functions for yielding the data
 in various ways.
 """
+from   collections import namedtuple
 import json
 import os
 
@@ -40,8 +41,12 @@ class Season:
         self.year = int(data["season"])
         self.season = "spring" if (data["season"] - self.year) == 0 else "winter"
         self.interaction = data["interaction"]
+
         MessagePair = namedtuple("MessagePair", ["betrayer", "victim"])
-        self.messages = [MessagePair(betrayer=d["betrayer"], victim=d["victim"]) for d in data["messages"]]
+        betrayer_messages = data["messages"]["betrayer"]
+        victim_messages = data["messages"]["victim"]
+        zipped = zip(betrayer_messages, victim_messages)
+        self.messages = [MessagePair(betrayer=m[0], victim=m[1]) for m in zipped]
 
     def __str__(self):
         s  = "Year: " + str(self.year) + " "
