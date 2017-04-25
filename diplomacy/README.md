@@ -52,6 +52,10 @@ Here is an example file:
 ```yaml
 year: 1901                                  # <-- This is the year that is ABOUT to be played, not the one that was just played
 season: Winter                              # <-- This is the season that is ABOUT to be played, not the one that was just played
+from_player: Alice
+from_country: Turkey
+to_player: Bob
+to_country: England
 message: >
   Hey Bob, this is Alice. Could you destroy everyone else for me, please?
   Thanks
