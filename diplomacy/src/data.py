@@ -50,7 +50,7 @@ class Season:
 
     def __str__(self):
         s  = "Year: " + str(self.year) + " "
-        s += "Season: " + str(self.year) + " "
+        s += "Season: " + str(self.season) + " "
         s += "Interaction: " + str(self.interaction) + " "
         s += "Number of messages: " + str(len(self.messages))
         return s
@@ -91,5 +91,8 @@ if __name__ == "__main__":
     # Debug
     print("Getting data...")
     data = [d for d in get_all_sequences()]
-    print(data[0])
+
+    print("Data0<<:", data[0], ">>")
+    print("Season0:<<", data[0].seasons[0], ">>")
+    print("MessagePair0:<<", data[0].seasons[0].messages[0], ">>")
 
