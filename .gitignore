@@ -90,3 +90,7 @@ ENV/
 
 # Vim
 *.swp
+
+# External Stanford Library
+*/external/stanford*
+
