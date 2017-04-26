@@ -31,12 +31,7 @@ def clean_treeparse(tree):
     return cleaned_tree
 
 def get_sentences(doc_text):
-    temp = doc_text.strip()#.split('\n')
-    sents = []
-    for s in temp:
-        sents += sent_tokenize(s.strip())
-
-    return sents
+    return sent_tokenize(doc_text.strip().replace("\n", " "))
 
 def get_parses(sent):
     parse = {'deps': [], 'sent': ""}
