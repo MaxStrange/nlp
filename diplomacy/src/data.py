@@ -96,3 +96,7 @@ if __name__ == "__main__":
     print("Season0:<<", data[0].seasons[0], ">>")
     print("MessagePair0:<<", data[0].seasons[0].messages[0], ">>")
 
+    lengths = [len(seq.seasons) for seq in data]
+    sorted_lengths = sorted(lengths)
+    print(sorted_lengths)
+
