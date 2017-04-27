@@ -43,13 +43,10 @@ def get_parses(sent):
     return parse
 
 def format_doc(doc_text):
-    print("Getting the sentences...")
     sents = get_sentences(doc_text)
-    print("Parsing the sentences...")
     raw_parses = []
     for sent in sents:
         raw_parses.append(get_parses(sent))
-    print("Formatting the raw parses...")
     results = []
     for raw in raw_parses:
         result = {'parses': [], 'sentences': []}

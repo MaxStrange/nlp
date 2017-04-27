@@ -45,8 +45,8 @@ def get_politeness(raw_text):
         X = csr_matrix(np.asarray([fv]))
         probs = politeness_model.predict_proba(X)
         probs = {"polite": probs[0][1], "impolite": probs[0][0]}
-        accumulated_probs.append(probs)
-    return probs
+        accumulated_probs.append((request['sentences'], probs))
+    return accumulated_probs
 
 
 if __name__ == "__main__":
@@ -54,7 +54,7 @@ if __name__ == "__main__":
 Please, if you wouldn't mind, could you get me the butter? It's across the table from you.
 I know this is a pain, but I was hoping you could maybe get me the thingy. Also, I
 personally believe you are a loser, and I wish you would shut up and give me the thing.
-Swine! Give me what I desire!"""
+Swine, give me what I desire!"""
     pol = get_politeness(text)
     print(pol)
 
