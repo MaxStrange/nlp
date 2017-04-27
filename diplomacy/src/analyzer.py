@@ -5,6 +5,7 @@ the Politeness Analyzer, and various other ways of getting metadata.
 import _pickle
 import atexit
 from external.polite.features.vectorizer import PolitenessFeatureVectorizer
+from external.polite.request_utils import check_is_request
 from external.polite.scripts.format_input import format_doc
 import nltk
 import numpy as np
@@ -57,8 +58,27 @@ def get_sentiment(raw_text):
     Takes a string of raw text and determines the sentiment value for each sentence in it.
     """
     res = corenlp.annotate(raw_text, properties={'annotators': 'sentiment', 'outputFormat': 'json', 'timeout':1000})
-    accumulated_sents = [(s['index'], " ".join([t['word'] for t in s['tokens']]), s['sentimentValue'], s['sentiment']) for s in res['sentences']]
+    sentences = _sentenize(raw_text)
+    accumulated_sents = [(s['index'], sentences[i], s['sentimentValue'], s['sentiment']) for i, s in enumerate(res['sentences'])]
     return accumulated_sents
+
+def get_requests(raw_text):
+    """
+    Returns the sentences in the raw_text that are requests.
+    """
+    accumulated = []
+    for s in _sentenize(raw_text):
+        for f in format_doc(s):
+            if check_is_request(f):
+                accumulated.append(s)
+    accumulated = list(set(accumulated))
+    return accumulated
+
+def _sentenize(raw_text):
+    """
+    Returns raw_text as a list of sentences.
+    """
+    return ["".join(s['sentences']) for s in format_doc(raw_text)]
 
 
 if __name__ == "__main__":
@@ -76,4 +96,11 @@ Swine, give me what I desire!"""
 
     sent = get_sentiment(text)
     print(sent)
+
+    print("")
+    print("==============================================================")
+    print("")
+
+    requests = get_requests(text)
+    print(requests)
 
