@@ -9,6 +9,7 @@ from external.polite.scripts.format_input import format_doc
 import nltk
 import numpy as np
 import os
+from pycorenlp import StanfordCoreNLP
 import scipy
 from scipy.sparse import csr_matrix
 import sklearn
@@ -28,7 +29,10 @@ politeness_model = _pickle.load(open(POLITE_FILEPATH, 'rb'), encoding='latin1', 
 # Sleep a few seconds to let the server start
 #time.sleep(4)
 
-# TODO: Can't get the server to behave reliably like this. So just run the server in a separate window.
+# TODO: Can't get the server to behave reliably like this. So just run the server in a separate window for now.
+
+# Start a link to the server
+corenlp = StanfordCoreNLP("http://localhost:9000")
 
 def get_politeness(raw_text):
     """
@@ -48,6 +52,14 @@ def get_politeness(raw_text):
         accumulated_probs.append((request['sentences'], probs))
     return accumulated_probs
 
+def get_sentiment(raw_text):
+    """
+    Takes a string of raw text and determines the sentiment value for each sentence in it.
+    """
+    res = corenlp.annotate(raw_text, properties={'annotators': 'sentiment', 'outputFormat': 'json', 'timeout':1000})
+    accumulated_sents = [(s['index'], " ".join([t['word'] for t in s['tokens']]), s['sentimentValue'], s['sentiment']) for s in res['sentences']]
+    return accumulated_sents
+
 
 if __name__ == "__main__":
     text = """
@@ -57,4 +69,11 @@ personally believe you are a loser, and I wish you would shut up and give me the
 Swine, give me what I desire!"""
     pol = get_politeness(text)
     print(pol)
+
+    print("")
+    print("==============================================================")
+    print("")
+
+    sent = get_sentiment(text)
+    print(sent)
 
