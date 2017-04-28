@@ -46,7 +46,7 @@ class Season:
         betrayer_messages = data["messages"]["betrayer"]
         victim_messages = data["messages"]["victim"]
         zipped = zip(betrayer_messages, victim_messages)
-        self.messages = [MessagePair(betrayer=m[0], victim=m[1]) for m in zipped]
+        self.messages = [MessagePair(betrayer=Message(m[0]), victim=Message(m[1])) for m in zipped]
 
     def __str__(self):
         s  = "Year: " + str(self.year) + " "
@@ -92,11 +92,13 @@ if __name__ == "__main__":
     print("Getting data...")
     data = [d for d in get_all_sequences()]
 
-    print("Data0<<:", data[0], ">>")
-    print("Season0:<<", data[0].seasons[0], ">>")
-    print("MessagePair0:<<", data[0].seasons[0].messages[0], ">>")
+    print(data[0].seasons[0].messages[0].betrayer.lexicon_words)
 
-    lengths = [len(seq.seasons) for seq in data]
-    sorted_lengths = sorted(lengths)
-    print(sorted_lengths)
+#    print("Data0<<:", data[0], ">>")
+#    print("Season0:<<", data[0].seasons[0], ">>")
+#    print("MessagePair0:<<", data[0].seasons[0].messages[0], ">>")
+
+#    lengths = [len(seq.seasons) for seq in data]
+#    sorted_lengths = sorted(lengths)
+#    print(sorted_lengths)
 

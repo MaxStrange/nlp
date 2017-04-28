@@ -50,14 +50,32 @@ occurred between two players.
 Here is an example file:
 
 ```yaml
-year: 1901                                  # <-- This is the year that is ABOUT to be played, not the one that was just played
-season: Winter                              # <-- This is the season that is ABOUT to be played, not the one that was just played
-from_player: Alice
-from_country: Turkey
-to_player: Bob
-to_country: England
-message: >
-  Hey Bob, this is Alice. Could you destroy everyone else for me, please?
-  Thanks
+year: 1901            # <-- This is the year that is ABOUT to be played, not the one that was just played
+season: Spring        # <-- This is the season that is ABOUT to be played, not the one that was just played
+game: 19
+
+a_to_b:
+  from_player: Alice
+  from_country: England
+  to_player: Bob
+  to_country: Turkey
+  messages:
+    - >
+      Hey Bob, this is Alice. Could you destroy everyone else for me, please?
+      Thanks
+    - >
+      In response to your previous message, no I don't think I can do that - I think France might be upset if I were to take Brest from him.
+      We are currently planning on bouncing in the Channel. I know, it is a waste of a move, but otherwise he is just going to go for it.
+
+b_to_a:
+  from_player: Bob
+  from_country: Turkey
+  to_player: Alice
+  to_country: England
+  messages:
+    - >
+      Hey Alice! Good of you to drop me a line; even though we are far away and unlikely to interact directly until towards the end (assuming we
+      both make it that far), I think we could at least offer each other advice. Whadya say? So to start off, I'll give you some advice: go get France!
+      He's sneaky. You can't trust him for a moment. I would seriously consider setting up a convoy to his heartland or at least a stab towards Brest.
 ```
 

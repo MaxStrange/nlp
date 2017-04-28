@@ -50,35 +50,41 @@ def get_politeness(raw_text):
         X = csr_matrix(np.asarray([fv]))
         probs = politeness_model.predict_proba(X)
         probs = {"polite": probs[0][1], "impolite": probs[0][0]}
-        accumulated_probs.append((request['sentences'], probs))
+        accumulated_probs.append((request['sentences'][0], probs))
     return accumulated_probs
-
-def get_sentiment(raw_text):
-    """
-    Takes a string of raw text and determines the sentiment value for each sentence in it.
-    """
-    res = corenlp.annotate(raw_text, properties={'annotators': 'sentiment', 'outputFormat': 'json', 'timeout':1000})
-    sentences = _sentenize(raw_text)
-    accumulated_sents = [(s['index'], sentences[i], s['sentimentValue'], s['sentiment']) for i, s in enumerate(res['sentences'])]
-    return accumulated_sents
 
 def get_requests(raw_text):
     """
     Returns the sentences in the raw_text that are requests.
     """
     accumulated = []
-    for s in _sentenize(raw_text):
+    for s in get_sentences(raw_text):
         for f in format_doc(s):
             if check_is_request(f):
                 accumulated.append(s)
     accumulated = list(set(accumulated))
     return accumulated
 
-def _sentenize(raw_text):
+def get_sentences(raw_text):
     """
     Returns raw_text as a list of sentences.
     """
     return ["".join(s['sentences']) for s in format_doc(raw_text)]
+
+def get_sentiment(raw_text):
+    """
+    Takes a string of raw text and determines the sentiment value for each sentence in it.
+    """
+    res = corenlp.annotate(raw_text, properties={'annotators': 'sentiment', 'outputFormat': 'json', 'timeout':1000})
+    sentences = get_sentences(raw_text)
+    accumulated_sents = [(s['index'], sentences[i], s['sentimentValue'], s['sentiment']) for i, s in enumerate(res['sentences'])]
+    return accumulated_sents
+
+def get_words(raw_text):
+    """
+    Tokenizes the given text into words and returns a list of the words.
+    """
+    return nltk.word_tokenize(raw_text)
 
 
 if __name__ == "__main__":
@@ -87,6 +93,7 @@ Please, if you wouldn't mind, could you get me the butter? It's across the table
 I know this is a pain, but I was hoping you could maybe get me the thingy. Also, I
 personally believe you are a loser, and I wish you would shut up and give me the thing.
 Swine, give me what I desire!"""
+    print(":::::::::::::  POLITENESS  :::::::::::::::")
     pol = get_politeness(text)
     print(pol)
 
@@ -94,6 +101,7 @@ Swine, give me what I desire!"""
     print("==============================================================")
     print("")
 
+    print(":::::::::::::  SENTIMENT  :::::::::::::::")
     sent = get_sentiment(text)
     print(sent)
 
@@ -101,6 +109,28 @@ Swine, give me what I desire!"""
     print("==============================================================")
     print("")
 
+    print(":::::::::::::  REQUESTS  :::::::::::::::")
     requests = get_requests(text)
     print(requests)
+
+    print("")
+    print("==============================================================")
+    print("")
+
+    print(":::::::::::::  SENTENCES  :::::::::::::::")
+    sentences = get_sentences(text)
+    print(sentences)
+
+    print("")
+    print("==============================================================")
+    print("")
+
+
+    print(":::::::::::::  WORDS  :::::::::::::::")
+    words = get_words(text)
+    print(words)
+
+    print("")
+    print("==============================================================")
+    print("")
 
