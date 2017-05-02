@@ -1,6 +1,5 @@
 year: 1902
 season: Spring
-game: 19
 
 a_to_b:
   from_player: Alice
@@ -9,11 +8,9 @@ a_to_b:
   to_country: Turkey
   messages:
     - >
-      "Hey Bob, this is Alice. Could you destroy everyone else for me, please?
-      Thanks"
+      "Well what about the fleet YOU built? That's not a friendly thing to do for Italy. You and Russia forming a Juggernaut?"
     - >
-      "In response to your previous message, no I don't think I can do that - I think France might be upset if I were to take Brest from him.
-      We are currently planning on bouncing in the Channel. I know, it is a waste of a move, but otherwise he is just going to go for it."
+      "Hmm... I don't know about that. If you are friends with Russia... does that make you my enemy?"
 
 b_to_a:
   from_player: Bob
@@ -22,7 +19,9 @@ b_to_a:
   to_country: England
   messages:
     - >
-      "Hey Alice! Good of you to drop me a line; even though we are far away and unlikely to interact directly until towards the end (assuming we
-      both make it that far), I think we could at least offer each other advice. Whadya say? So to start off, I'll give you some advice: go get France!
-      He's sneaky. You can't trust him for a moment. I would seriously consider setting up a convoy to his heartland or at least a stab towards Brest."
+      "What's with the army in London? Not a fleet? That's odd."
+    - >
+      "I don't think we have any plans to forma a Juggernaut. Just being peaceful neighbors. That's all."
+    - >
+      "Certainly not, Comrade!"
 

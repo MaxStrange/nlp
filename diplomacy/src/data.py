@@ -92,7 +92,10 @@ if __name__ == "__main__":
     print("Getting data...")
     data = [d for d in get_all_sequences()]
 
-    print(data[0].seasons[0].messages[0].betrayer.lexicon_words)
+    print("Length of data:", len(data))
+
+    betrayals = [d for d in data if d.betrayal]
+    print("Number of sequences that end in betrayal:", len(betrayals))
 
 #    print("Data0<<:", data[0], ">>")
 #    print("Season0:<<", data[0].seasons[0], ">>")

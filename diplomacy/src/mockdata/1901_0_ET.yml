@@ -1,6 +1,5 @@
 year: 1901            # <-- This is the year that is ABOUT to be played, not the one that was just played
 season: Spring        # <-- This is the season that is ABOUT to be played, not the one that was just played
-game: 19
 
 a_to_b:
   from_player: Alice

@@ -7,6 +7,7 @@ import atexit
 from external.polite.features.vectorizer import PolitenessFeatureVectorizer
 from external.polite.request_utils import check_is_request
 from external.polite.scripts.format_input import format_doc
+import itertools
 import nltk
 import numpy as np
 import os
@@ -34,6 +35,32 @@ politeness_model = _pickle.load(open(POLITE_FILEPATH, 'rb'), encoding='latin1', 
 
 # Start a link to the server
 corenlp = StanfordCoreNLP("http://localhost:9000")
+
+def analyze_message(msg):
+    """
+    Returns a dict of the form:
+    (nwords, nsentences, nrequests, politeness, sentiment, lexicon_words, frequent_words)
+    """
+    reqs = get_requests(msg)
+    politenesses = [get_politeness(r) for r in reqs] if reqs else [get_politeness(msg)]
+    politeness = np.mean([item[1]['polite'] for item in list(itertools.chain.from_iterable(politenesses))])
+    sentiments = get_sentiment(msg)
+    sentiment = {
+                    "positive": len([s for s in sentiments if int(s[2]) > 2]),
+                    "neutral":  len([s for s in sentiments if int(s[2]) == 2]),
+                    "negative": len([s for s in sentiments if int(s[2]) < 2])
+                }
+    lexwords = None
+    freqwords = None
+    return {
+                "n_words": len(get_words(msg)),
+                "n_sentences": len(get_sentences(msg)),
+                "n_requests": len(get_requests(msg)),
+                "politeness": politeness,
+                "sentiment": sentiment,
+                "lexicon_words": lexwords,
+                "frequent_words": freqwords
+            }
 
 def get_politeness(raw_text):
     """
