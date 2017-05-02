@@ -6,6 +6,7 @@ from   collections import namedtuple
 import json
 import numpy as np
 import os
+import random
 
 data_path = os.path.join("..", "data_from_paper", "diplomacy_data.json")
 
@@ -42,7 +43,7 @@ class Season:
     """
     A game turn along with all the messages sent during that time.
     """
-    def __init__(self, data):
+    def __init__(self, data, last):
         self.year = int(data["season"])
         self.season = "spring" if (data["season"] - self.year) == 0 else "winter"
         self.interaction = data["interaction"]
@@ -52,6 +53,7 @@ class Season:
         victim_messages = data["messages"]["victim"]
         zipped = zip(betrayer_messages, victim_messages)
         self.messages = [MessagePair(betrayer=Message(m[0]), victim=Message(m[1])) for m in zipped]
+        self.is_last_season_in_relationship = last
 
     def __str__(self):
         s  = "Year: " + str(self.year) + " "
@@ -60,27 +62,42 @@ class Season:
         s += "Number of messages: " + str(len(self.messages))
         return s
 
-    def _avg(self, attr):
+    def _avg_betrayer(self, attr):
         """
         Gets the average value of all messages for the given attribute in this Season.
         """
-        l = [getattr(m, attr) for m in self.get_messages()]
+        l = [getattr(m, attr) for m in self.get_messages('betrayer')]
         return sum(l) / len(l) if l else 0.0
 
-    def get_messages(self):
+    def _avg_victim(self, attr):
+        """
+        Gets the average value of all messages for the given attribute in this Season.
+        """
+        l = [getattr(m, attr) for m in self.get_messages('victim')]
+        return sum(l) / len(l) if l else 0.0
+
+    def get_messages(self, person='betrayer'):
         """
         Generator for all the Message objects in this object.
         """
         for mp in self.messages:
-            yield mp.betrayer
-            yield mp.victim
+            if person == "betrayer":
+                yield mp.betrayer
+            else:
+                yield mp.victim
 
-    def to_feature_vector(self):
+    def to_feature_vector(self, reverse):
         """
         Returns a feature vector version of this Season.
         """
-        return [self._avg('nwords'), self._avg('nsentences'), self._avg('nrequests'),
-                self._avg('politeness'), self._avg('avg_sentiment')]
+        b = [self._avg_betrayer('nwords'), self._avg_betrayer('nsentences'), self._avg_betrayer('nrequests'),
+             self._avg_betrayer('politeness'), self._avg_betrayer('avg_sentiment')]
+        v = [self._avg_victim('nwords'), self._avg_victim('nsentences'), self._avg_victim('nrequests'),
+             self._avg_victim('politeness'), self._avg_victim('avg_sentiment')]
+        if reverse:
+            return v + b
+        else:
+            return b + v
 
 
 class Relationship:
@@ -92,7 +109,8 @@ class Relationship:
         self.game = data["game"]            # Unique ID of the game this sequence comes from
         self.betrayal = data["betrayal"]    # Whether the relationship ended in betrayal
         self.people = data["people"]        # The countries represented by the two players
-        self.seasons = [Season(s) for s in data["seasons"]]
+        self.seasons = [Season(s, False) for s in data["seasons"]]
+        self.seasons[-1].is_last_season_in_relationship = True
 
     def __str__(self):
         s  = "ID: " + str(self.idx) + " "
@@ -124,41 +142,76 @@ def get_all_sequences():
     for seq in data:
         yield Relationship(seq)
 
-def _concatenate_trigram(tri):
+def _concatenate_trigram(tri, reverse):
     """
     Takes an iterable of three Season objects and returns a numpy vector of
     all the features of each Season concatenated.
     """
     fv = []
     for s in tri:
-        fv += s.to_feature_vector()
+        fv += s.to_feature_vector(reverse)
     return np.array(fv)
 
 def get_X_feed():
     """
-    Generator for getting all the X vectors.
+    Generator for getting all the X vectors. Returns a tuple of (reversed, X) at each yield.
 
     Each X is a numpy array that looks like this:
-    [N_words_season0, N_sentences_season0, N_requests_season0, politeness_season0, sentiment_season0, N_words_season1, ..., N_words_season2, ..., sentiment_season2]
+    [N_words_Betrayer_season0, N_sentences_Betrayer_season0, N_requests_season0, politeness_season0, sentiment_season0, N_words_Victim_season0, ..., N_words_Victim_season1, ..., sentiment_season2]
+
+    That is:
+    [B, B, B, B, B, V, V, V, V, V          <- Season 0
+     B, B, B, B, B, V, V, V, V, V          <- Season 1
+     B, B, B, B, B, V, V, V, V, V]         <- Season 2
+
+    When reverse is True, we get:
+    [V, V, V, V, V, B, B, B, B, B
+     V, V, V, V, V, B, B, B, B, B
+     V, V, V, V, V, B, B, B, B, B]
     """
     for relationship in get_all_sequences():
         season_trigrams = relationship.get_season_trigrams()
         for tri in season_trigrams:
-            yield _concatenate_trigram(tri)
+            reverse = random.choice([True, False])
+            yield reverse, _concatenate_trigram(tri, reverse)
 
-def _get_label_from_trigram(tri, betrayal):
+def _get_label_from_trigram(tri, betrayal, reverse):
     """
     Gets the Y corresponding to the given trigram.
+
+    If reverse is True, then the returned label vector is:
+    [Victim, Victim, Victim, B, B, B] rather than [B, B, B, V, V, V]
     """
+    def finish_with_ones(acc, reverse):
+        acc += [1, 0, 0, 0]
+        if reverse:
+            return acc[3:] + acc[:3]
+        else:
+            return acc
+
     if not betrayal:
         # labels are all zeros - nobody ever betrays anyone
         return np.array([0, 0, 0, 0, 0, 0])
     else:
-        for s in tri:
+        acc = []
+        for i, s in enumerate(tri):
+            if i == 2:
+                # If this is the last value in the trigram, it may be the last season in the relationship
+                if s.is_last_season_in_relationship:
+                    # If this is the last season in the relationship, it is when the betrayal started.
+                    # All betrayal labels for the next turns are 1.
+                    return np.array(finish_with_ones(acc, reverse))
+                else:
+                    acc.append(0)
+                    # No betrayal yet
+                    return np.array(acc + [0, 0, 0])
+            else:
+                acc.append(0)
 
-def get_Y_feed():
+def get_Y_feed(X):
     """
     Generator for getting each Y vector (label vector) that corresponds to each X vector.
+    X is a list of: [(reversed, fv), (reversed, fv), ...]
 
     A Y vector is a numpy array that looks like this:
     [A_betrays_B_in_one_season, A_betrays_B_in_two_seasons, A_betrays_B_in_three_seasons, B_betrays_A_in_one_season, B_betrays_A_in_two_seasons, B_betrays_A_in_three_seasons]
@@ -168,10 +221,10 @@ def get_Y_feed():
     [0, 1, 1,
      0, 0, 0]
     """
-    for relationship in get_all_sequences():
+    for i, relationship in enumerate(get_all_sequences()):
         season_trigrams = relationship.get_season_trigrams()
         for tri in season_trigrams:
-            yield _get_label_from_trigram(tri, relationship.betrayal)
+            yield _get_label_from_trigram(tri, relationship.betrayal, X[i][0])
 
 
 if __name__ == "__main__":
@@ -184,12 +237,10 @@ if __name__ == "__main__":
     betrayals = [d for d in data if d.betrayal]
     print("Number of sequences that end in betrayal:", len(betrayals))
 
-    print("Season.interactions:")
-    for r in data:
-        for s in r.seasons:
-            print(s.interaction)
-        print("Ended in betrayal?", r.betrayal)
-        print("====================================")
+    Xs = [x for x in get_X_feed()]
+    Ys = [y for y in get_Y_feed(Xs)]
+    for y in Ys:
+        print(y)
 
 #    print("Data0<<:", data[0], ">>")
 #    print("Season0:<<", data[0].seasons[0], ">>")
