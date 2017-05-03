@@ -8,7 +8,8 @@ import numpy as np
 import os
 import random
 
-data_path = os.path.join("..", "data_from_paper", "diplomacy_data.json")
+# The default data path
+DATA_PATH = os.path.join("..", "data_from_paper", "diplomacy_data.json")
 
 class Message:
     """
@@ -76,6 +77,18 @@ class Season:
         l = [getattr(m, attr) for m in self.get_messages('victim')]
         return sum(l) / len(l) if l else 0.0
 
+    def _sum_betrayer(self, attr):
+        """
+        Gets the sum of all messages for the given attribute in this Season.
+        """
+        return sum([getattr(m, attr) for m in self.get_messages('betrayer')])
+
+    def _sum_victim(self, attr):
+        """
+        Gets the sum of all messages for the given attribute in this Season.
+        """
+        return sum([getattr(m, attr) for m in self.get_messages('victim')])
+
     def get_messages(self, person='betrayer'):
         """
         Generator for all the Message objects in this object.
@@ -90,9 +103,9 @@ class Season:
         """
         Returns a feature vector version of this Season.
         """
-        b = [self._avg_betrayer('nwords'), self._avg_betrayer('nsentences'), self._avg_betrayer('nrequests'),
+        b = [self._sum_betrayer('nwords'), self._sum_betrayer('nsentences'), self._sum_betrayer('nrequests'),
              self._avg_betrayer('politeness'), self._avg_betrayer('avg_sentiment')]
-        v = [self._avg_victim('nwords'), self._avg_victim('nsentences'), self._avg_victim('nrequests'),
+        v = [self._sum_victim('nwords'), self._sum_victim('nsentences'), self._sum_victim('nrequests'),
              self._avg_victim('politeness'), self._avg_victim('avg_sentiment')]
         if reverse:
             return v + b
@@ -120,6 +133,18 @@ class Relationship:
         s += "Length of relationship: " + str(len(self.seasons)) + " "
         return s
 
+    def get_next_season(self, season):
+        """
+        Gets the Season object that comes after the given one. If there isn't one, returns None.
+        """
+        for i, s in enumerate(self.seasons):
+            if s == season:
+                if i + 1 < len(self.seasons):
+                    return self.seasons[i + 1]
+                else:
+                    return None
+        return None
+
     def get_season_trigrams(self):
         """
         Returns a list of trigram seasons. If a relationship is five seasons long:
@@ -132,11 +157,12 @@ class Relationship:
         return trigrams
 
 
-def get_all_sequences():
+def get_all_sequences(datapath=None):
     """
     Gets all the relationship sequences and yields them one at a time.
     """
-    with open(data_path) as f:
+    dp = datapath if datapath else DATA_PATH
+    with open(dp) as f:
         data = json.load(f)
 
     for seq in data:
@@ -152,7 +178,7 @@ def _concatenate_trigram(tri, reverse):
         fv += s.to_feature_vector(reverse)
     return np.array(fv)
 
-def get_X_feed():
+def get_X_feed(reverse=True, datapath=None):
     """
     Generator for getting all the X vectors. Returns a tuple of (reversed, X) at each yield.
 
@@ -164,51 +190,55 @@ def get_X_feed():
      B, B, B, B, B, V, V, V, V, V          <- Season 1
      B, B, B, B, B, V, V, V, V, V]         <- Season 2
 
-    When reverse is True, we get:
+    When reverse is True, we will sometimes get:
     [V, V, V, V, V, B, B, B, B, B
      V, V, V, V, V, B, B, B, B, B
      V, V, V, V, V, B, B, B, B, B]
     """
-    for relationship in get_all_sequences():
+    for relationship in get_all_sequences(datapath):
         season_trigrams = relationship.get_season_trigrams()
         for tri in season_trigrams:
-            reverse = random.choice([True, False])
-            yield reverse, _concatenate_trigram(tri, reverse)
+            r = random.choice([True, False]) if reverse else False
+            yield r, _concatenate_trigram(tri, r)
 
-def _get_label_from_trigram(tri, betrayal, reverse):
+def _get_label_from_trigram(tri, relationship, betrayal, reverse):
     """
     Gets the Y corresponding to the given trigram.
 
     If reverse is True, then the returned label vector is:
     [Victim, Victim, Victim, B, B, B] rather than [B, B, B, V, V, V]
+
+    The Y corresponding to a given trigram is whether B betrayed V or V betrayed B
+    at one turn in the future, two, or three.
+
+    IMPORTANT:
+    When I say "one turn in the future", I mean the order phase that the messages come just before.
     """
-    def finish_with_ones(acc, reverse):
-        acc += [1, 0, 0, 0]
-        if reverse:
-            return acc[3:] + acc[:3]
-        else:
-            return acc
-
     if not betrayal:
-        # labels are all zeros - nobody ever betrays anyone
-        return np.array([0, 0, 0, 0, 0, 0])
+        # This relationship doesn't end in betrayal, so return all 0s
+        return np.zeros(6)
     else:
-        acc = []
-        for i, s in enumerate(tri):
-            if i == 2:
-                # If this is the last value in the trigram, it may be the last season in the relationship
-                if s.is_last_season_in_relationship:
-                    # If this is the last season in the relationship, it is when the betrayal started.
-                    # All betrayal labels for the next turns are 1.
-                    return np.array(finish_with_ones(acc, reverse))
-                else:
-                    acc.append(0)
-                    # No betrayal yet
-                    return np.array(acc + [0, 0, 0])
-            else:
-                acc.append(0)
+        # Look at the last season in the trigram and the next two in the relationship
+        # If there aren't two more in the relationship, any you are missing are 1s
+        next_season = relationship.get_next_season(tri[-1])
+        next_next_season = relationship.get_next_season(next_season)
+        next_three = (tri[-1], next_season, next_next_season)
+        if next_three[0].is_last_season_in_relationship:
+            y = [1, 1, 1, 0, 0, 0]
+        elif next_three[1].is_last_season_in_relationship:
+            y = [0, 1, 1, 0, 0, 0]
+        elif next_three[2].is_last_season_in_relationship:
+            y = [0, 0, 1, 0, 0, 0]
+        else:
+            return np.zeros(6)
 
-def get_Y_feed(X):
+        if reverse:
+            return np.array(y[3:] + y[:3], dtype=np.float32)
+        else:
+            return np.array(y, dtype=np.float32)
+
+
+def get_Y_feed(X, datapath=None):
     """
     Generator for getting each Y vector (label vector) that corresponds to each X vector.
     X is a list of: [(reversed, fv), (reversed, fv), ...]
@@ -221,14 +251,70 @@ def get_Y_feed(X):
     [0, 1, 1,
      0, 0, 0]
     """
-    for i, relationship in enumerate(get_all_sequences()):
+    for i, relationship in enumerate(get_all_sequences(datapath)):
         season_trigrams = relationship.get_season_trigrams()
         for tri in season_trigrams:
-            yield _get_label_from_trigram(tri, relationship.betrayal, X[i][0])
+            yield _get_label_from_trigram(tri, relationship, relationship.betrayal, X[i][0])
 
+def x_str(x):
+    """
+    Takes a feature vector, x, and returns a pretty string representation of it.
+    """
+    s = "[ "
+    s += "N words A Season 0: " + str(x[0]) + ", "
+    s += "N sentences A Season 0: " + str(x[1]) + ", "
+    s += "N requests A Season 0: " + str(x[2]) + ", "
+    s += "Politeness A Season 0: " + str(x[3]) + ", "
+    s += "Sentiment A Season 0: " + str(x[4]) + ", "
+
+    s += "N words B Season 0: " + str(x[5]) + ", "
+    s += "N sentences B Season 0: " + str(x[6]) + ", "
+    s += "N requests B Season 0: " + str(x[7]) + ", "
+    s += "Politeness B Season 0: " + str(x[8]) + ", "
+    s += "Sentiment B Season 0: " + str(x[9]) + ", "
+
+    s += "N words A Season 1: " + str(x[10]) + ", "
+    s += "N sentences A Season 1: " + str(x[11]) + ", "
+    s += "N requests A Season 1: " + str(x[12]) + ", "
+    s += "Politeness A Season 1: " + str(x[13]) + ", "
+    s += "Sentiment A Season 1: " + str(x[14]) + ", "
+
+    s += "N words B Season 1: " + str(x[15]) + ", "
+    s += "N sentences B Season 1: " + str(x[16]) + ", "
+    s += "N requests B Season 1: " + str(x[17]) + ", "
+    s += "Politeness B Season 1: " + str(x[18]) + ", "
+    s += "Sentiment B Season 1: " + str(x[19]) + ", "
+
+    s += "N words A Season 2: " + str(x[20]) + ", "
+    s += "N sentences A Season 2: " + str(x[21]) + ", "
+    s += "N requests A Season 2: " + str(x[22]) + ", "
+    s += "Politeness A Season 2: " + str(x[23]) + ", "
+    s += "Sentiment A Season 2: " + str(x[24]) + ", "
+
+    s += "N words B Season 2: " + str(x[25]) + ", "
+    s += "N sentences B Season 2: " + str(x[26]) + ", "
+    s += "N requests B Season 2: " + str(x[27]) + ", "
+    s += "Politeness B Season 2: " + str(x[28]) + ", "
+    s += "Sentiment B Season 2: " + str(x[29])
+
+    s += " ]"
+    return s
+
+def y_str(y):
+    """
+    Takes a label vector, y, and returns a pretty string representation of it.
+    """
+    s = "[ "
+    s += "A betrays B this turn: " + str(y[0]) + ", "
+    s += "A betrays B next turn: " + str(y[1]) + ", "
+    s += "A betrays B turn after next: " + str(y[2]) + ", "
+    s += "B betrays A this turn: " + str(y[3]) + ", "
+    s += "B betrays A next turn: " + str(y[4]) + ", "
+    s += "B betrays A turn after next: " + str(y[5])
+    s += " ]"
+    return s
 
 if __name__ == "__main__":
-    # Debug
     print("Getting data...")
     data = [d for d in get_all_sequences()]
 
@@ -237,16 +323,12 @@ if __name__ == "__main__":
     betrayals = [d for d in data if d.betrayal]
     print("Number of sequences that end in betrayal:", len(betrayals))
 
-    Xs = [x for x in get_X_feed()]
+    Xs = [x for x in get_X_feed(reverse=False)]
     Ys = [y for y in get_Y_feed(Xs)]
-    for y in Ys:
-        print(y)
-
-#    print("Data0<<:", data[0], ">>")
-#    print("Season0:<<", data[0].seasons[0], ">>")
-#    print("MessagePair0:<<", data[0].seasons[0].messages[0], ">>")
-
-#    lengths = [len(seq.seasons) for seq in data]
-#    sorted_lengths = sorted(lengths)
-#    print(sorted_lengths)
+    for i, y in enumerate(Ys):
+        print("Relationship: ", data[0])
+        print("X:", x_str(Xs[i][1]))
+        print("Y:", y_str(y))
+        if i >= 10:
+            break
 
