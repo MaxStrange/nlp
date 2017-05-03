@@ -256,6 +256,20 @@ def get_Y_feed(X, datapath=None):
         for tri in season_trigrams:
             yield _get_label_from_trigram(tri, relationship, relationship.betrayal, X[i][0])
 
+def get_Y_feed_binary(datapath=None):
+    """
+    Generator for getting each y label (binary value) that corresponds to each X vector.
+
+    The returned label indicates whether this triseason's last season is a betrayal (1) or not (0).
+    """
+    for i, relationship in enumerate(get_all_sequences(datapath)):
+        season_trigrams = relationship.get_season_trigrams()
+        for tri in season_trigrams:
+            if tri[-1].is_last_season_in_relationship and relationship.betrayal:
+                yield 1
+            else:
+                yield 0
+
 def x_str(x):
     """
     Takes a feature vector, x, and returns a pretty string representation of it.
