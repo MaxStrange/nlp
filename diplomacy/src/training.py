@@ -9,6 +9,7 @@ E.g.:
 import os
 import data
 import itertools
+import keras
 from keras.callbacks import ModelCheckpoint
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
@@ -24,6 +25,7 @@ else:
         print("WARNING: This will work best if you install PyQt5")
 import matplotlib.pyplot as plt
 import numpy as np
+import pickle
 import random
 from sklearn import neighbors, svm, tree
 from sklearn.ensemble import RandomForestClassifier
@@ -108,8 +110,10 @@ def train_knn(path_to_data=None, path_to_save_model=None, load_model=False, path
     If binary is True, the model will be trained to simply detect whether, given three Seasons' worth of messages, there
         will be a betrayal between these users in this order phase.
     """
-    print("Training the KNN with uniform weights...")
-    clf = neighbors.KNeighborsClassifier(n_neighbors=8, weights='uniform')
+    # 8 NN, 'uniform' = 0.67 to 0.72
+    # 3 NN, 'distance' = 0.76 to 0.79
+    print("Training the KNN with inverse weights...")
+    clf = neighbors.KNeighborsClassifier(n_neighbors=3, weights='distance')
     clf = train_model(clf, cross_validate=True, conf_matrix=True, save_model_at_path=path_to_save_model, subplot=subplot, title=title)
     return clf
 
@@ -128,7 +132,7 @@ def train_logregr(path_to_data=None, path_to_save_model=None, load_model=False, 
     clf = train_model(clf, cross_validate=True, conf_matrix=True, save_model_at_path=path_to_save_model, subplot=subplot, title=title)
     return clf
 
-def train_mlp(path_to_data=None, path_to_save_model=None, load_model=False, path_to_load=None, binary=True, subplot=111, title=""):
+def train_mlp(path_to_data=None, path_to_save_model="mlp.hdf5", load_model=False, path_to_load="mlp.hdf5", binary=True, subplot=111, title=""):
     """
     Trains a multilayer perceptron.
 
@@ -139,37 +143,41 @@ def train_mlp(path_to_data=None, path_to_save_model=None, load_model=False, path
         will be a betrayal between these users in this order phase.
     """
     print("Training the MLP...")
-    clf = MLPClassifier(solver='sgd', alpha=1e-5, learning_rate='invscaling', max_iter=20000, tol=1e-15, learning_rate_init=0.001, verbose=True, hidden_layer_sizes=(30, 2), random_state=1)
-    clf = train_model(clf, cross_validate=False, conf_matrix=True, save_model_at_path=path_to_save_model, subplot=subplot, title=title)
-    #model = Sequential()
-    #model.add(Dense(64, input_dim=30, kernel_initializer='normal', activation='relu'))
-    #model.add(Dropout(0.5))
-    #model.add(Dense(64, kernel_initializer='normal', activation='relu'))
-    #model.add(Dropout(0.5))
-    #model.add(Dense(1, kernel_initializer='normal', activation='sigmoid'))
+    def make_model():
+        model = Sequential()
+        model.add(Dense(128, input_dim=30, kernel_initializer='normal', activation='relu'))
+        model.add(Dropout(0.5))
+        model.add(Dense(1, kernel_initializer='normal', activation='sigmoid'))
+        return model
 
-    #print("    |-> Compiling...")
-    #model.compile(loss='binary_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
+    print("  |-> Getting the data...")
+    Xs, Ys = _get_xy(path_to_data, binary)
+    X_train, X_test, y_train, y_test = train_test_split(Xs, Ys, random_state=0)
 
-    #print("    |-> Getting the data...")
-    #Xs, Ys = _get_xy(path_to_data, binary)
-    #X_train, X_test, y_train, y_test = train_test_split(Xs, Ys, random_state=0)
+    if load_model:
+        print("  |-> Loading saved model...")
+        model = keras.models.load_model(path_to_load)
+    else:
+        model = make_model()
 
-    #print("    |-> Fitting the model...")
-    #checkpointer = ModelCheckpoint(filepath="mlp.hdf5", verbose=1, save_best_only=True)
-    #history = model.fit(X_train, y_train, batch_size=10, epochs=10, verbose=2, validation_data=(X_test, y_test), callbacks=[checkpointer])
+        print("  |-> Compiling...")
+        model.compile(loss='binary_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
 
-    #print("    |-> Evaluating the model...")
-    #score = model.evaluate(X_test, y_test, verbose=1)
-    #print("")
-    #print("  |-> Loss:", score[0])
-    #print("  |-> Accuracy:", score[1])
+        print("  |-> Fitting the model...")
+        checkpointer = ModelCheckpoint(filepath=path_to_save_model, verbose=1, save_best_only=True)
+        model.fit(X_train, y_train, batch_size=20, epochs=1000, verbose=2, validation_data=(X_test, y_test), callbacks=[checkpointer])
 
-    ## Compute confusion matrix
-    #y_pred = model.predict(X_test)
-    #y_pred = [round(x[0]) for x in y_pred]
-    #cnf_matrix = confusion_matrix(y_test, y_pred)
-    #plot_confusion_matrix(cnf_matrix, classes=["No Betrayal", "Betrayal"], subplot=subplot, title=title)
+    print("  |-> Evaluating the model...")
+    score = model.evaluate(X_test, y_test, verbose=1)
+    print("")
+    print("  |-> Loss:", score[0])
+    print("  |-> Accuracy:", score[1])
+
+    # Compute confusion matrix
+    y_pred = model.predict(X_test)
+    y_pred = [round(x[0]) for x in y_pred]
+    cnf_matrix = confusion_matrix(y_test, y_pred)
+    plot_confusion_matrix(cnf_matrix, classes=["No Betrayal", "Betrayal"], subplot=subplot, title=title)
 
 def train_random_forest(path_to_data=None, path_to_save_model=None, load_model=False, path_to_load=None, binary=True, subplot=111, title=""):
     """
@@ -254,11 +262,11 @@ if __name__ == "__main__":
     assert(len(ones) + len(zeros) == len(Ys))
     print("Betrayals:", len(ones))
     print("Non betrayals:", len(zeros))
-    train_mlp(path_to_save_model="mlp.pkl", subplot=231, title="MLP")
-    train_knn(subplot=232, title="KNN")
-    train_tree(subplot=233, title="Tree")
-    train_random_forest(subplot=234, title="Forest")
-    train_svm(subplot=235, title="SVM")
-    train_logregr(subplot=236, title="Log Reg")
+    train_mlp(load_model=True, path_to_load="mlps/mlp_269_240_29_598.hdf5", subplot=231, title="MLP")
+    train_knn(path_to_save_model="knn.model", subplot=232, title="KNN")
+    train_tree(path_to_save_model="tree.model", subplot=233, title="Tree")
+    train_random_forest(path_to_save_model="forest.model", subplot=234, title="Forest")
+    train_svm(path_to_save_model="svm.model", subplot=235, title="SVM")
+    train_logregr(path_to_save_model="logregr.model", subplot=236, title="Log Reg")
     plt.show()
 
