@@ -24,10 +24,11 @@ else:
     except Exception:
         print("WARNING: This will work best if you install PyQt5")
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 import pickle
 import random
-from sklearn import neighbors, svm, tree
+from sklearn import decomposition, neighbors, svm, tree
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.externals import joblib
 from sklearn.linear_model import LogisticRegression
@@ -81,7 +82,7 @@ def plot_confusion_matrix(cm, classes, subplot, normalize=False, title="Confusio
     plt.subplot(subplot)
     plt.imshow(cm, interpolation='nearest', cmap=cmap)
     plt.title(title)
-    plt.colorbar()
+#    plt.colorbar()
     tick_marks = np.arange(len(classes))
     plt.xticks(tick_marks, classes, rotation=45)
     plt.yticks(tick_marks, classes)
@@ -110,8 +111,6 @@ def train_knn(path_to_data=None, path_to_save_model=None, load_model=False, path
     If binary is True, the model will be trained to simply detect whether, given three Seasons' worth of messages, there
         will be a betrayal between these users in this order phase.
     """
-    # 8 NN, 'uniform' = 0.67 to 0.72
-    # 3 NN, 'distance' = 0.76 to 0.79
     print("Training the KNN with inverse weights...")
     clf = neighbors.KNeighborsClassifier(n_neighbors=3, weights='distance')
     clf = train_model(clf, cross_validate=True, conf_matrix=True, save_model_at_path=path_to_save_model, subplot=subplot, title=title)
@@ -128,7 +127,8 @@ def train_logregr(path_to_data=None, path_to_save_model=None, load_model=False, 
         will be a betrayal between these users in this order phase.
     """
     print("Training logistic regression model...")
-    clf = LogisticRegression(class_weight='balanced')
+    clf = LogisticRegression(penalty='l2', dual=False, tol=0.0001, C=0.1, fit_intercept=True,
+                             intercept_scaling=1, class_weight='balanced', random_state=None, solver='liblinear', max_iter=200)
     clf = train_model(clf, cross_validate=True, conf_matrix=True, save_model_at_path=path_to_save_model, subplot=subplot, title=title)
     return clf
 
@@ -255,6 +255,27 @@ def load_model(path):
     """
     return joblib.load(path)
 
+def pca_display(Xs, Ys):
+    """
+    """
+    pca = decomposition.PCA(n_components=3)
+    pca.fit(Xs)
+    print("Here is how much variance is accounted for after reduction to 3D space:")
+    print(pca.explained_variance_ratio_)
+    X = pca.transform(Xs)
+
+    fig = plt.figure(1, figsize=(4, 13))
+    plt.clf()
+    ax = Axes3D(fig, rect=[0, 0, 0.95, 1], elev=48, azim=134)
+
+    plt.cla()
+    y = Ys
+    y = np.choose(y, [1, 0]).astype(np.float)
+    ax.scatter(X[:, 0], X[:, 1], X[:, 2], c=y, cmap=plt.cm.spectral)
+
+    plt.show()
+
+
 if __name__ == "__main__":
     Xs, Ys = _get_xy()
     ones = [y for y in Ys if y == 1]
@@ -262,11 +283,22 @@ if __name__ == "__main__":
     assert(len(ones) + len(zeros) == len(Ys))
     print("Betrayals:", len(ones))
     print("Non betrayals:", len(zeros))
+
+    #pca_display(Xs, Ys)
+
+    #train_mlp(load_model=True, path_to_load="mlps/mlp_269_240_29_598.hdf5", subplot=231, title="MLP")
+    #train_knn(path_to_save_model="knn.model", subplot=232, title="KNN")
+    #train_tree(path_to_save_model="tree.model", subplot=233, title="Tree")
+    #train_random_forest(path_to_save_model="forest.model", subplot=234, title="Forest")
+    #train_svm(path_to_save_model="svm.model", subplot=235, title="SVM")
+    #train_logregr(path_to_save_model="logregr.model", subplot=236, title="Log Reg")
+
     train_mlp(load_model=True, path_to_load="mlps/mlp_269_240_29_598.hdf5", subplot=231, title="MLP")
-    train_knn(path_to_save_model="knn.model", subplot=232, title="KNN")
-    train_tree(path_to_save_model="tree.model", subplot=233, title="Tree")
-    train_random_forest(path_to_save_model="forest.model", subplot=234, title="Forest")
-    train_svm(path_to_save_model="svm.model", subplot=235, title="SVM")
-    train_logregr(path_to_save_model="logregr.model", subplot=236, title="Log Reg")
+    train_knn(load_model=True, path_to_load="models/knn.model", subplot=232, title="KNN")
+    train_tree(load_model=True, path_to_load="models/tree.model", subplot=233, title="Tree")
+    train_random_forest(load_model=True, path_to_load="models/forest.model", subplot=234, title="Forest")
+    train_svm(load_model=True, path_to_load="models/svm.model", subplot=235, title="SVM")
+    train_logregr(load_model=True, path_to_load="models/logregr.model", subplot=236, title="Log Reg")
+
     plt.show()
 
