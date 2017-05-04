@@ -24,6 +24,7 @@ else:
         print("WARNING: This will work best if you install PyQt5")
 import matplotlib.pyplot as plt
 import numpy as np
+import random
 from sklearn import neighbors, svm, tree
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.externals import joblib
@@ -34,18 +35,42 @@ from sklearn.neural_network import MLPClassifier
 
 
 np.set_printoptions(precision=2)
+cached_Xs = None
+cached_Ys = None
+cached_ptd = None
+cached_binary = True
 
 def _get_xy(path_to_data=None, binary=True):
     """
-    Returns Xs, Ys
+    Returns Xs, Ys, shuffled.
     """
-    Xs = [x for x in data.get_X_feed(path_to_data)]
-    if binary:
-        Ys = np.array([y for y in data.get_Y_feed_binary(path_to_data)])
+    global cached_Xs
+    global cached_Ys
+    global cached_ptd
+    global cached_binary
+    if cached_Xs is not None and cached_Ys is not None and cached_ptd == path_to_data and cached_binary == binary:
+        return cached_Xs, cached_Ys
     else:
-        Ys = np.array([y for y in data.get_Y_feed(Xs, path_to_data)])
-    Xs = np.array([x[1] for x in Xs])
-    return Xs, Ys
+        upsample = True
+        Xs = [x for x in data.get_X_feed(path_to_data, upsample=upsample)]
+        if binary:
+            Ys = np.array([y for y in data.get_Y_feed_binary(path_to_data, upsample=upsample)])
+        else:
+            Ys = np.array([y for y in data.get_Y_feed(Xs, path_to_data, upsample=upsample)])
+        Xs = np.array([x[1] for x in Xs])
+
+        # Shuffle
+        index_shuf = [i for i in range(len(Xs))]
+        random.shuffle(index_shuf)
+        Xs = np.array([Xs[i] for i in index_shuf])
+        Ys = np.array([Ys[i] for i in index_shuf])
+        assert(len(Xs) == len(Ys))
+
+        cached_Xs = Xs
+        cached_Ys = Ys
+        cached_ptd = path_to_data
+        cached_binary = binary
+        return Xs, Ys
 
 def plot_confusion_matrix(cm, classes, subplot, normalize=False, title="Confusion matrix", cmap=plt.cm.Blues):
     """
@@ -131,7 +156,7 @@ def train_mlp(path_to_data=None, path_to_save_model=None, load_model=False, path
 
     print("    |-> Fitting the model...")
     checkpointer = ModelCheckpoint(filepath="mlp.hdf5", verbose=1, save_best_only=True)
-    history = model.fit(X_train, y_train, batch_size=10, epochs=100000, verbose=2, validation_data=(X_test, y_test), callbacks=[checkpointer])
+    history = model.fit(X_train, y_train, batch_size=10, epochs=10, verbose=2, validation_data=(X_test, y_test), callbacks=[checkpointer])
 
     print("    |-> Evaluating the model...")
     score = model.evaluate(X_test, y_test, verbose=1)

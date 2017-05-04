@@ -178,7 +178,7 @@ def _concatenate_trigram(tri, reverse):
         fv += s.to_feature_vector(reverse)
     return np.array(fv)
 
-def get_X_feed(reverse=True, datapath=None):
+def get_X_feed(reverse=True, datapath=None, upsample=False):
     """
     Generator for getting all the X vectors. Returns a tuple of (reversed, X) at each yield.
 
@@ -194,12 +194,26 @@ def get_X_feed(reverse=True, datapath=None):
     [V, V, V, V, V, B, B, B, B, B
      V, V, V, V, V, B, B, B, B, B
      V, V, V, V, V, B, B, B, B, B]
+
+    When upsample is True, we add duplicate betrayal datapoints to address the class imbalance. These extra betrayals are all added to the end, so
+    you should probably shuffle the data when you get it.
     """
-    for relationship in get_all_sequences(datapath):
-        season_trigrams = relationship.get_season_trigrams()
-        for tri in season_trigrams:
-            r = random.choice([True, False]) if reverse else False
-            yield r, _concatenate_trigram(tri, r)
+    def get_them():
+        for relationship in get_all_sequences(datapath):
+            season_trigrams = relationship.get_season_trigrams()
+            for tri in season_trigrams:
+                r = random.choice([True, False]) if reverse else False
+                yield relationship, tri, r, _concatenate_trigram(tri, r)
+
+    if upsample:
+        base = [(r, t) for _, _, r, t in get_them()]
+        for i in range(9):
+            base.extend([(r, t) for rel, tri, r, t in get_them() if rel.betrayal and tri[-1].is_last_season_in_relationship])
+        for r, t in base:
+            yield r, t
+    else:
+        for _, _, r, t in get_them():
+            yield r, t
 
 def _get_label_from_trigram(tri, relationship, betrayal, reverse):
     """
@@ -238,7 +252,7 @@ def _get_label_from_trigram(tri, relationship, betrayal, reverse):
             return np.array(y, dtype=np.float32)
 
 
-def get_Y_feed(X, datapath=None):
+def get_Y_feed(X, datapath=None, upsample=False):
     """
     Generator for getting each Y vector (label vector) that corresponds to each X vector.
     X is a list of: [(reversed, fv), (reversed, fv), ...]
@@ -250,17 +264,24 @@ def get_Y_feed(X, datapath=None):
     As soon as someone betrays the other, the odds collapse to 1 and 0, so that if A betrays B in two seasons, then the vector will look like this:
     [0, 1, 1,
      0, 0, 0]
+
+    When upsample is True, we add duplicate betrayal datapoints to address the class imbalance. These extra betrayals are all added to the end, so
+    you should probably shuffle the data when you get it.
+    UPSAMPLE IS NOT IMPLEMENTED FOR THIS FUNCTION YET.
     """
     for i, relationship in enumerate(get_all_sequences(datapath)):
         season_trigrams = relationship.get_season_trigrams()
         for tri in season_trigrams:
             yield _get_label_from_trigram(tri, relationship, relationship.betrayal, X[i][0])
 
-def get_Y_feed_binary(datapath=None):
+def get_Y_feed_binary(datapath=None, upsample=False):
     """
     Generator for getting each y label (binary value) that corresponds to each X vector.
 
     The returned label indicates whether this triseason's last season is a betrayal (1) or not (0).
+
+    When upsample is True, we add duplicate betrayal datapoints to address the class imbalance. These extra betrayals are all added to the end, so
+    you should probably shuffle the data when you get it.
     """
     for i, relationship in enumerate(get_all_sequences(datapath)):
         season_trigrams = relationship.get_season_trigrams()
@@ -269,6 +290,9 @@ def get_Y_feed_binary(datapath=None):
                 yield 1
             else:
                 yield 0
+    if upsample:
+        for i in range(2250):
+            yield 1
 
 def x_str(x):
     """
