@@ -9,8 +9,9 @@ E.g.:
 import os
 import data
 import itertools
+from keras.callbacks import ModelCheckpoint
 from keras.models import Sequential
-from keras.layers import Dense
+from keras.layers import Dense, Dropout
 from keras.wrappers.scikit_learn import KerasClassifier
 import matplotlib
 if "SSH_CONNECTION" in os.environ:
@@ -115,17 +116,25 @@ def train_mlp(path_to_data=None, path_to_save_model=None, load_model=False, path
     #clf = MLPClassifier(solver='sgd', alpha=1e-5, learning_rate='invscaling', max_iter=20000, tol=1e-15, learning_rate_init=0.01, verbose=True, hidden_layer_sizes=(128, 2), random_state=1)
     #clf = train_model(clf, cross_validate=False, conf_matrix=True, save_model_at_path=path_to_save_model, subplot=subplot, title=title)
     model = Sequential()
-    model.add(Dense(30, input_dim=30, kernel_initializer='normal', activation='relu'))
+    model.add(Dense(64, input_dim=30, kernel_initializer='normal', activation='relu'))
+    model.add(Dropout(0.5))
+    model.add(Dense(64, kernel_initializer='normal', activation='relu'))
+    model.add(Dropout(0.5))
     model.add(Dense(1, kernel_initializer='normal', activation='sigmoid'))
 
-    model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+    print("    |-> Compiling...")
+    model.compile(loss='binary_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
 
+    print("    |-> Getting the data...")
     Xs, Ys = _get_xy(path_to_data, binary)
     X_train, X_test, y_train, y_test = train_test_split(Xs, Ys, random_state=0)
 
-    history = model.fit(X_train, y_train, batch_size=10, epochs=1000, verbose=1, validation_data=(X_test, y_test))
-    score = model.evaluate(X_test, y_test, verbose=1)
+    print("    |-> Fitting the model...")
+    checkpointer = ModelCheckpoint(filepath="mlp.hdf5", verbose=1, save_best_only=True)
+    history = model.fit(X_train, y_train, batch_size=10, epochs=100000, verbose=2, validation_data=(X_test, y_test), callbacks=[checkpointer])
 
+    print("    |-> Evaluating the model...")
+    score = model.evaluate(X_test, y_test, verbose=1)
     print("")
     print("  |-> Loss:", score[0])
     print("  |-> Accuracy:", score[1])
