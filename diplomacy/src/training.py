@@ -51,6 +51,7 @@ def _get_xy(path_to_data=None, binary=True):
     if cached_Xs is not None and cached_Ys is not None and cached_ptd == path_to_data and cached_binary == binary:
         return cached_Xs, cached_Ys
     else:
+        print("Getting the data. This will take a moment...")
         upsample = True
         Xs = [x for x in data.get_X_feed(path_to_data, upsample=upsample)]
         if binary:
@@ -108,7 +109,7 @@ def train_knn(path_to_data=None, path_to_save_model=None, load_model=False, path
         will be a betrayal between these users in this order phase.
     """
     print("Training the KNN with uniform weights...")
-    clf = neighbors.KNeighborsClassifier(n_neighbors=1, weights='uniform')
+    clf = neighbors.KNeighborsClassifier(n_neighbors=8, weights='uniform')
     clf = train_model(clf, cross_validate=True, conf_matrix=True, save_model_at_path=path_to_save_model, subplot=subplot, title=title)
     return clf
 
