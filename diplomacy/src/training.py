@@ -17,6 +17,7 @@ import numpy as np
 from sklearn import neighbors, svm, tree
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.externals import joblib
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import cross_val_score, train_test_split
 from sklearn.neural_network import MLPClassifier
@@ -61,7 +62,7 @@ def plot_confusion_matrix(cm, classes, subplot, normalize=False, title="Confusio
     plt.ylabel('True label')
     plt.xlabel('Predicted label')
 
-def train_knn(path_to_data=None, path_to_save_model=None, load_model=False, path_to_load=None, binary=True, subplot=111):
+def train_knn(path_to_data=None, path_to_save_model=None, load_model=False, path_to_load=None, binary=True, subplot=111, title=""):
     """
     Trains a knn classifier on the dataset.
 
@@ -72,10 +73,26 @@ def train_knn(path_to_data=None, path_to_save_model=None, load_model=False, path
         will be a betrayal between these users in this order phase.
     """
     print("Training the KNN with uniform weights...")
-    clf = neighbors.KNeighborsClassifier(n_neighbors=15, weights='uniform')
-    clf = train_model(clf, cross_validate=True, conf_matrix=True, subplot=subplot)
+    clf = neighbors.KNeighborsClassifier(n_neighbors=1, weights='uniform')
+    clf = train_model(clf, cross_validate=True, conf_matrix=True, save_model_at_path=path_to_save_model, subplot=subplot, title=title)
+    return clf
 
-def train_mlp(path_to_data=None, path_to_save_model=None, load_model=False, path_to_load=None, binary=True, subplot=111):
+def train_logregr(path_to_data=None, path_to_save_model=None, load_model=False, path_to_load=None, binary=True, subplot=111, title=""):
+    """
+    Trains a logistic regression model.
+
+    If no path_to_data is used, it will assume the default data directory.
+    If no path_to_save_model is provided, it will save to the local directory.
+    If load_model is True, it will load the model from the given location and resume training.
+    If binary is True, the model will be trained to simply detect whether, given three Seasons' worth of messages, there
+        will be a betrayal between these users in this order phase.
+    """
+    print("Training logistic regression model...")
+    clf = LogisticRegression(class_weight='balanced')
+    clf = train_model(clf, cross_validate=True, conf_matrix=True, save_model_at_path=path_to_save_model, subplot=subplot, title=title)
+    return clf
+
+def train_mlp(path_to_data=None, path_to_save_model=None, load_model=False, path_to_load=None, binary=True, subplot=111, title=""):
     """
     Trains a multilayer perceptron.
 
@@ -86,10 +103,11 @@ def train_mlp(path_to_data=None, path_to_save_model=None, load_model=False, path
         will be a betrayal between these users in this order phase.
     """
     print("Training the MLP...")
-    clf = MLPClassifier(solver='sgd', alpha=1e-5, learning_rate='invscaling', max_iter=2000000, shuffle=True, tol=1e-10, verbose=True, hidden_layer_sizes=(25, 2), random_state=1)
-    clf = train_model(clf, cross_validate=True, conf_matrix=True, subplot=subplot)
+    clf = MLPClassifier(solver='sgd', alpha=1e-5, learning_rate='invscaling', max_iter=20000, tol=1e-15, learning_rate_init=0.01, verbose=True, hidden_layer_sizes=(128, 2), random_state=1)
+    clf = train_model(clf, cross_validate=False, conf_matrix=True, save_model_at_path=path_to_save_model, subplot=subplot, title=title)
+    return clf
 
-def train_random_forest(path_to_data=None, path_to_save_model=None, load_model=False, path_to_load=None, binary=True, subplot=111):
+def train_random_forest(path_to_data=None, path_to_save_model=None, load_model=False, path_to_load=None, binary=True, subplot=111, title=""):
     """
     Trains a random forest classifier on the dataset.
 
@@ -101,9 +119,10 @@ def train_random_forest(path_to_data=None, path_to_save_model=None, load_model=F
     """
     print("Training the random forest...")
     clf = RandomForestClassifier(class_weight='balanced')
-    clf = train_model(clf, cross_validate=True, conf_matrix=True, subplot=subplot)
+    clf = train_model(clf, cross_validate=True, conf_matrix=True, save_model_at_path=path_to_save_model, subplot=subplot, title=title)
+    return clf
 
-def train_svm(path_to_data=None, path_to_save_model=None, load_model=False, path_to_load=None, binary=True, subplot=111):
+def train_svm(path_to_data=None, path_to_save_model=None, load_model=False, path_to_load=None, binary=True, subplot=111, title=""):
     """
     Trains an SVM classifier on the dataset.
 
@@ -115,9 +134,10 @@ def train_svm(path_to_data=None, path_to_save_model=None, load_model=False, path
     """
     print("Training the SVM with nonlinear kernel (RBF)...")
     clf = svm.SVC(class_weight='balanced')
-    clf = train_model(clf, cross_validate=True, conf_matrix=True, subplot=subplot)
+    clf = train_model(clf, cross_validate=True, conf_matrix=True, save_model_at_path=path_to_save_model, subplot=subplot, title=title)
+    return clf
 
-def train_tree(path_to_data=None, path_to_save_model=None, load_model=False, path_to_load=None, binary=True, subplot=111):
+def train_tree(path_to_data=None, path_to_save_model=None, load_model=False, path_to_load=None, binary=True, subplot=111, title=""):
     """
     Trains a decision tree classifier on the dataset.
 
@@ -129,10 +149,11 @@ def train_tree(path_to_data=None, path_to_save_model=None, load_model=False, pat
     """
     print("Training the decision tree model...")
     clf = tree.DecisionTreeClassifier(class_weight='balanced')
-    clf = train_model(clf, cross_validate=True, conf_matrix=True, subplot=subplot)
+    clf = train_model(clf, cross_validate=True, conf_matrix=True, save_model_at_path=path_to_save_model, subplot=subplot, title=title)
+    return clf
 
 
-def train_model(clf, cross_validate=False, conf_matrix=False, path_to_data=None, binary=True, save=False, model_path="model.pkl", subplot=111):
+def train_model(clf, cross_validate=False, conf_matrix=False, path_to_data=None, binary=True, save_model_at_path=None, subplot=111, title="Confusion Matrix"):
     """
     Trains the given model.
 
@@ -149,12 +170,18 @@ def train_model(clf, cross_validate=False, conf_matrix=False, path_to_data=None,
         clf = clf.fit(X_train, y_train)
         y_pred = clf.predict(X_test)
         cnf_matrix = confusion_matrix(y_test, y_pred)
-        plot_confusion_matrix(cnf_matrix, classes=["No Betrayal", "Betrayal"], subplot=subplot)
+        plot_confusion_matrix(cnf_matrix, classes=["No Betrayal", "Betrayal"], subplot=subplot, title=title)
 
-    if save:
-        joblib.dump(clf, model_path)
+    if save_model_at_path:
+        joblib.dump(clf, save_model_at_path)
 
     return clf
+
+def load_model(path):
+    """
+    Returns a clf from the given path.
+    """
+    return joblib.load(path)
 
 if __name__ == "__main__":
     Xs, Ys = _get_xy()
@@ -163,10 +190,11 @@ if __name__ == "__main__":
     assert(len(ones) + len(zeros) == len(Ys))
     print("Betrayals:", len(ones))
     print("Non betrayals:", len(zeros))
-    #train_mlp()
-    #train_knn()
-    train_tree(subplot=131)
-    train_random_forest(subplot=132)
-    train_svm(subplot=133)
+    train_mlp(path_to_save_model="mlp.pkl", subplot=231, title="MLP")
+    train_knn(subplot=232, title="KNN")
+    train_tree(subplot=233, title="Tree")
+    train_random_forest(subplot=234, title="Forest")
+    train_svm(subplot=235, title="SVM")
+    train_logregr(subplot=236, title="Log Reg")
     plt.show()
 
