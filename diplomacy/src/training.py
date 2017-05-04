@@ -18,7 +18,7 @@ if "SSH_CONNECTION" in os.environ:
     import matplotlib.pyplot as plt
 else:
     try:
-        plt.switch_backend("Qt5Agg")
+        matplotlib.use("Qt5Agg")
     except Exception:
         print("WARNING: This will work best if you install PyQt5")
 import matplotlib.pyplot as plt
@@ -123,7 +123,7 @@ def train_mlp(path_to_data=None, path_to_save_model=None, load_model=False, path
     Xs, Ys = _get_xy(path_to_data, binary)
     X_train, X_test, y_train, y_test = train_test_split(Xs, Ys, random_state=0)
 
-    history = model.fit(X_train, y_train, batch_size=20, epochs=10, verbose=1, validation_data=(X_test, y_test))
+    history = model.fit(X_train, y_train, batch_size=10, epochs=1000, verbose=1, validation_data=(X_test, y_test))
     score = model.evaluate(X_test, y_test, verbose=1)
 
     print("")
@@ -132,13 +132,9 @@ def train_mlp(path_to_data=None, path_to_save_model=None, load_model=False, path
 
     # Compute confusion matrix
     y_pred = model.predict(X_test)
-    print(y_pred)
     y_pred = [round(x[0]) for x in y_pred]
-    print(y_pred)
     cnf_matrix = confusion_matrix(y_test, y_pred)
     plot_confusion_matrix(cnf_matrix, classes=["No Betrayal", "Betrayal"], subplot=subplot, title=title)
-#
-#    return clf
 
 def train_random_forest(path_to_data=None, path_to_save_model=None, load_model=False, path_to_load=None, binary=True, subplot=111, title=""):
     """
