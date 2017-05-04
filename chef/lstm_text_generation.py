@@ -59,7 +59,7 @@ step = 3
 # TODO: Figure out what these two lists are used for
 sentences = []
 next_chars = []
-# Iterate i in steps of maxlen (so i = 0, i = 40, i = 80, etc.)
+# Iterate over the text in 
 for i in range(0, len(text) - maxlen, step):
     sentences.append(text[i: i + maxlen])
     next_chars.append(text[i + maxlen])

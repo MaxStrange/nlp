@@ -6,13 +6,22 @@ E.g.:
 >>> import training
 >>> training.train_tree("path/to/data", "path/to/save/model/at")
 """
+import os
 import data
 import itertools
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.wrappers.scikit_learn import KerasClassifier
+import matplotlib
+if "SSH_CONNECTION" in os.environ:
+    matplotlib.use("agg")
+    import matplotlib.pyplot as plt
+else:
+    try:
+        plt.switch_backend("Qt5Agg")
+    except Exception:
+        print("WARNING: This will work best if you install PyQt5")
 import matplotlib.pyplot as plt
-try:
-    plt.switch_backend("Qt5Agg")
-except Exception:
-    print("WARNING: This will work best if you install PyQt5")
 import numpy as np
 from sklearn import neighbors, svm, tree
 from sklearn.ensemble import RandomForestClassifier
@@ -103,9 +112,33 @@ def train_mlp(path_to_data=None, path_to_save_model=None, load_model=False, path
         will be a betrayal between these users in this order phase.
     """
     print("Training the MLP...")
-    clf = MLPClassifier(solver='sgd', alpha=1e-5, learning_rate='invscaling', max_iter=20000, tol=1e-15, learning_rate_init=0.01, verbose=True, hidden_layer_sizes=(128, 2), random_state=1)
-    clf = train_model(clf, cross_validate=False, conf_matrix=True, save_model_at_path=path_to_save_model, subplot=subplot, title=title)
-    return clf
+    #clf = MLPClassifier(solver='sgd', alpha=1e-5, learning_rate='invscaling', max_iter=20000, tol=1e-15, learning_rate_init=0.01, verbose=True, hidden_layer_sizes=(128, 2), random_state=1)
+    #clf = train_model(clf, cross_validate=False, conf_matrix=True, save_model_at_path=path_to_save_model, subplot=subplot, title=title)
+    model = Sequential()
+    model.add(Dense(30, input_dim=30, kernel_initializer='normal', activation='relu'))
+    model.add(Dense(1, kernel_initializer='normal', activation='sigmoid'))
+
+    model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+    Xs, Ys = _get_xy(path_to_data, binary)
+    X_train, X_test, y_train, y_test = train_test_split(Xs, Ys, random_state=0)
+
+    history = model.fit(X_train, y_train, batch_size=20, epochs=10, verbose=1, validation_data=(X_test, y_test))
+    score = model.evaluate(X_test, y_test, verbose=1)
+
+    print("")
+    print("  |-> Loss:", score[0])
+    print("  |-> Accuracy:", score[1])
+
+    # Compute confusion matrix
+    y_pred = model.predict(X_test)
+    print(y_pred)
+    y_pred = [round(x[0]) for x in y_pred]
+    print(y_pred)
+    cnf_matrix = confusion_matrix(y_test, y_pred)
+    plot_confusion_matrix(cnf_matrix, classes=["No Betrayal", "Betrayal"], subplot=subplot, title=title)
+#
+#    return clf
 
 def train_random_forest(path_to_data=None, path_to_save_model=None, load_model=False, path_to_load=None, binary=True, subplot=111, title=""):
     """
