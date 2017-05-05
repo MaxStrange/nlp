@@ -156,6 +156,7 @@ def train_rnn(path_to_data=None, path_to_save_model="rnn.hdf5", load_model=False
         model.add(Dense(1, activation='sigmoid'))
         return model
 
+    print("Training the RNN...")
     print("  |-> Getting the data...")
     Xs, Ys = _get_rnn_data(path_to_data, binary)
 
@@ -173,13 +174,13 @@ def train_rnn(path_to_data=None, path_to_save_model="rnn.hdf5", load_model=False
     y_train = np.array(concat(y_train))
     y_test = np.array(concat(y_test))
 
-    print("X shape:", X_train.shape)
-    print("Y shape:", y_train.shape)
+    print("  |-> X shape:", X_train.shape)
+    print("  |-> Y shape:", y_train.shape)
 
     X_train = np.reshape(X_train, (X_train.shape[0], 1, X_train.shape[1]))
     X_test = np.reshape(X_test, (X_test.shape[0], 1, X_test.shape[1]))
 
-    print("After reshape:", X_train.shape)
+    print("  |-> X shape after reshape:", X_train.shape)
 
     if load_model:
         print("  |-> Loading saved model...")
@@ -192,8 +193,7 @@ def train_rnn(path_to_data=None, path_to_save_model="rnn.hdf5", load_model=False
 
         print("  |-> Fitting the model...")
         checkpointer = ModelCheckpoint(filepath=path_to_save_model, verbose=1, save_best_only=True)
-        #data_shuffler = shuffle_rnn_data
-        model.fit(X_train, y_train, batch_size=20, epochs=10, verbose=2, validation_data=(X_test, y_test), callbacks=[checkpointer])
+        model.fit(X_train, y_train, batch_size=1, epochs=1000, verbose=2, validation_data=(X_test, y_test), callbacks=[checkpointer])
 
     print("  |-> Evaluating the model...")
     score = model.evaluate(X_test, y_test, verbose=1)
@@ -331,23 +331,33 @@ def load_model(path):
     """
     return joblib.load(path)
 
-def pca_display(Xs, Ys):
+def pca_display(Xs, Ys, dimensions=3):
     """
     """
-    pca = decomposition.PCA(n_components=3)
+    assert dimensions == 2 or dimensions == 3, "Only 2D or 3D views are supported for pca_display"
+    pca = decomposition.PCA(n_components=dimensions)
     pca.fit(Xs)
-    print("Here is how much variance is accounted for after reduction to 3D space:")
+    print("Here is how much variance is accounted for after dimension reduction:")
     print(pca.explained_variance_ratio_)
     X = pca.transform(Xs)
 
     fig = plt.figure(1, figsize=(4, 13))
     plt.clf()
-    ax = Axes3D(fig, rect=[0, 0, 0.95, 1], elev=48, azim=134)
 
-    plt.cla()
+    # Invert the Y array: [0 1 0 0 1 0] -> [1 0 1 1 0 1]
+    print("Number of betrayals:", len([i for i in Ys if i == 1]))
+    print("Number of non betrayals:", len([i for i in Ys if i == 0]))
     y = Ys
     y = np.choose(y, [1, 0]).astype(np.float)
-    ax.scatter(X[:, 0], X[:, 1], X[:, 2], c=y, cmap=plt.cm.spectral)
+
+    if dimensions == 3:
+        ax = Axes3D(fig, rect=[0, 0, 0.95, 1], elev=48, azim=134)
+
+        plt.cla()
+        ax.scatter(X[:, 0], X[:, 1], X[:, 2], c=y, cmap=plt.cm.brg)
+    else:
+        plt.cla()
+        plt.scatter(X[:, 0], X[:, 1], c=y, cmap=plt.cm.brg)
 
     plt.show()
 
@@ -360,9 +370,9 @@ if __name__ == "__main__":
     print("Betrayals:", len(ones))
     print("Non betrayals:", len(zeros))
 
-    pca_display(Xs, Ys)
+    pca_display(Xs, Ys, dimensions=2)
 
-    train_rnn(path_to_save_model="rnn.hdf5", subplot=236, title="RNN")
+    #train_rnn(path_to_save_model="rnn.hdf5", subplot=236, title="RNN")
     #train_mlp(load_model=True, path_to_load="mlps/mlp_269_240_29_598.hdf5", subplot=231, title="MLP")
     #train_knn(path_to_save_model="knn.model", subplot=232, title="KNN")
     #train_tree(path_to_save_model="tree.model", subplot=233, title="Tree")
@@ -375,7 +385,8 @@ if __name__ == "__main__":
     train_tree(load_model=True, path_to_load="models/tree.model", subplot=233, title="Tree")
     train_random_forest(load_model=True, path_to_load="models/forest.model", subplot=234, title="Forest")
     train_svm(load_model=True, path_to_load="models/svm.model", subplot=235, title="SVM")
-    #train_logregr(load_model=True, path_to_load="models/logregr.model", subplot=236, title="Log Reg")
+    #train_rnn(load_model=True, path_to_load="models/rnn.hdf5", subplot=236, title="RNN")
+    train_logregr(load_model=True, path_to_load="models/logregr.model", subplot=236, title="Log Reg")
 
     plt.show()
 
