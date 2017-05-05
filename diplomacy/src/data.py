@@ -215,6 +215,21 @@ def get_X_feed(reverse=True, datapath=None, upsample=False):
         for _, _, r, t in get_them():
             yield r, t
 
+def get_X_feed_rnn(datapath=None):
+    """
+    Yields one relationship feature vector at a time: [[blah], [blah], [blah]] <-- One of these at a time; each one will be length 3 to 10
+    """
+    for relationship in get_all_sequences(datapath):
+        yield [s.to_feature_vector(reverse=False) for s in relationship.seasons]
+
+def get_Y_feed_binary_rnn(datapath=None):
+    """
+    Yields a list of 0s and 1s, where each slot in the yielded list is:
+    1 if relationship is a betrayal AND this is the last season in the relationship. Otherwise 0.
+    """
+    for relationship in get_all_sequences(datapath):
+        yield [1 if s.is_last_season_in_relationship and relationship.betrayal else 0 for s in relationship.seasons]
+
 def _get_label_from_trigram(tri, relationship, betrayal, reverse):
     """
     Gets the Y corresponding to the given trigram.

@@ -12,7 +12,7 @@ import itertools
 import keras
 from keras.callbacks import ModelCheckpoint
 from keras.models import Sequential
-from keras.layers import Dense, Dropout
+from keras.layers import Dense, Dropout, Embedding, LSTM
 from keras.wrappers.scikit_learn import KerasClassifier
 import matplotlib
 if "SSH_CONNECTION" in os.environ:
@@ -42,6 +42,21 @@ cached_Xs = None
 cached_Ys = None
 cached_ptd = None
 cached_binary = True
+
+def _get_rnn_data(path_to_data=None, binary=True):
+    """
+    """
+    # Need to get whole relationships at a time along with labels that are simply whether this feature vector (which is a season)
+    # is the last turn of a betrayal relationship
+
+    # Dimension of Xs should be: (500, x, 10), where x varies from 3 to 10 (i.e., len of relationship)
+    Xs = [x for x in data.get_X_feed_rnn(path_to_data)]
+    if binary:
+        Ys = [y for y in data.get_Y_feed_binary_rnn(path_to_data)]
+    else:
+        assert False, "Not yet supported"
+
+    return Xs, Ys
 
 def _get_xy(path_to_data=None, binary=True):
     """
@@ -131,6 +146,67 @@ def train_logregr(path_to_data=None, path_to_save_model=None, load_model=False, 
                              intercept_scaling=1, class_weight='balanced', random_state=None, solver='liblinear', max_iter=200)
     clf = train_model(clf, cross_validate=True, conf_matrix=True, save_model_at_path=path_to_save_model, subplot=subplot, title=title)
     return clf
+
+def train_rnn(path_to_data=None, path_to_save_model="rnn.hdf5", load_model=False, path_to_load="rnn.hdf5", binary=True, subplot=111, title=""):
+    """
+    """
+    def make_model(X):
+        model = Sequential()
+        model.add(LSTM(256, input_shape=X.shape[1:], dropout=0.2, recurrent_dropout=0.2))
+        model.add(Dense(1, activation='sigmoid'))
+        return model
+
+    print("  |-> Getting the data...")
+    Xs, Ys = _get_rnn_data(path_to_data, binary)
+
+    X_train, X_test, y_train, y_test = train_test_split(Xs, Ys, random_state=0)
+
+    def concat(Z):
+        temp = []
+        for z in Z:
+            temp += z
+        return temp
+
+    print("  |-> Concatenating the data for the RNN...")
+    X_train = np.array(concat(X_train))
+    X_test = np.array(concat(X_test))
+    y_train = np.array(concat(y_train))
+    y_test = np.array(concat(y_test))
+
+    print("X shape:", X_train.shape)
+    print("Y shape:", y_train.shape)
+
+    X_train = np.reshape(X_train, (X_train.shape[0], 1, X_train.shape[1]))
+    X_test = np.reshape(X_test, (X_test.shape[0], 1, X_test.shape[1]))
+
+    print("After reshape:", X_train.shape)
+
+    if load_model:
+        print("  |-> Loading saved model...")
+        model = keras.models.load_model(path_to_load)
+    else:
+        model = make_model(X_train)
+
+        print("  |-> Compiling...")
+        model.compile(loss='binary_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
+
+        print("  |-> Fitting the model...")
+        checkpointer = ModelCheckpoint(filepath=path_to_save_model, verbose=1, save_best_only=True)
+        #data_shuffler = shuffle_rnn_data
+        model.fit(X_train, y_train, batch_size=20, epochs=10, verbose=2, validation_data=(X_test, y_test), callbacks=[checkpointer])
+
+    print("  |-> Evaluating the model...")
+    score = model.evaluate(X_test, y_test, verbose=1)
+    print("")
+    print("  |-> Loss:", score[0])
+    print("  |-> Accuracy:", score[1])
+
+    # Compute confusion matrix
+    y_pred = model.predict(X_test)
+    y_pred = [round(x[0]) for x in y_pred]
+    cnf_matrix = confusion_matrix(y_test, y_pred)
+    plot_confusion_matrix(cnf_matrix, classes=["No Betrayal", "Betrayal"], subplot=subplot, title=title)
+
 
 def train_mlp(path_to_data=None, path_to_save_model="mlp.hdf5", load_model=False, path_to_load="mlp.hdf5", binary=True, subplot=111, title=""):
     """
@@ -284,8 +360,9 @@ if __name__ == "__main__":
     print("Betrayals:", len(ones))
     print("Non betrayals:", len(zeros))
 
-    #pca_display(Xs, Ys)
+    pca_display(Xs, Ys)
 
+    train_rnn(path_to_save_model="rnn.hdf5", subplot=236, title="RNN")
     #train_mlp(load_model=True, path_to_load="mlps/mlp_269_240_29_598.hdf5", subplot=231, title="MLP")
     #train_knn(path_to_save_model="knn.model", subplot=232, title="KNN")
     #train_tree(path_to_save_model="tree.model", subplot=233, title="Tree")
@@ -298,7 +375,7 @@ if __name__ == "__main__":
     train_tree(load_model=True, path_to_load="models/tree.model", subplot=233, title="Tree")
     train_random_forest(load_model=True, path_to_load="models/forest.model", subplot=234, title="Forest")
     train_svm(load_model=True, path_to_load="models/svm.model", subplot=235, title="SVM")
-    train_logregr(load_model=True, path_to_load="models/logregr.model", subplot=236, title="Log Reg")
+    #train_logregr(load_model=True, path_to_load="models/logregr.model", subplot=236, title="Log Reg")
 
     plt.show()
 
