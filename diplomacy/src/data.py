@@ -10,6 +10,7 @@ import random
 
 # The default data path
 DATA_PATH = os.path.join("..", "data_from_paper", "diplomacy_data.json")
+UPSAMPLE_TIMES = 2
 
 class Message:
     """
@@ -207,7 +208,7 @@ def get_X_feed(reverse=True, datapath=None, upsample=False):
 
     if upsample:
         base = [(r, t) for _, _, r, t in get_them()]
-        for i in range(9):
+        for i in range(UPSAMPLE_TIMES):
             base.extend([(r, t) for rel, tri, r, t in get_them() if rel.betrayal and tri[-1].is_last_season_in_relationship])
         for r, t in base:
             yield r, t
@@ -306,7 +307,7 @@ def get_Y_feed_binary(datapath=None, upsample=False):
             else:
                 yield 0
     if upsample:
-        for i in range(2250):
+        for i in range(250 * UPSAMPLE_TIMES):
             yield 1
 
 def x_str(x):

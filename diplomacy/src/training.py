@@ -32,7 +32,7 @@ from sklearn import decomposition, neighbors, svm, tree
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.externals import joblib
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import confusion_matrix, precision_recall_fscore_support
 from sklearn.model_selection import cross_val_score, train_test_split
 from sklearn.neural_network import MLPClassifier
 
@@ -42,6 +42,8 @@ cached_Xs = None
 cached_Ys = None
 cached_ptd = None
 cached_binary = True
+X_validation_set = None
+Y_validation_set = None
 
 def _get_rnn_data(path_to_data=None, binary=True):
     """
@@ -58,19 +60,20 @@ def _get_rnn_data(path_to_data=None, binary=True):
 
     return Xs, Ys
 
-def _get_xy(path_to_data=None, binary=True):
+def _get_xy(path_to_data=None, binary=True, upsample=True):
     """
     Returns Xs, Ys, shuffled.
+
+    Keeps back a validation set that you can get via X_validation_set and Y_validation_set.
     """
     global cached_Xs
     global cached_Ys
     global cached_ptd
     global cached_binary
-    if cached_Xs is not None and cached_Ys is not None and cached_ptd == path_to_data and cached_binary == binary:
+    if cached_Xs is not None and cached_Ys is not None and cached_ptd == path_to_data and cached_binary == binary and upsample:
         return cached_Xs, cached_Ys
     else:
         print("Getting the data. This will take a moment...")
-        upsample = True
         Xs = [x for x in data.get_X_feed(path_to_data, upsample=upsample)]
         if binary:
             Ys = np.array([y for y in data.get_Y_feed_binary(path_to_data, upsample=upsample)])
@@ -85,10 +88,20 @@ def _get_xy(path_to_data=None, binary=True):
         Ys = np.array([Ys[i] for i in index_shuf])
         assert(len(Xs) == len(Ys))
 
-        cached_Xs = Xs
-        cached_Ys = Ys
-        cached_ptd = path_to_data
-        cached_binary = binary
+        # Keep back validation set
+        global X_validation_set
+        global Y_validation_set
+        Xs, X_validation_set = Xs[:-50], Xs[-50:]
+        Ys, Y_validation_set = Ys[:-50], Ys[-50:]
+        print("Ones in validation set:", len([y for y in Ys if y == 1]))
+        print("Zeros in validation set:", len([y for y in Ys if y == 0]))
+
+        if upsample:
+            # Only cache upsampled data
+            cached_Xs = Xs
+            cached_Ys = Ys
+            cached_ptd = path_to_data
+            cached_binary = binary
         return Xs, Ys
 
 def plot_confusion_matrix(cm, classes, subplot, normalize=False, title="Confusion matrix", cmap=plt.cm.Blues):
@@ -158,9 +171,8 @@ def train_rnn(path_to_data=None, path_to_save_model="rnn.hdf5", load_model=False
 
     print("Training the RNN...")
     print("  |-> Getting the data...")
-    Xs, Ys = _get_rnn_data(path_to_data, binary)
-
-    X_train, X_test, y_train, y_test = train_test_split(Xs, Ys, random_state=0)
+    X_train, y_train = _get_rnn_data(path_to_data, binary)
+    X_test, y_test = X_validation_set, Y_validation_set
 
     def concat(Z):
         temp = []
@@ -193,7 +205,7 @@ def train_rnn(path_to_data=None, path_to_save_model="rnn.hdf5", load_model=False
 
         print("  |-> Fitting the model...")
         checkpointer = ModelCheckpoint(filepath=path_to_save_model, verbose=1, save_best_only=True)
-        model.fit(X_train, y_train, batch_size=1, epochs=1000, verbose=2, validation_data=(X_test, y_test), callbacks=[checkpointer])
+        model.fit(X_train, y_train, batch_size=10, epochs=1000, verbose=2, validation_data=(X_test, y_test), callbacks=[checkpointer])
 
     print("  |-> Evaluating the model...")
     score = model.evaluate(X_test, y_test, verbose=1)
@@ -201,12 +213,7 @@ def train_rnn(path_to_data=None, path_to_save_model="rnn.hdf5", load_model=False
     print("  |-> Loss:", score[0])
     print("  |-> Accuracy:", score[1])
 
-    # Compute confusion matrix
-    y_pred = model.predict(X_test)
-    y_pred = [round(x[0]) for x in y_pred]
-    cnf_matrix = confusion_matrix(y_test, y_pred)
-    plot_confusion_matrix(cnf_matrix, classes=["No Betrayal", "Betrayal"], subplot=subplot, title=title)
-
+    compute_confusion_matrix(model, upsample=False, subplot=subplot, title=title, round_data=True)
 
 def train_mlp(path_to_data=None, path_to_save_model="mlp.hdf5", load_model=False, path_to_load="mlp.hdf5", binary=True, subplot=111, title=""):
     """
@@ -221,14 +228,17 @@ def train_mlp(path_to_data=None, path_to_save_model="mlp.hdf5", load_model=False
     print("Training the MLP...")
     def make_model():
         model = Sequential()
-        model.add(Dense(128, input_dim=30, kernel_initializer='normal', activation='relu'))
-        model.add(Dropout(0.5))
+        model.add(Dense(512, input_dim=30, kernel_initializer='normal', activation='relu'))
+        model.add(Dropout(0.3))
+        model.add(Dense(256, kernel_initializer='normal', activation='relu'))
+        model.add(Dropout(0.2))
         model.add(Dense(1, kernel_initializer='normal', activation='sigmoid'))
         return model
 
     print("  |-> Getting the data...")
-    Xs, Ys = _get_xy(path_to_data, binary)
-    X_train, X_test, y_train, y_test = train_test_split(Xs, Ys, random_state=0)
+    X_train, y_train = _get_xy(path_to_data, binary)
+    X_test = X_validation_set
+    y_test = Y_validation_set
 
     if load_model:
         print("  |-> Loading saved model...")
@@ -241,7 +251,8 @@ def train_mlp(path_to_data=None, path_to_save_model="mlp.hdf5", load_model=False
 
         print("  |-> Fitting the model...")
         checkpointer = ModelCheckpoint(filepath=path_to_save_model, verbose=1, save_best_only=True)
-        model.fit(X_train, y_train, batch_size=20, epochs=1000, verbose=2, validation_data=(X_test, y_test), callbacks=[checkpointer])
+        lr_reducer = keras.callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=50, min_lr=0.00001)
+        model.fit(X_train, y_train, batch_size=20, epochs=1000, verbose=2, validation_data=(X_test, y_test), callbacks=[checkpointer, lr_reducer])
 
     print("  |-> Evaluating the model...")
     score = model.evaluate(X_test, y_test, verbose=1)
@@ -249,11 +260,7 @@ def train_mlp(path_to_data=None, path_to_save_model="mlp.hdf5", load_model=False
     print("  |-> Loss:", score[0])
     print("  |-> Accuracy:", score[1])
 
-    # Compute confusion matrix
-    y_pred = model.predict(X_test)
-    y_pred = [round(x[0]) for x in y_pred]
-    cnf_matrix = confusion_matrix(y_test, y_pred)
-    plot_confusion_matrix(cnf_matrix, classes=["No Betrayal", "Betrayal"], subplot=subplot, title=title)
+    compute_confusion_matrix(model, upsample=False, subplot=subplot, title=title, round_data=True)
 
 def train_random_forest(path_to_data=None, path_to_save_model=None, load_model=False, path_to_load=None, binary=True, subplot=111, title=""):
     """
@@ -308,22 +315,38 @@ def train_model(clf, cross_validate=False, conf_matrix=False, path_to_data=None,
     If confusion_matrix is True, a confusion matrix subplot will be added to plt.
     If path_to_data is specified, it will get the data from that location, otherwise it will get it from the default location.
     """
-    Xs, Ys = _get_xy(path_to_data, binary)
-    X_train, X_test, y_train, y_test = train_test_split(Xs, Ys, random_state=0)
+    X_train, y_train = _get_xy(path_to_data, binary)
+    X_test, y_test = X_validation_set, Y_validation_set
     clf = clf.fit(X_train, y_train)
     if cross_validate:
-        scores = cross_val_score(clf, Xs, Ys, cv=5, n_jobs=-1)
+        scores = cross_val_score(clf, X_train, y_train, cv=5, n_jobs=-1)
         print("  |-> Scores:", scores)
     if confusion_matrix:
-        clf = clf.fit(X_train, y_train)
-        y_pred = clf.predict(X_test)
-        cnf_matrix = confusion_matrix(y_test, y_pred)
-        plot_confusion_matrix(cnf_matrix, classes=["No Betrayal", "Betrayal"], subplot=subplot, title=title)
+        compute_confusion_matrix(clf, upsample=False, subplot=subplot, title=title, path_to_data=path_to_data, binary=binary)
 
     if save_model_at_path:
         joblib.dump(clf, save_model_at_path)
 
     return clf
+
+def compute_confusion_matrix(clf, upsample=True, X_test=None, y_test=None, subplot=111, title="Confusion Matrix", path_to_data=None, binary=True, round_data=False):
+    """
+    Computes and plots a confusion matrix.
+
+    @param upsample is deprecated - instead, just change the upscale value in data.py
+    """
+    X_test, y_test = X_validation_set, Y_validation_set
+    y_pred = clf.predict(X_test)
+    if round_data:
+        y_pred = [round(y[0]) for y in y_pred] # In case predicted value is from a model that does not output a binary value
+    cnf_matrix = confusion_matrix(y_test, y_pred)
+    plot_confusion_matrix(cnf_matrix, classes=["No Betrayal", "Betrayal"], subplot=subplot, title=title)
+    prfs = precision_recall_fscore_support(y_test, y_pred, average='micro')
+    print("Precision, Recall, FScore, Support | Micro", prfs)
+    prfs = precision_recall_fscore_support(y_test, y_pred, average='macro')
+    print("Precision, Recall, FScore, Support | Macro", prfs)
+    prfs = precision_recall_fscore_support(y_test, y_pred, average='weighted')
+    print("Precision, Recall, FScore, Support | Weighted", prfs)
 
 def load_model(path):
     """
@@ -373,20 +396,20 @@ if __name__ == "__main__":
     pca_display(Xs, Ys, dimensions=2)
 
     #train_rnn(path_to_save_model="rnn.hdf5", subplot=236, title="RNN")
-    #train_mlp(load_model=True, path_to_load="mlps/mlp_269_240_29_598.hdf5", subplot=231, title="MLP")
-    #train_knn(path_to_save_model="knn.model", subplot=232, title="KNN")
-    #train_tree(path_to_save_model="tree.model", subplot=233, title="Tree")
-    #train_random_forest(path_to_save_model="forest.model", subplot=234, title="Forest")
-    #train_svm(path_to_save_model="svm.model", subplot=235, title="SVM")
-    #train_logregr(path_to_save_model="logregr.model", subplot=236, title="Log Reg")
+    #train_mlp(path_to_save_model="mlp.hdf5", subplot=231, title="MLP")
+    train_knn(path_to_save_model="knn.model", subplot=232, title="KNN")
+    train_tree(path_to_save_model="tree.model", subplot=233, title="Tree")
+    train_random_forest(path_to_save_model="forest.model", subplot=234, title="Forest")
+    train_svm(path_to_save_model="svm.model", subplot=235, title="SVM")
+    train_logregr(path_to_save_model="logregr.model", subplot=236, title="Log Reg")
 
-    train_mlp(load_model=True, path_to_load="mlps/mlp_269_240_29_598.hdf5", subplot=231, title="MLP")
-    train_knn(load_model=True, path_to_load="models/knn.model", subplot=232, title="KNN")
-    train_tree(load_model=True, path_to_load="models/tree.model", subplot=233, title="Tree")
-    train_random_forest(load_model=True, path_to_load="models/forest.model", subplot=234, title="Forest")
-    train_svm(load_model=True, path_to_load="models/svm.model", subplot=235, title="SVM")
+    train_mlp(load_model=True, path_to_load="mlp.hdf5", subplot=231, title="MLP")
+    #train_knn(load_model=True, path_to_load="models/knn.model", subplot=232, title="KNN")
+    #train_tree(load_model=True, path_to_load="models/tree.model", subplot=233, title="Tree")
+    #train_random_forest(load_model=True, path_to_load="models/forest.model", subplot=234, title="Forest")
+    #train_svm(load_model=True, path_to_load="models/svm.model", subplot=235, title="SVM")
     #train_rnn(load_model=True, path_to_load="models/rnn.hdf5", subplot=236, title="RNN")
-    train_logregr(load_model=True, path_to_load="models/logregr.model", subplot=236, title="Log Reg")
+    #train_logregr(load_model=True, path_to_load="models/logregr.model", subplot=236, title="Log Reg")
 
     plt.show()
 
