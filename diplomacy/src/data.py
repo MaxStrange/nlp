@@ -7,10 +7,13 @@ import json
 import numpy as np
 import os
 import random
+random.seed(12345)
+np.random.seed(12345)
 
 # The default data path
 DATA_PATH = os.path.join("..", "data_from_paper", "diplomacy_data.json")
-UPSAMPLE_TIMES = 2
+UPSAMPLE_TIMES = 4
+validation_set = None
 
 class Message:
     """
@@ -160,14 +163,19 @@ class Relationship:
 
 def get_all_sequences(datapath=None):
     """
-    Gets all the relationship sequences and yields them one at a time.
+    Gets all the relationship sequences and yields them one at a time except for the validation set.
     """
     dp = datapath if datapath else DATA_PATH
     with open(dp) as f:
         data = json.load(f)
 
-    for seq in data:
-        yield Relationship(seq)
+    sequences = [Relationship(seq) for seq in data]
+    random.shuffle(sequences)
+    global validation_set
+    validation_set = sequences[-50:]
+    training_set = sequences[:-50]
+    for seq in training_set:
+        yield seq
 
 def _concatenate_trigram(tri, reverse):
     """
@@ -215,6 +223,28 @@ def get_X_feed(reverse=True, datapath=None, upsample=False):
     else:
         for _, _, r, t in get_them():
             yield r, t
+
+def get_validation_set(datapath=None):
+    def get_Xs():
+        for relationship in validation_set:
+            season_trigrams = relationship.get_season_trigrams()
+            for tri in season_trigrams:
+                r = random.choice([True, False])
+                yield _concatenate_trigram(tri, r)
+
+    def get_ys():
+        for i, relationship in enumerate(validation_set):
+            season_trigrams = relationship.get_season_trigrams()
+            for tri in season_trigrams:
+                if tri[-1].is_last_season_in_relationship and relationship.betrayal:
+                    yield 1
+                else:
+                    yield 0
+
+    Y_val = np.array([y for y in get_ys()])
+    X_val = np.array([x for x in get_Xs()])
+
+    return X_val, Y_val
 
 def get_X_feed_rnn(datapath=None):
     """

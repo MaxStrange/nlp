@@ -36,7 +36,8 @@ from sklearn.metrics import confusion_matrix, precision_recall_fscore_support
 from sklearn.model_selection import cross_val_score, train_test_split
 from sklearn.neural_network import MLPClassifier
 
-
+random.seed(12345)
+np.random.seed(12345)
 np.set_printoptions(precision=2)
 cached_Xs = None
 cached_Ys = None
@@ -91,10 +92,9 @@ def _get_xy(path_to_data=None, binary=True, upsample=True):
         # Keep back validation set
         global X_validation_set
         global Y_validation_set
-        Xs, X_validation_set = Xs[:-50], Xs[-50:]
-        Ys, Y_validation_set = Ys[:-50], Ys[-50:]
-        print("Ones in validation set:", len([y for y in Ys if y == 1]))
-        print("Zeros in validation set:", len([y for y in Ys if y == 0]))
+        X_validation_set, Y_validation_set = data.get_validation_set()
+        print("Ones in validation set:", len([y for y in Y_validation_set if y == 1]))
+        print("Zeros in validation set:", len([y for y in Y_validation_set if y == 0]))
 
         if upsample:
             # Only cache upsampled data
@@ -397,19 +397,19 @@ if __name__ == "__main__":
 
     #train_rnn(path_to_save_model="rnn.hdf5", subplot=236, title="RNN")
     #train_mlp(path_to_save_model="mlp.hdf5", subplot=231, title="MLP")
-    train_knn(path_to_save_model="knn.model", subplot=232, title="KNN")
-    train_tree(path_to_save_model="tree.model", subplot=233, title="Tree")
-    train_random_forest(path_to_save_model="forest.model", subplot=234, title="Forest")
-    train_svm(path_to_save_model="svm.model", subplot=235, title="SVM")
-    train_logregr(path_to_save_model="logregr.model", subplot=236, title="Log Reg")
+    #train_knn(path_to_save_model="knn.model", subplot=232, title="KNN")
+    #train_tree(path_to_save_model="tree.model", subplot=233, title="Tree")
+    #train_random_forest(path_to_save_model="forest.model", subplot=234, title="Forest")
+    #train_svm(path_to_save_model="svm.model", subplot=235, title="SVM")
+    #train_logregr(path_to_save_model="logregr.model", subplot=236, title="Log Reg")
 
     train_mlp(load_model=True, path_to_load="mlp.hdf5", subplot=231, title="MLP")
-    #train_knn(load_model=True, path_to_load="models/knn.model", subplot=232, title="KNN")
-    #train_tree(load_model=True, path_to_load="models/tree.model", subplot=233, title="Tree")
-    #train_random_forest(load_model=True, path_to_load="models/forest.model", subplot=234, title="Forest")
-    #train_svm(load_model=True, path_to_load="models/svm.model", subplot=235, title="SVM")
+    train_knn(load_model=True, path_to_load="models/knn.model", subplot=232, title="KNN")
+    train_tree(load_model=True, path_to_load="models/tree.model", subplot=233, title="Tree")
+    train_random_forest(load_model=True, path_to_load="models/forest.model", subplot=234, title="Forest")
+    train_svm(load_model=True, path_to_load="models/svm.model", subplot=235, title="SVM")
     #train_rnn(load_model=True, path_to_load="models/rnn.hdf5", subplot=236, title="RNN")
-    #train_logregr(load_model=True, path_to_load="models/logregr.model", subplot=236, title="Log Reg")
+    train_logregr(load_model=True, path_to_load="models/logregr.model", subplot=236, title="Log Reg")
 
     plt.show()
 
