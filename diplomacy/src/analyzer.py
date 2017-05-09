@@ -50,7 +50,7 @@ def analyze_message(msg):
                     "neutral":  len([s for s in sentiments if int(s[2]) == 2]),
                     "negative": len([s for s in sentiments if int(s[2]) < 2])
                 }
-    lexwords = None
+    lexwords = None # {"allsubj": ..., "disc_expansion": ..., "disc_comparison": ..., "disc_temporal_future": ..., "premise": ...}
     freqwords = None
     return {
                 "n_words": len(get_words(msg)),
@@ -61,6 +61,16 @@ def analyze_message(msg):
                 "lexicon_words": lexwords,
                 "frequent_words": freqwords
             }
+
+def get_lexwords(raw_text):
+    """
+    Takes a string of raw text and builds a dict of discourse sense tags to words:
+
+    {"disc_expansion": [...], "disc_comparison": [...], ...}
+
+    Returns this dict.
+    """
+    pass
 
 def get_politeness(raw_text):
     """
