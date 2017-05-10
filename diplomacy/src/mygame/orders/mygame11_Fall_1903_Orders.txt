@@ -1,0 +1,48 @@
+ENGLAND
+Holland SUPPORT North Sea to Helgoland Bight -> Supported order does not correspond
+Norway HOLD -> resolved
+North Sea MOVE Holland -> Bounced
+Edinburgh SUPPORT London to North Sea -> Supported unit has failed
+London MOVE North Sea -> Bounced
+
+FRANCE
+Tuscany MOVE Venice -> resolved
+Picardy MOVE Belgium -> resolved
+Burgundy SUPPORT Belgium to Ruhr -> resolved
+Piedmont MOVE Tyrolia -> resolved
+English Channel HOLD -> resolved
+Belgium MOVE Ruhr -> resolved
+
+ITALY
+Apulia MOVE Adriatic Sea -> Bounced
+Munich SUPPORT Holland to Kiel -> Supported order does not correspond
+Rome SUPPORT Tuscany to Venice -> resolved
+
+GERMANY
+Denmark MOVE Norway -> Illegal order replaced with Hold order
+Ruhr MOVE Holland -> Destroyed by A Belgium - Ruhr
+Helgoland Bight SUPPORT Denmark to North Sea -> Supported order does not correspond
+
+AUSTRIA
+Serbia SUPPORT Budapest to Rumania -> resolved
+Vienna MOVE Galicia -> Bounced
+Budapest MOVE Rumania -> resolved
+Adriatic Sea SUPPORT Venice to hold -> Support cut by F Apulia - Adriatic Sea
+Venice HOLD -> Dislodged by A Tuscany - Venice
+
+TURKEY
+Aegean Sea SUPPORT Bulgaria to hold -> resolved
+Smyrna HOLD -> resolved
+Constantinople MOVE Greece -> Convoy cancelled
+Greece MOVE Ionian Sea -> resolved
+Bulgaria HOLD -> resolved
+
+RUSSIA
+Galicia HOLD -> resolved
+Baltic Sea MOVE Kiel -> resolved
+Livonia MOVE Warsaw -> resolved
+Sweden HOLD -> resolved
+Prussia MOVE Berlin -> resolved
+Rumania HOLD -> Dislodged by A Budapest - Rumania
+
+

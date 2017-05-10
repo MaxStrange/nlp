@@ -1,0 +1,47 @@
+ENGLAND
+North Sea MOVE Helgoland Bight -> resolved
+Edinburgh HOLD -> resolved
+London MOVE North Sea -> resolved
+Norway HOLD -> resolved
+
+FRANCE
+Portugal MOVE English Channel -> Illegal order replaced with Hold order
+Brest MOVE Picardy -> resolved
+Spain MOVE Marseilles -> resolved
+Marseilles MOVE Piedmont -> resolved
+Paris MOVE Burgundy -> resolved
+
+ITALY
+Tunis MOVE Tyrrhenian Sea -> resolved
+Piedmont MOVE Tuscany -> resolved
+Tyrolia MOVE Bohemia -> resolved
+
+GERMANY
+Kiel SUPPORT Denmark to hold -> resolved
+Berlin MOVE Silesia -> resolved
+Holland MOVE Belgium -> resolved
+Munich SUPPORT Vienna to Tyrolia -> resolved
+Denmark HOLD -> resolved
+
+AUSTRIA
+Serbia MOVE Greece -> Bounced
+Budapest MOVE Serbia -> Bounced
+Vienna MOVE Tyrolia -> resolved
+Venice HOLD -> resolved
+Trieste SUPPORT Venice to hold -> resolved
+
+TURKEY
+Smyrna MOVE Aegean Sea -> resolved
+Bulgaria MOVE Greece -> Bounced
+Aegean Sea MOVE Ionian Sea -> resolved
+Constantinople MOVE Bulgaria -> Bounced
+
+RUSSIA
+Rumania HOLD -> resolved
+Warsaw HOLD -> resolved
+Sweden HOLD -> resolved
+Livonia SUPPORT Bulgaria to Sweden -> Cannot support square Swe
+St. Petersburg (South Coast) MOVE Baltic Sea -> Illegal order replaced with Hold order
+Moscow MOVE Warsaw -> Bounced
+
+

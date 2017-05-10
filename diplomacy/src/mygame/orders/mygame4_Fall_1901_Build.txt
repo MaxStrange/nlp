@@ -1,0 +1,23 @@
+ENGLAND
+BUILD fleet Edinburgh -> resolved
+
+FRANCE
+BUILD army Paris -> resolved
+BUILD army Marseilles -> resolved
+
+GERMANY
+BUILD fleet Kiel -> resolved
+BUILD army Berlin -> resolved
+
+AUSTRIA
+BUILD army Vienna -> resolved
+BUILD army Budapest -> resolved
+
+TURKEY
+BUILD fleet Smyrna -> resolved
+
+RUSSIA
+BUILD fleet St. Petersburg (South Coast) -> resolved
+BUILD army Moscow -> resolved
+
+

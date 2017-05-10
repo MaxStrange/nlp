@@ -1,0 +1,9 @@
+
+
+AUSTRIA
+Trieste DESTROY -> resolved
+
+TURKEY
+Rumania RETREAT Bulgaria -> Cannot retreat to a battled location
+
+

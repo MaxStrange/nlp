@@ -1,0 +1,17 @@
+ENGLAND
+BUILD army Edinburgh -> resolved
+
+FRANCE
+BUILD fleet Brest -> resolved
+
+ITALY
+Munich DESTROY -> resolved
+
+TURKEY
+BUILD fleet Smyrna -> resolved
+BUILD army Ankara -> resolved
+
+RUSSIA
+Black Sea DESTROY -> resolved
+
+

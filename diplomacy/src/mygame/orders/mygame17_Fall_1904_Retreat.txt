@@ -1,0 +1,10 @@
+AUSTRIA
+Venice RETREAT Rome -> resolved
+
+TURKEY
+Greece RETREAT Smyrna -> Cannot retreat to this location
+
+RUSSIA
+Kiel RETREAT Prussia -> Cannot retreat to this location
+
+

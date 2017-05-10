@@ -1,0 +1,49 @@
+ENGLAND
+Holland SUPPORT Ruhr to Kiel -> resolved
+Norwegian Sea MOVE Norway -> Bounced
+North Sea SUPPORT Denmark to hold -> resolved
+Norway MOVE St. Petersburg (North Coast) -> Bounced
+St. Petersburg MOVE Moscow -> resolved
+
+FRANCE
+Burgundy MOVE Munich -> Bounced
+Belgium HOLD -> resolved
+Gulf of Lyons MOVE Western Mediterranean -> resolved
+English Channel SUPPORT Belgium to hold -> resolved
+Tuscany MOVE Venice -> resolved
+Ruhr MOVE Kiel -> resolved
+Tyrolia SUPPORT Tuscany to Venice -> resolved
+
+ITALY
+Munich MOVE Berlin -> Bounced
+Apulia SUPPORT Tuscany to Venice -> resolved
+Naples MOVE Tyrrhenian Sea -> resolved
+Ionian Sea MOVE Greece -> resolved
+
+GERMANY
+Denmark HOLD -> resolved
+
+AUSTRIA
+Budapest SUPPORT Vienna to hold -> Support cut by A Galicia - Budapest
+Vienna SUPPORT Budapest to hold -> resolved
+Serbia SUPPORT Ionian Sea to Greece -> resolved
+Adriatic Sea MOVE Trieste -> resolved
+Venice SUPPORT Adriatic Sea to Trieste -> Dislodged by A Tuscany - Venice
+
+TURKEY
+Greece HOLD -> Dislodged by F Ionian Sea - Greece
+Aegean Sea MOVE Bulgaria (South Coast) -> resolved
+Rumania SUPPORT Galicia to hold -> Supported order does not correspond
+Tunis HOLD -> resolved
+Constantinople MOVE Serbia -> Illegal order replaced with Hold order
+
+RUSSIA
+Galicia MOVE Budapest -> Bounced
+Kiel HOLD -> Dislodged by A Ruhr - Kiel
+Black Sea SUPPORT Rumania to hold -> resolved
+Berlin MOVE Silesia -> Bounced
+Sweden SUPPORT Livonia to St. Petersburg -> Cannot support square Stp
+Silesia SUPPORT Berlin to Munich -> Supported order does not correspond
+Livonia MOVE St. Petersburg -> Bounced
+
+

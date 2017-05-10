@@ -1,0 +1,47 @@
+ENGLAND
+Helgoland Bight MOVE Denmark -> Dislodged by F Kiel - Helgoland Bight
+Edinburgh MOVE North Sea -> Bounced
+North Sea CONVOY Helgoland Bight to Denmark -> Cannot convoy a fleet
+Norway MOVE Sweden -> Bounced
+
+FRANCE
+Portugal MOVE Mid-Atlantic Ocean -> resolved
+Picardy MOVE Belgium -> resolved
+Marseilles MOVE Piedmont -> Bounced
+Piedmont MOVE Tuscany -> Bounced
+Burgundy SUPPORT Picardy to Belgium -> resolved
+
+ITALY
+Tyrrhenian Sea MOVE Naples -> resolved
+Tuscany MOVE Rome -> Bounced
+Bohemia MOVE Silesia -> Bounced
+
+GERMANY
+Kiel MOVE Helgoland Bight -> resolved
+Silesia MOVE Bohemia -> Bounced
+Belgium HOLD -> Dislodged by A Picardy - Belgium
+Munich SUPPORT Silesia to Bohemia -> Supported unit has failed
+Denmark SUPPORT Kiel to Helgoland Bight -> resolved
+
+AUSTRIA
+Serbia MOVE Bulgaria -> Bounced
+Budapest MOVE Vienna -> resolved
+Tyrolia MOVE Venice -> Bounced
+Venice MOVE Rome -> Bounced
+Trieste SUPPORT Tyrolia to Venice -> Supported unit has failed
+
+TURKEY
+Aegean Sea HOLD -> resolved
+Bulgaria SUPPORT Rumania to hold -> Support cut by A Serbia - Bulgaria
+Ionian Sea MOVE Greece -> resolved
+Constantinople MOVE Greece -> Convoy cancelled
+
+RUSSIA
+Rumania SUPPORT Bulgaria to hold -> resolved
+Warsaw SUPPORT Bohemia to Silesia -> Supported unit has failed
+Sweden HOLD -> resolved
+Livonia SUPPORT Sweden to hold -> Cannot support square Swe
+St. Petersburg (South Coast) MOVE Gulf of Bothnia -> resolved
+Moscow MOVE Ukraine -> resolved
+
+

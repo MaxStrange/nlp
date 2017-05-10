@@ -1,0 +1,36 @@
+ENGLAND
+North Sea CONVOY Yorkshire to Norway -> resolved
+Yorkshire MOVE Norway -> resolved
+London SUPPORT North Sea to hold -> resolved
+
+FRANCE
+Spain HOLD -> resolved
+Picardy MOVE Brest -> resolved
+Mid-Atlantic Ocean MOVE Portugal -> resolved
+
+ITALY
+Piedmont MOVE Tyrolia -> resolved
+Venice SUPPORT Piedmont to Tyrolia -> Dislodged by A Tyrolia - Venice
+Ionian Sea MOVE Tunis -> resolved
+
+GERMANY
+Ruhr MOVE Holland -> resolved
+Silesia MOVE Munich -> resolved
+Denmark HOLD -> resolved
+
+AUSTRIA
+Tyrolia MOVE Venice -> resolved
+Trieste SUPPORT Tyrolia to Venice -> resolved
+Serbia MOVE Bulgaria -> Bounced
+
+TURKEY
+Bulgaria SUPPORT Rumania to hold -> Support cut by A Serbia - Bulgaria
+Constantinople MOVE Aegean Sea -> resolved
+Smyrna MOVE Constantinople -> resolved
+
+RUSSIA
+Livonia SUPPORT Warsaw to hold -> resolved
+Finland MOVE Sweden -> resolved
+Warsaw HOLD -> resolved
+Rumania HOLD -> resolved
+

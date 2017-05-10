@@ -1,0 +1,49 @@
+ENGLAND
+Holland SUPPORT Kiel to Norway -> Cannot support square Nwy
+Edinburgh MOVE Norwegian Sea -> resolved
+London MOVE North Sea -> resolved
+North Sea MOVE Norway -> resolved
+Norway MOVE St. Petersburg -> resolved
+
+FRANCE
+Burgundy MOVE Ruhr -> Bounced
+Belgium HOLD -> resolved
+Marseilles MOVE Gulf of Lyons -> resolved
+English Channel HOLD -> resolved
+Venice MOVE Trieste -> Dislodged by A Trieste - Venice
+Ruhr MOVE Kiel -> Bounced
+Tyrolia MOVE Vienna -> Bounced
+
+ITALY
+Munich SUPPORT Ruhr to Kiel -> Supported unit has failed
+Rome MOVE Apulia -> resolved
+Naples SUPPORT Apulia to Ionian Sea -> resolved
+Apulia MOVE Ionian Sea -> resolved
+
+GERMANY
+Denmark HOLD -> resolved
+
+AUSTRIA
+Rumania SUPPORT Serbia to Bulgaria -> Dislodged by A Bulgaria - Rumania
+Vienna MOVE Tyrolia -> Bounced
+Serbia MOVE Bulgaria -> Bounced
+Adriatic Sea SUPPORT Trieste to Venice -> resolved
+Trieste MOVE Venice -> resolved
+
+TURKEY
+Aegean Sea MOVE Greece -> resolved
+Smyrna MOVE Aegean Sea -> resolved
+Bulgaria MOVE Rumania -> resolved
+Ionian Sea MOVE Tunis -> resolved
+Constantinople MOVE Bulgaria -> Bounced
+
+RUSSIA
+Galicia SUPPORT Bulgaria to Rumania -> resolved
+Kiel HOLD -> resolved
+Sevastopol MOVE Black Sea -> resolved
+Berlin SUPPORT Kiel to hold -> resolved
+Sweden HOLD -> resolved
+Warsaw MOVE Silesia -> resolved
+Moscow MOVE Livonia -> resolved
+
+

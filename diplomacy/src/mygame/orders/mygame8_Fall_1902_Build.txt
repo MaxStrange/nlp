@@ -1,0 +1,13 @@
+ENGLAND
+BUILD fleet London -> resolved
+
+FRANCE
+BUILD army Paris -> resolved
+
+GERMANY
+Silesia DESTROY -> resolved
+
+TURKEY
+BUILD fleet Smyrna -> resolved
+
+

@@ -1,0 +1,13 @@
+FRANCE
+BUILD fleet Marseilles -> resolved
+
+ITALY
+BUILD fleet Naples -> resolved
+
+GERMANY
+Helgoland Bight DESTROY -> resolved
+
+RUSSIA
+BUILD army Moscow -> resolved
+
+

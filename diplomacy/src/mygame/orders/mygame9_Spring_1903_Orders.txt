@@ -1,0 +1,49 @@
+ENGLAND
+Holland MOVE Kiel -> Bounced
+Norway HOLD -> resolved
+North Sea MOVE Denmark -> Bounced
+Edinburgh SUPPORT London to North Sea -> Supported unit has failed
+London MOVE North Sea -> Bounced
+
+FRANCE
+Piedmont MOVE Tuscany -> resolved
+Paris MOVE Picardy -> resolved
+Burgundy SUPPORT Bohemia to Munich -> resolved
+Marseilles MOVE Piedmont -> resolved
+Mid-Atlantic Ocean MOVE English Channel -> resolved
+Belgium MOVE Ruhr -> Bounced
+
+ITALY
+Naples MOVE Apulia -> resolved
+Bohemia MOVE Munich -> resolved
+Tuscany MOVE Rome -> resolved
+
+GERMANY
+Denmark MOVE North Sea -> Bounced
+Ruhr MOVE Holland -> Bounced
+Munich MOVE Kiel -> Dislodged by A Bohemia - Munich
+Helgoland Bight SUPPORT Ruhr to North Africa -> Cannot support square Naf
+
+AUSTRIA
+Trieste MOVE Adriatic Sea -> resolved
+Tyrolia MOVE Vienna -> resolved
+Vienna MOVE Budapest -> resolved
+Serbia MOVE Bulgaria -> Bounced
+Venice HOLD -> resolved
+
+TURKEY
+Aegean Sea SUPPORT Greece to hold -> resolved
+Smyrna MOVE Ionian Sea -> Illegal order replaced with Hold order
+Constantinople HOLD -> resolved
+Greece HOLD -> resolved
+Bulgaria MOVE Serbia -> Bounced
+
+RUSSIA
+Ukraine MOVE Galicia -> resolved
+Gulf of Bothnia MOVE Baltic Sea -> resolved
+Livonia SUPPORT Sweden to hold -> Cannot support square Swe
+Sweden HOLD -> resolved
+Warsaw MOVE Prussia -> resolved
+Rumania SUPPORT Bulgaria to Serbia -> Cannot support square Ser
+
+

@@ -70,6 +70,8 @@ def get_lexwords(raw_text):
 
     Returns this dict.
     """
+    # TODO
+    raise NotImplemented()
     pass
 
 def get_politeness(raw_text):

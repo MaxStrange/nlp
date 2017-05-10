@@ -1,0 +1,49 @@
+ENGLAND
+Holland MOVE Helgoland Bight -> resolved
+Norwegian Sea MOVE Norway -> Bounced
+Edinburgh MOVE Denmark -> Bounced
+North Sea CONVOY Edinburgh to Denmark -> resolved
+Norway MOVE St. Petersburg (North Coast) -> resolved
+Moscow MOVE Ukraine -> resolved
+
+FRANCE
+Belgium MOVE Ruhr -> resolved
+Venice MOVE Trieste -> resolved
+Burgundy MOVE Munich -> resolved
+Western Mediterranean MOVE Tyrrhenian Sea -> Bounced
+Kiel MOVE Berlin -> Bounced
+Brest MOVE English Channel -> resolved
+English Channel MOVE Irish Sea -> resolved
+Tyrolia SUPPORT Venice to Trieste -> resolved
+
+ITALY
+Greece MOVE Bulgaria (South Coast) -> Bounced
+Tyrrhenian Sea MOVE Tunis -> Bounced
+Apulia MOVE Venice -> Bounced
+
+GERMANY
+Denmark HOLD -> resolved
+
+AUSTRIA
+Budapest SUPPORT Serbia to Rumania -> resolved
+Vienna MOVE Galicia -> resolved
+Serbia MOVE Rumania -> resolved
+Rome MOVE Venice -> Bounced
+Trieste SUPPORT Rome to Venice -> Dislodged by A Venice - Trieste
+
+TURKEY
+Bulgaria (South Coast) MOVE Aegean Sea -> resolved
+Smyrna MOVE Eastern Mediterranean -> resolved
+Ankara MOVE Constantinople -> Bounced
+Rumania HOLD -> Dislodged by A Serbia - Rumania
+Tunis SUPPORT Tunis to Western Mediterranean -> Supported order does not correspond
+Constantinople MOVE Bulgaria -> Bounced
+
+RUSSIA
+Galicia MOVE Warsaw -> resolved
+Sweden MOVE Norway -> Bounced
+Silesia SUPPORT Galicia to Warsaw -> resolved
+Livonia MOVE Moscow -> resolved
+Berlin HOLD -> resolved
+
+

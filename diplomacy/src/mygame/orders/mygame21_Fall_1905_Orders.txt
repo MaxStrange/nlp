@@ -1,0 +1,47 @@
+ENGLAND
+Helgoland Bight MOVE Baltic Sea -> Illegal order replaced with Hold order
+Edinburgh MOVE Liverpool -> Bounced
+North Sea MOVE London -> Bounced
+Norwegian Sea MOVE North Sea -> Bounced
+Ukraine SUPPORT Galicia to Warsaw -> Supported order does not correspond
+St. Petersburg (North Coast) HOLD -> resolved
+
+FRANCE
+Kiel MOVE Berlin -> resolved
+English Channel MOVE London -> Bounced
+Western Mediterranean MOVE Gulf of Lyons -> resolved
+Ruhr MOVE Holland -> resolved
+Trieste SUPPORT Tyrolia to Vienna -> Supported unit has failed
+Munich SUPPORT Kiel to Berlin -> resolved
+Irish Sea MOVE Liverpool -> Bounced
+Tyrolia MOVE Vienna -> Bounced
+
+ITALY
+Greece MOVE Bulgaria (South Coast) -> Bounced
+Apulia SUPPORT Tyrrhenian Sea to Rome -> resolved
+Tyrrhenian Sea MOVE Rome -> resolved
+
+GERMANY
+Denmark HOLD -> resolved
+
+AUSTRIA
+Budapest SUPPORT Galicia to Vienna -> Supported unit has failed
+Galicia MOVE Vienna -> Bounced
+Rumania MOVE Bulgaria -> Bounced
+Rome SUPPORT Apulia to Venice -> Dislodged by F Tyrrhenian Sea - Rome
+
+TURKEY
+Eastern Mediterranean MOVE Ionian Sea -> resolved
+Aegean Sea MOVE Greece -> Bounced
+Ankara MOVE Armenia -> resolved
+Constantinople MOVE Bulgaria -> Bounced
+Tunis HOLD -> resolved
+
+RUSSIA
+Warsaw HOLD -> resolved
+Moscow HOLD -> resolved
+Berlin HOLD -> Dislodged by A Kiel - Berlin
+Sweden MOVE Norway -> resolved
+Silesia HOLD -> resolved
+
+
