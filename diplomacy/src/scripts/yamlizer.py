@@ -7,6 +7,17 @@ python3 yamlizer.py msg.txt
 
 (You can also feed it a list of files).
 
+NOTE: This script is not designed to handle multiple recipient messages. So if you want to
+run this script on a message that has a CC line like:
+CC: ENGLAND, FRANCE, ITALY
+You must alter this to be:
+CC: ENGLAND
+or
+CC: FRANCE
+or
+CC: ITALY
+But there is nothing stopping you from running this script on the file multiple times - one for each recipient.
+
 Example:
 
 [Contents of msg.txt]:
@@ -64,10 +75,9 @@ class Message:
         to_line_index = [i for i, line in enumerate(txt) if line.lower().startswith("cc:")][0]
         msg_body = os.linesep.join([line for line in txt[(to_line_index + 1):]])
 
-        get_content = lambda line: line.strip().split(":")[1].strip()
-        self.from_ = get_content(from_line)
-        self.date = get_content(date_line)
-        self.to = get_content(to_line)
+        self.from_ = from_line.split("From:")[1].strip()
+        self.date = date_line.split("Date:")[1].strip()
+        self.to = to_line.split("CC:")[1].strip()
         self.message = msg_body.strip()
 
     def __str__(self):
@@ -82,8 +92,26 @@ def yamlize(txt):
     Converts the message text from playdiplomacy raw text to the YAML format that this program requires.
     """
     message = Message(txt)
-    print(message)
-    exit()
+    year = message.date.split(" ")[-1]
+    season = message.date.split(" ")[-2]
+    from_player = from_country = message.from_.lower().title()
+    to_player = to_country = message.to.lower().title()
+    msg = message.message.replace("\"", "\\\"")
+    msg = "\"" + msg + "\""
+
+    yaml = "year: " + year + os.linesep
+    yaml += "season: " + season + os.linesep
+    yaml += "a_to_b:" + os.linesep
+    yaml += "  from_player: " + from_player + os.linesep
+    yaml += "  from_country: " + from_country + os.linesep
+    yaml += "  to_player: " + to_player + os.linesep
+    yaml += "  to_country: " + to_country + os.linesep
+    yaml += "  messages:" + os.linesep
+    yaml += "    - >" + os.linesep
+    yaml += msg
+    yaml += os.linesep
+
+    return yaml
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
