@@ -9,6 +9,7 @@ The output of this script is a .yml file for each combination of players who
 communicated with one another per season over the course of the whole game.
 """
 from datetime import datetime
+import itertools
 import os
 import re
 import sys
@@ -17,6 +18,17 @@ class Time:
     def __init__(self, line):
         self.season, self.year, self.phase, _,  _month, _day, _year, self.time, _tz = line.strip().split(" ")
         self.time = datetime.strptime(self.time, "%H:%M")
+
+    def __eq__(self, other):
+        for name, value in self.__dict__.items():
+            print(name, ":", value)
+
+            if hasattr(other, name):
+                if value != getattr(other, name):
+                    return False
+            else:
+                return False
+        return True
 
 class TimeList:
     def __init__(self, path):
@@ -48,6 +60,17 @@ class TimeList:
                 else:
                     return True
 
+        def __eq__(self, other):
+            for name, value in self.__dict__.items():
+                print(name, ":", value)
+
+                if hasattr(other, name):
+                    if value != getattr(other, name):
+                        return False
+                else:
+                    return False
+            return True
+
 class Message:
     def __init__(self, txt, timelist):
         txt = txt.split(os.linesep)
@@ -72,6 +95,23 @@ class Message:
             self.year = self.year + 1 if self.season == "Fall" else self.year
             self.season = "Fall" if self.season == "Spring" else "Spring"
 
+    def __eq__(self, other):
+        for name, value in self.__dict__.items():
+            print(name, ":", value)
+
+            if hasattr(other, name):
+                if value != getattr(other, name):
+                    return False
+            else:
+                return False
+        return True
+
+    def __hash__(self):
+        return hash(frozenset(self.__dict__.items()))
+
+    def __repr__(self):
+        return str(self)
+
     def __str__(self):
         s = "FROM: " + str(self.from_) + os.linesep
         s += "YEAR: " + str(self.year) + os.linesep
@@ -80,6 +120,7 @@ class Message:
         s += "TIME: " + self.time.strftime("%H:%M") + os.linesep
         s += "Message: " + self.message
         return s
+
 
 def yamlize(txt):
     """
@@ -102,7 +143,6 @@ def yamlize(txt):
     yaml += os.linesep
 
     return yaml
-
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
@@ -134,4 +174,28 @@ if __name__ == "__main__":
     msgs = [Message(t, timelist) for t in texts]
 
     # Lump into conversations
+    pair_maybe_conversation = lambda a, b: a.year == b.year and a.season == b.season
+    combos = (pair for pair in itertools.combinations(msgs, 2) if pair_maybe_conversation(*pair))
+    pair_is_to_each_other = lambda a, b: set((a.to, a.from_)) == set((b.to, b.from_))
+    conversation_pairs = [(a, b) for a, b in combos if pair_is_to_each_other(a, b)]
+    # At this point, you have pairs of messages that belong together. But now you need to group all pairs that are the same into lists
+    def make_key(cp):
+        letters = sorted((cp[0].to[0], cp[0].from_[0]))
+        return str(cp[0].year) + cp[0].season + letters[0] + letters[1] # --> E.g., 1901SpringAF
+
+    def countries_are_same(cp, other):
+        return set([cp[0].to, cp[0].from_]) == set([other[0].to, other[0].from_])
+
+    conversations = {}
+    for cp in conversation_pairs:
+        for other in conversation_pairs:
+            if cp is not other and cp[0].year == other[0].year and cp[0].season == other[0].season and countries_are_same(cp, other):
+                key = make_key(cp)
+                to_add = [cp[0], cp[1], other[0], other[1]]
+                try:
+                    conversations[key] += to_add
+                except KeyError:
+                    conversations[key] = to_add
+
+    conversations = [list(set([msg for msg in v])) for _k, v in conversations.items()]
 
