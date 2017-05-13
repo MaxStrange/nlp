@@ -78,7 +78,7 @@ class Message:
         date_line = next((line for line in txt if line.lower().startswith("date:")))
         to_line = next((line for line in txt if line.lower().startswith("cc:")))
         to_line_index = [i for i, line in enumerate(txt) if line.lower().startswith("cc:")][0]
-        msg_body = os.linesep.join([line for line in txt[(to_line_index + 1):]])
+        msg_body = os.linesep.join([line.strip() for line in txt[(to_line_index + 1):] if line.strip() and not line.strip().startswith("Re:")])
 
         self.from_ = from_line.split("From:")[1].strip().lower().title()
 
@@ -122,27 +122,44 @@ class Message:
         return s
 
 
-def yamlize(txt):
-    """
-    Converts the message text from playdiplomacy raw text to the YAML format that this program requires.
-    """
-    message = Message(txt)
-    msg = message.message.replace("\"", "\\\"")
-    msg = "\"" + msg + "\""
+def yamlize(conversation, outputdir):
+    path = outputdir + os.sep + conversation[0].from_[0] + conversation[0].to[0] + str(conversation[0].year) + conversation[0].season + ".yml"
+
+    year = str(conversation[0].year)
+    season = str(conversation[0].season)
+
+    a = conversation[0].from_
+    b = conversation[0].to
+    a_to_b = ["\"" + m.message.replace("\"", "\\\"") + "\"" for m in conversation if m.from_ == a and m.to == b]
+    b_to_a = ["\"" + m.message.replace("\"", "\\\"") + "\"" for m in conversation if m.from_ == b and m.to == a]
 
     yaml = "year: " + year + os.linesep
     yaml += "season: " + season + os.linesep
-    yaml += "a_to_b:" + os.linesep
-    yaml += "  from_player: " + from_player + os.linesep
-    yaml += "  from_country: " + from_country + os.linesep
-    yaml += "  to_player: " + to_player + os.linesep
-    yaml += "  to_country: " + to_country + os.linesep
-    yaml += "  messages:" + os.linesep
-    yaml += "    - >" + os.linesep
-    yaml += msg
-    yaml += os.linesep
 
-    return yaml
+    yaml += "a_to_b:" + os.linesep
+    yaml += "  from_player: " + a + os.linesep
+    yaml += "  from_country: " + a + os.linesep
+    yaml += "  to_player: " + b + os.linesep
+    yaml += "  to_country: " + b + os.linesep
+    yaml += "  messages:" + os.linesep
+    for msg in a_to_b:
+        yaml += "    - >" + os.linesep
+        yaml += msg
+        yaml += os.linesep
+
+    yaml += "b_to_a:" + os.linesep
+    yaml += "  from_player: " + b + os.linesep
+    yaml += "  from_country: " + b + os.linesep
+    yaml += "  to_player: " + a + os.linesep
+    yaml += "  to_country: " + a + os.linesep
+    yaml += "  messages:" + os.linesep
+    for msg in b_to_a:
+        yaml += "    - >" + os.linesep
+        yaml += msg
+        yaml += os.linesep
+
+    with open(path, 'w') as f:
+        f.write(yaml)
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
@@ -198,4 +215,10 @@ if __name__ == "__main__":
                     conversations[key] = to_add
 
     conversations = [list(set([msg for msg in v])) for _k, v in conversations.items()]
+
+    outputdir = "gameparser_output"
+    if not os.path.exists(outputdir):
+        os.makedirs(outputdir)
+    for c in conversations:
+        yamlize(c, outputdir)
 
