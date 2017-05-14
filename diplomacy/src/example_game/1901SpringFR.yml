@@ -1,0 +1,26 @@
+year: 1901
+season: Spring
+a_to_b:
+  from_player: France
+  from_country: France
+  to_player: Russia
+  to_country: Russia
+  messages:
+    - >
+"Yes! We shall feast."
+    - >
+"Hello
+Bon jour
+This is a message from the land of wine and cheese.
+We are will to share our wine and cheese with the people of mother Russia.
+This is a formal invitation for an alliance for a beautiful future.
+Au Revoir"
+b_to_a:
+  from_player: Russia
+  from_country: Russia
+  to_player: France
+  to_country: France
+  messages:
+    - >
+"Greetings comrad!
+I will take wine and cheese and offer vodka in exchange."

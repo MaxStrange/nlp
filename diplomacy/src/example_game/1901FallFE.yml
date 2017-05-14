@@ -1,0 +1,32 @@
+year: 1901
+season: Fall
+a_to_b:
+  from_player: France
+  from_country: France
+  to_player: England
+  to_country: England
+  messages:
+    - >
+"Entry to mainland
+I shall support your entry if you are able to get both Bel. and Hol.
+For return our council will ask for Bel."
+    - >
+"Another invitation
+Bonjour from France,
+I have come here to propose another plan that I believe you will benefit from.
+I suggest you to take Denmark as I take Bel. and Hol. if I am well supplied.
+Hopefully this will strike an interest in you and believe that you will make the better decision.
+Au revoir"
+    - >
+"Ok sounds good, we shall maintain our communication then
+Au Revoir"
+b_to_a:
+  from_player: England
+  from_country: England
+  to_player: France
+  to_country: France
+  messages:
+    - >
+"Dearest France,
+at this time we cannot help you in the European mainland conquest.
+We are amassing our forces on the border and will crush our mutual enemy."

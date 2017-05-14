@@ -1,0 +1,29 @@
+year: 1902
+season: Spring
+a_to_b:
+  from_player: France
+  from_country: France
+  to_player: Russia
+  to_country: Russia
+  messages:
+    - >
+"I say Germany is the bigger threat. I will say keep some troops in Sweden since I haven't told England about our alliance and we won't want you to lose your land.
+If you can move the fleet from St. Petersburg into the Baltic Sea and then ship your army in Livonia into Berlin would be a great attack.
+Warsaw unit can move towards Silesia but I have a hunch that Germany is militarizing south, so that is your call.
+My next turn will be moving units north to take over Bel, and Hol."
+    - >
+"I see that England isn't responding so we will not be able to have their help.
+We shall expect Germany and England had formed some kind of alliance that will hurt our plans, so be prepared and plan wisely."
+    - >
+"Yes, but beware not to give it out too soon.
+We shall hit them with a blitz attack!"
+b_to_a:
+  from_player: Russia
+  from_country: Russia
+  to_player: France
+  to_country: France
+  messages:
+    - >
+"Aye. The plan will be to take out england and germany then. Who is the bigger threat here?"
+    - >
+"Sounds good. I can begin moving in towards Prussia or Silesia in the coming seasons to help bottle neck Germany."

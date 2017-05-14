@@ -1,0 +1,22 @@
+year: 1905
+season: Spring
+a_to_b:
+  from_player: France
+  from_country: France
+  to_player: Russia
+  to_country: Russia
+  messages:
+    - >
+"Great make business with you!"
+    - >
+"Break of alliance
+We are sorry to say that we will have to end our alliance since you have become too much for us to deal with.
+If you give me Berlin I will stop my invasion against mother Russia and protect you from England if I can."
+b_to_a:
+  from_player: Russia
+  from_country: Russia
+  to_player: France
+  to_country: France
+  messages:
+    - >
+"Deal!"

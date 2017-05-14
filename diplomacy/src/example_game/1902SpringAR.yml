@@ -1,0 +1,24 @@
+year: 1902
+season: Spring
+a_to_b:
+  from_player: Austria
+  from_country: Austria
+  to_player: Russia
+  to_country: Russia
+  messages:
+    - >
+"Rumania?
+What are your plans with Rum?"
+    - >
+"We need to push the Bulg out. It is yours if you wish to have Rum take it. Dont worry about Buda taking it."
+    - >
+"Turkey?
+Do you have moves in Turk?"
+b_to_a:
+  from_player: Russia
+  from_country: Russia
+  to_player: Austria
+  to_country: Austria
+  messages:
+    - >
+"Ankara is an easy target for my fleet via the black sea."

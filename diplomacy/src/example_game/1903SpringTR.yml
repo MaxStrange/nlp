@@ -1,0 +1,21 @@
+year: 1903
+season: Spring
+a_to_b:
+  from_player: Turkey
+  from_country: Turkey
+  to_player: Russia
+  to_country: Russia
+  messages:
+    - >
+"Aye comrade. Are you able to support Turkey in taking Serbia with you ship in Rumania?
+If I can take Serbia, I'll have a better chance of supporting you in Budapest."
+    - >
+"Awesome, than I will try my hand at serbia!"
+b_to_a:
+  from_player: Russia
+  from_country: Russia
+  to_player: Turkey
+  to_country: Turkey
+  messages:
+    - >
+"You got it. My fleet in rumania is supporting your army is bulgaria to invade serbia."

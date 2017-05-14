@@ -1,0 +1,43 @@
+year: 1902
+season: Fall
+a_to_b:
+  from_player: France
+  from_country: France
+  to_player: Italy
+  to_country: Italy
+  messages:
+    - >
+"Taking back our glorious land
+I can support you taking back Venice with my army.
+We will bring back Italy's glorious days!"
+    - >
+"Movement
+Thought you were trying to move to Rome"
+    - >
+"NVM last message
+Went through the history and now i know why"
+    - >
+"ok will do"
+    - >
+"Supporting question
+So can I send the army in Piedmont to attack Venice and use my army in Marseilles to support the Piedmont army's attack?"
+    - >
+"Ok thanks!
+I am negotiating a deal with Austria; I want them to hold off for a turn or two so I will be able to move to Tus. and after that I will take Venice for Francily!"
+    - >
+"Tus not Frye
+~.~"
+    - >
+"Support
+I have supported your army in Trye? to go into Venice"
+b_to_a:
+  from_player: Italy
+  from_country: Italy
+  to_player: France
+  to_country: France
+  messages:
+    - >
+"I'm going to move that tank to Rome actually, in case he tries for Rome. You should move Piedmont to Tuscany and Marseilles in to Piedmont, then you should be in a better place next turn for taking out Austria and my carcass."
+    - >
+"No. Because Marseilles cannot move to Venice.
+A can support B moving to C if and only if A itself could move to C."

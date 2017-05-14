@@ -1,0 +1,25 @@
+year: 1902
+season: Fall
+a_to_b:
+  from_player: France
+  from_country: France
+  to_player: Germany
+  to_country: Germany
+  messages:
+    - >
+"Suggestion
+I suggest you to protect your southern lands, I think Austria might be moving north"
+    - >
+"That was a neutral land so it was fair game.
+Now you will have to defend against the Brits and Austria.
+Its a friendly recommendation on my side."
+b_to_a:
+  from_player: Germany
+  from_country: Germany
+  to_player: France
+  to_country: France
+  messages:
+    - >
+"And for my friendly recommendation. You stepped on my land."
+    - >
+"Attacking me and suggest me to move out. I don't think i care now."

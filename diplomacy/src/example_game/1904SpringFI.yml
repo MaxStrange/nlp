@@ -1,0 +1,33 @@
+year: 1904
+season: Spring
+a_to_b:
+  from_player: France
+  from_country: France
+  to_player: Italy
+  to_country: Italy
+  messages:
+    - >
+"I asked, not sure if he will accept or not but I will try to take Vienna over and prepare for the invasion of Trieste
+I think Munich can support Ruhr with the invasion of Kiel.
+Then I am going to prepare for invasion of Berlin."
+    - >
+"I will try to take over Vienna with Tyrolla and possibly use Venice to take over Trieste.
+I will try to ask Austria to move away from that position and take over."
+    - >
+"ok i will move troops in there
+I will be taking back Venice with my troops"
+b_to_a:
+  from_player: Italy
+  from_country: Italy
+  to_player: France
+  to_country: France
+  messages:
+    - >
+"Seems unlikely that he will listen to that. But good luck. As for Munich: what do you need? Support Ruhr to Kiel?"
+    - >
+"Munich
+Don't worry. I'll give you Munich this turn probably. I am going to lose Tunis."
+    - >
+"Turkey is probably in an alliance with the Russians. I don't know if he will stab him or not."
+    - >
+"Sounds good. I will support Ruhr to Kiel."

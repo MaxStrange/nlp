@@ -1,0 +1,22 @@
+year: 1901
+season: Spring
+a_to_b:
+  from_player: France
+  from_country: France
+  to_player: Germany
+  to_country: Germany
+  messages:
+    - >
+"Hail Hitler
+We have got your message and will cooperate only if you stay within your boundary.
+Au Revoir"
+    - >
+"maybe in the future, but not right now, need to prepare for the cold winter."
+b_to_a:
+  from_player: Germany
+  from_country: Germany
+  to_player: France
+  to_country: France
+  messages:
+    - >
+"Sorry, Hitler is currently busy setting up concentration camp. Please Leave a message and he will reach out to you as soon as possible."

@@ -1,0 +1,21 @@
+year: 1905
+season: Fall
+a_to_b:
+  from_player: Austria
+  from_country: Austria
+  to_player: Italy
+  to_country: Italy
+  messages:
+    - >
+"I will support to Venice"
+    - >
+"What are you doing?
+What are you doing with your 3 moves?"
+b_to_a:
+  from_player: Italy
+  from_country: Italy
+  to_player: Austria
+  to_country: Austria
+  messages:
+    - >
+"Moving Apulia to Venice. Would love your support. Tyrrh to Ionian Sea. Greece to Bulgaria. Would love support there too."

@@ -1,0 +1,24 @@
+year: 1903
+season: Fall
+a_to_b:
+  from_player: Austria
+  from_country: Austria
+  to_player: Russia
+  to_country: Russia
+  messages:
+    - >
+"Turkey
+Will you support move into Turkey?"
+    - >
+"Moves
+Sorry about the take over, had to do it cuz nothing happened. Are you going to take Turk? Your ship can threaten the east side, Ankara to be specific."
+b_to_a:
+  from_player: Russia
+  from_country: Russia
+  to_player: Austria
+  to_country: Austria
+  messages:
+    - >
+"i can't, i have a fleet in rumania and i'm having a hard time supporting units that are land locked."
+    - >
+"Yup. I'll start heading towards the east side"

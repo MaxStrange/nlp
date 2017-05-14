@@ -1,0 +1,28 @@
+year: 1901
+season: Spring
+a_to_b:
+  from_player: Turkey
+  from_country: Turkey
+  to_player: England
+  to_country: England
+  messages:
+    - >
+"Greetings and salutations!
+Such a great replay, it warms my heart, friend. Do you have an plans that I may assist you with?"
+    - >
+"Then I hope that day shall come!"
+b_to_a:
+  from_player: England
+  from_country: England
+  to_player: Turkey
+  to_country: Turkey
+  messages:
+    - >
+"We hope only for the mutual growth and prosperity of our two proud nations, so that someday our nations may meet and assist each other on the field of battle."
+    - >
+"Salutations and Peace be with You
+Dear Sir,
+it has come to our attention the great lapse in diplomatic correspondence between our great, prosperous nations. The delay is entirely ours and for that we express our sincerest apologies.
+May the silver light of your crescent shine on for centuries to come.
+Your friend,
+England"

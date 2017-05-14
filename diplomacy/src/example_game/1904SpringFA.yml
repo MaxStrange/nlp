@@ -1,0 +1,27 @@
+year: 1904
+season: Spring
+a_to_b:
+  from_player: France
+  from_country: France
+  to_player: Austria
+  to_country: Austria
+  messages:
+    - >
+"Proposal
+I would think that you take over warsaw, that will limit Russia's battle fronts and help with your northern front"
+    - >
+"Invasion
+Might want to invade Rumania"
+    - >
+"Defend
+Guess now you know that you should be preparing to defend that area"
+    - >
+"haha oops"
+b_to_a:
+  from_player: Austria
+  from_country: Austria
+  to_player: France
+  to_country: France
+  messages:
+    - >
+"I am Rum"

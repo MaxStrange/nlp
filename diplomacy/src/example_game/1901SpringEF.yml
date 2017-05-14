@@ -1,0 +1,26 @@
+year: 1901
+season: Spring
+a_to_b:
+  from_player: England
+  from_country: England
+  to_player: France
+  to_country: France
+  messages:
+    - >
+"Vive le France!"
+    - >
+"Let the English Channel remain free of military presence as a sign of our united front against our growing enemies!
+Do not trust the Goths shaking fists. Their cries for blood belie their ill intent.
+Together we can push back the horror!"
+b_to_a:
+  from_player: France
+  from_country: France
+  to_player: England
+  to_country: England
+  messages:
+    - >
+"English Channel
+Hey, do you want enter to mainland?"
+    - >
+"I shall keep it clear but I will require a reward in the future, the land of Bel. would be a good reward and I can help you pick up Hol. in the future to keep our alliance strong!
+Au Revoir"

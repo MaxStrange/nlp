@@ -1,0 +1,21 @@
+year: 1901
+season: Fall
+a_to_b:
+  from_player: Germany
+  from_country: Germany
+  to_player: Russia
+  to_country: Russia
+  messages:
+    - >
+"Haha, that was suppose to be France and UK since one of them ask about it."
+    - >
+"Need sup on taking out Sweden?
+U gonna take sweden out?"
+b_to_a:
+  from_player: Russia
+  from_country: Russia
+  to_player: Germany
+  to_country: Germany
+  messages:
+    - >
+"Yeah man. I'm going to take Sweden out."

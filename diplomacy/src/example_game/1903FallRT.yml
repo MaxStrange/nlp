@@ -1,0 +1,23 @@
+year: 1903
+season: Fall
+a_to_b:
+  from_player: Russia
+  from_country: Russia
+  to_player: Turkey
+  to_country: Turkey
+  messages:
+    - >
+"austria got me. you should take rumanie and i'll support you if you help me take budapest. after that you'll get serbia. sound good?"
+    - >
+"Looks like my support did not go through, boss. It is confirmed that a fleet cannot support a land locked country."
+b_to_a:
+  from_player: Turkey
+  from_country: Turkey
+  to_player: Russia
+  to_country: Russia
+  messages:
+    - >
+"That is what I was afraid of! I shall go for it again and will support myself for this round."
+    - >
+"I didn't see that coming! I was thinking Austria try for greece again.
+Agreed. I will try and take Rumania and then help support you with Budapest!"

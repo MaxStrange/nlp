@@ -123,7 +123,7 @@ class Message:
 
 
 def yamlize(conversation, outputdir):
-    path = outputdir + os.sep + conversation[0].from_[0] + conversation[0].to[0] + str(conversation[0].year) + conversation[0].season + ".yml"
+    path = outputdir + os.sep + str(conversation[0].year) + conversation[0].season + conversation[0].from_[0] + conversation[0].to[0] + ".yml"
 
     year = str(conversation[0].year)
     season = str(conversation[0].season)
@@ -186,9 +186,15 @@ if __name__ == "__main__":
                     continue
                 else:
                     s += line + os.linesep
+            texts.append(s)
 
     timelist = TimeList(timepath)
-    msgs = [Message(t, timelist) for t in texts]
+    msgs = []
+    for t in texts:
+        try:
+            msgs.append(Message(t, timelist))
+        except StopIteration:
+            pass # This file is not in the right format
 
     # Lump into conversations
     pair_maybe_conversation = lambda a, b: a.year == b.year and a.season == b.season

@@ -1,0 +1,23 @@
+year: 1902
+season: Spring
+a_to_b:
+  from_player: England
+  from_country: England
+  to_player: France
+  to_country: France
+  messages:
+    - >
+"The Russians and Germans may have formed a dangerous alliance.
+A united front between our two nations has never been more needed.
+Our continued existence rests in your hands!"
+    - >
+"indeed, good sir"
+b_to_a:
+  from_player: France
+  from_country: France
+  to_player: England
+  to_country: England
+  messages:
+    - >
+"Yes, I shall react by moving my troops to protect my realm.
+After moving my troops, I will be preparing for an attack and will suggest that you do the same."
