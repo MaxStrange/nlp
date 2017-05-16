@@ -7,13 +7,13 @@ a_to_b:
   to_country: Italy
   messages:
     - >
-"Support
-I lend you an olive branch is you so desire. How may I assist?
-If you support my move to Greece, I will, in return, help you defend your homeland!"
+        "I hear Tunis is nice this time of year! Serbia is looking to turn everyone against each other!!"
     - >
-"I hear Tunis is nice this time of year! Serbia is looking to turn everyone against each other!!"
+        "Awfully quiet over there Italy... Are you planning on Greece, friend?"
     - >
-"Awfully quiet over there Italy... Are you planning on Greece, friend?"
+        "Support
+        I lend you an olive branch is you so desire. How may I assist?
+        If you support my move to Greece, I will, in return, help you defend your homeland!"
 b_to_a:
   from_player: Italy
   from_country: Italy
@@ -21,6 +21,6 @@ b_to_a:
   to_country: Turkey
   messages:
     - >
-"Oh how I desire Greece. Oh how I desire it! No. I am worried that Serbia will bounce me if I do that. Tunis is where I go. :("
+        "Oh how I desire Greece. Oh how I desire it! No. I am worried that Serbia will bounce me if I do that. Tunis is where I go. :("
     - >
-"I'm not in a place where I could do that this turn. But I can send Tunis to Ionian Sea and from there I can help you. But I am not long for this world, unfortunately."
+        "I'm not in a place where I could do that this turn. But I can send Tunis to Ionian Sea and from there I can help you. But I am not long for this world, unfortunately."

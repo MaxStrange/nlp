@@ -140,7 +140,10 @@ def train_knn(path_to_data=None, path_to_save_model=None, load_model=False, path
         will be a betrayal between these users in this order phase.
     """
     print("Training the KNN with inverse weights...")
-    clf = neighbors.KNeighborsClassifier(n_neighbors=3, weights='distance')
+    if load_model:
+        clf = load_model(path_to_load)
+    else:
+        clf = neighbors.KNeighborsClassifier(n_neighbors=3, weights='distance')
     clf = train_model(clf, cross_validate=True, conf_matrix=True, save_model_at_path=path_to_save_model, subplot=subplot, title=title)
     return clf
 
@@ -155,7 +158,10 @@ def train_logregr(path_to_data=None, path_to_save_model=None, load_model=False, 
         will be a betrayal between these users in this order phase.
     """
     print("Training logistic regression model...")
-    clf = LogisticRegression(penalty='l2', dual=False, tol=0.0001, C=0.1, fit_intercept=True,
+    if load_model:
+        clf = load_model(path_to_load)
+    else:
+        clf = LogisticRegression(penalty='l2', dual=False, tol=0.0001, C=0.1, fit_intercept=True,
                              intercept_scaling=1, class_weight='balanced', random_state=None, solver='liblinear', max_iter=200)
     clf = train_model(clf, cross_validate=True, conf_matrix=True, save_model_at_path=path_to_save_model, subplot=subplot, title=title)
     return clf
@@ -273,7 +279,10 @@ def train_random_forest(path_to_data=None, path_to_save_model=None, load_model=F
         will be a betrayal between these users in this order phase.
     """
     print("Training the random forest...")
-    clf = RandomForestClassifier(class_weight='balanced')
+    if load_model:
+        clf = load_model(path_to_load)
+    else:
+        clf = RandomForestClassifier(class_weight='balanced')
     clf = train_model(clf, cross_validate=True, conf_matrix=True, save_model_at_path=path_to_save_model, subplot=subplot, title=title)
     return clf
 
@@ -288,7 +297,10 @@ def train_svm(path_to_data=None, path_to_save_model=None, load_model=False, path
         will be a betrayal between these users in this order phase.
     """
     print("Training the SVM with nonlinear kernel (RBF)...")
-    clf = svm.SVC(class_weight='balanced')
+    if load_model:
+        clf = load_model(path_to_load)
+    else:
+        clf = svm.SVC(class_weight='balanced')
     clf = train_model(clf, cross_validate=True, conf_matrix=True, save_model_at_path=path_to_save_model, subplot=subplot, title=title)
     return clf
 
@@ -303,10 +315,12 @@ def train_tree(path_to_data=None, path_to_save_model=None, load_model=False, pat
         will be a betrayal between these users in this order phase.
     """
     print("Training the decision tree model...")
-    clf = tree.DecisionTreeClassifier(class_weight='balanced')
+    if load_model:
+        clf = load_model(path_to_load)
+    else:
+        clf = tree.DecisionTreeClassifier(class_weight='balanced')
     clf = train_model(clf, cross_validate=True, conf_matrix=True, save_model_at_path=path_to_save_model, subplot=subplot, title=title)
     return clf
-
 
 def train_model(clf, cross_validate=False, conf_matrix=False, path_to_data=None, binary=True, save_model_at_path=None, subplot=111, title="Confusion Matrix"):
     """

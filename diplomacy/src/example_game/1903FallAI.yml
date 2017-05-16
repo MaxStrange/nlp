@@ -1,0 +1,23 @@
+year: 1903
+season: Fall
+a_to_b:
+  from_player: Austria
+  from_country: Austria
+  to_player: Italy
+  to_country: Italy
+  messages:
+    - >
+        "You moves
+        Do you have plans this turn on France? I propose you take his back country on the western side, he left this way too exposed."
+    - >
+        "I think I will keep Venice, it quite a lovely town. France is coming down on you though. But you will have my support if you can move on the front."
+b_to_a:
+  from_player: Italy
+  from_country: Italy
+  to_player: Austria
+  to_country: Austria
+  messages:
+    - >
+        "He and I have had a pretty reasonable relationship so far. I am not so sure that moving slowly towards his heart land, considering my terribly position is really a great usage of my time."
+    - >
+        "Austria, you are still in Venice. I don't really see a relationship forming here without you retreating from my homeland."

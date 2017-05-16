@@ -1,0 +1,35 @@
+year: 1901
+season: Spring
+a_to_b:
+  from_player: France
+  from_country: France
+  to_player: Italy
+  to_country: Italy
+  messages:
+    - >
+        "Border
+        I will steer clear of Piedmont but will ask you of the same.
+        We do enjoy the Italian sausage with out exquisite wine.
+        Au Revoir"
+    - >
+        "Spain offended me
+        I shall be invading Spain for their food.
+        We shall live in peace"
+    - >
+        "I heard that Hitler was setting up concentration camps and is currently unavailable so...
+        My plan is to prepare for winter, the cold winter is coming and Paris needs more wine and cheese.
+        I will consult with Italy in the future when we have enough wine and cheese.
+        P.S We also enjoy a crate of pancetta with our wine.
+        An Revoir"
+b_to_a:
+  from_player: Italy
+  from_country: Italy
+  to_player: France
+  to_country: France
+  messages:
+    - >
+        "Hmmmm. Yeah, okay, that sounds totally reasonable. What is your plan? Going for Spain? Germany? I hear Germany is not to be trusted."
+    - >
+        "I think that's a good idea."
+    - >
+        "Whatevsies."

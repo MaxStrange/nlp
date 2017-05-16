@@ -144,7 +144,8 @@ def yamlize(conversation, outputdir):
     yaml += "  messages:" + os.linesep
     for msg in a_to_b:
         yaml += "    - >" + os.linesep
-        yaml += msg
+        yaml += "        "
+        yaml += msg.replace(os.linesep, os.linesep + "        ")
         yaml += os.linesep
 
     yaml += "b_to_a:" + os.linesep
@@ -155,7 +156,8 @@ def yamlize(conversation, outputdir):
     yaml += "  messages:" + os.linesep
     for msg in b_to_a:
         yaml += "    - >" + os.linesep
-        yaml += msg
+        yaml += "        "
+        yaml += msg.replace(os.linesep, os.linesep + "        ")
         yaml += os.linesep
 
     with open(path, 'w') as f:

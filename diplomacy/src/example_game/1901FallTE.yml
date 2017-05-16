@@ -7,11 +7,11 @@ a_to_b:
   to_country: England
   messages:
     - >
-"The Germans have brought us delicious drink and food. I was merely looking to confirm your advances!"
+        "The Germans have brought us delicious drink and food. I was merely looking to confirm your advances!"
     - >
-"The Nordics
-England, our friend,
-I notice that you are sailing the North Sea! Are you planning to surround the Germans?"
+        "The Nordics
+        England, our friend,
+        I notice that you are sailing the North Sea! Are you planning to surround the Germans?"
 b_to_a:
   from_player: England
   from_country: England
@@ -19,9 +19,9 @@ b_to_a:
   to_country: Turkey
   messages:
     - >
-"Turkey,
-Germany has long been friends and blood-of-our-blood.
-We seek only to spread our virtuous nation to the north.
-Should you need our assistance on your path, please let it not be at the expense of our dearest ally Germany.
-Yours,
-England"
+        "Turkey,
+        Germany has long been friends and blood-of-our-blood.
+        We seek only to spread our virtuous nation to the north.
+        Should you need our assistance on your path, please let it not be at the expense of our dearest ally Germany.
+        Yours,
+        England"

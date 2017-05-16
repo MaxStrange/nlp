@@ -7,15 +7,15 @@ a_to_b:
   to_country: Russia
   messages:
     - >
-"Be wary of northern fornt
-Germany is dead, now we have England to deal with.
-I think it would be best for you to take over Norway since it does have great value.
-After that further invasion of Austria and Turkey would be necessary for us to succeed."
+        "More Movement
+        The army in Livonia needs to be moved to a better position, maybe in Warsaw or something and that can help with your western front"
     - >
-"More Movement
-The army in Livonia needs to be moved to a better position, maybe in Warsaw or something and that can help with your western front"
+        "May mother Russia prevail!"
     - >
-"May mother Russia prevail!"
+        "Be wary of northern fornt
+        Germany is dead, now we have England to deal with.
+        I think it would be best for you to take over Norway since it does have great value.
+        After that further invasion of Austria and Turkey would be necessary for us to succeed."
 b_to_a:
   from_player: Russia
   from_country: Russia
@@ -23,8 +23,8 @@ b_to_a:
   to_country: France
   messages:
     - >
-"Sounds good. I'll have to shuffle some units around though."
+        "Yeah. I'll move my front onward."
     - >
-"Yeah. I'll move my front onward."
+        "Viva la france!"
     - >
-"Viva la france!"
+        "Sounds good. I'll have to shuffle some units around though."

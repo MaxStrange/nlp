@@ -98,6 +98,7 @@ def yamlize(txt):
     to_player = to_country = message.to.lower().title()
     msg = message.message.replace("\"", "\\\"")
     msg = "\"" + msg + "\""
+    msg = msg.replace(os.linesep, os.linesep + "        ")
 
     yaml = "year: " + year + os.linesep
     yaml += "season: " + season + os.linesep

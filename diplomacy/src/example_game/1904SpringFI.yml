@@ -7,15 +7,15 @@ a_to_b:
   to_country: Italy
   messages:
     - >
-"I asked, not sure if he will accept or not but I will try to take Vienna over and prepare for the invasion of Trieste
-I think Munich can support Ruhr with the invasion of Kiel.
-Then I am going to prepare for invasion of Berlin."
+        "ok i will move troops in there
+        I will be taking back Venice with my troops"
     - >
-"I will try to take over Vienna with Tyrolla and possibly use Venice to take over Trieste.
-I will try to ask Austria to move away from that position and take over."
+        "I asked, not sure if he will accept or not but I will try to take Vienna over and prepare for the invasion of Trieste
+        I think Munich can support Ruhr with the invasion of Kiel.
+        Then I am going to prepare for invasion of Berlin."
     - >
-"ok i will move troops in there
-I will be taking back Venice with my troops"
+        "I will try to take over Vienna with Tyrolla and possibly use Venice to take over Trieste.
+        I will try to ask Austria to move away from that position and take over."
 b_to_a:
   from_player: Italy
   from_country: Italy
@@ -23,11 +23,11 @@ b_to_a:
   to_country: France
   messages:
     - >
-"Seems unlikely that he will listen to that. But good luck. As for Munich: what do you need? Support Ruhr to Kiel?"
+        "Munich
+        Don't worry. I'll give you Munich this turn probably. I am going to lose Tunis."
     - >
-"Munich
-Don't worry. I'll give you Munich this turn probably. I am going to lose Tunis."
+        "Seems unlikely that he will listen to that. But good luck. As for Munich: what do you need? Support Ruhr to Kiel?"
     - >
-"Turkey is probably in an alliance with the Russians. I don't know if he will stab him or not."
+        "Turkey is probably in an alliance with the Russians. I don't know if he will stab him or not."
     - >
-"Sounds good. I will support Ruhr to Kiel."
+        "Sounds good. I will support Ruhr to Kiel."

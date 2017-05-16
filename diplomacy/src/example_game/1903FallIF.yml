@@ -1,0 +1,47 @@
+year: 1903
+season: Fall
+a_to_b:
+  from_player: Italy
+  from_country: Italy
+  to_player: France
+  to_country: France
+  messages:
+    - >
+        "Indeed. We are not friends with Russia. Munich will help you in any way possible."
+    - >
+        "Absolutely. Will do."
+    - >
+        "It will be interesting to see what Russia does in regards to Austria.
+        Seems like Turkey should be dismantling him, but it isn't happening."
+    - >
+        "Sounds good."
+    - >
+        "Vive la France!
+        I am attacking Adriatic sea with my boat to cut his support.
+        I will support Tuscany to Venice with my troop in Rome. (So you should move Tuscany to Venice).
+        I would suggest moving Piedmont to Tyrolia, and I will support taht with Munich. From there, Austria will be yours.
+        I would suggest, along with the above orders, that you move Burgundy to Ruhr with support from Belgium (or the other way around). Munich will support you to Kiel next turn.
+        Fortunes are looking up for you, my French friend!"
+b_to_a:
+  from_player: France
+  from_country: France
+  to_player: Italy
+  to_country: Italy
+  messages:
+    - >
+        "After Russia
+        We should also prepare for war in the eastern front against Russia, Warsaw looks juicy and Vienna is also open for education.
+        Thoughts?"
+    - >
+        "Ya, Turkey should be defending against Russia, but I believe most people would be attacking Russia since they are huge now"
+    - >
+        "Plans?
+        Now I believe I will be attacking on the eastern front against Russia, they have become too big and ignorant,
+        it is time for them to understand what we are capable to do"
+    - >
+        "Invasion of Ruhr
+        I am moving my troops into Ruhr and am asking for your support"
+    - >
+        "Yes this plan is better, dont worry about Ruhr"
+    - >
+        "I am moving into Kiel next turn and would be great if you help my aggression."

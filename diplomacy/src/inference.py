@@ -3,6 +3,9 @@ This is the API for the part of the program that does the inference.
 """
 import analyzer
 import data
+import keras
+import numpy as np
+from sklearn.externals import joblib
 
 
 def get_relationship(rel_as_yam):
@@ -29,3 +32,32 @@ def get_relationship(rel_as_yam):
     relationship = data.Relationship({"idx": 0, "game": 0, "betrayal": betrayal, "people": [from_player, to_player], "seasons": seasons})
     return relationship
 
+def load_models():
+    """
+    Returns a list of classifiers loaded from the default model location.
+    """
+    model_paths = {
+                    'KNN':      "models/knn.model",
+                    'Tree':     "models/tree.model",
+                    'Forest':   "models/forest.model",
+                    'SVM':      "models/svm.model",
+                    #'Logreg':   "models/logregr.model", <- This model ain't great
+                  }
+    models = [(name, joblib.load(path)) for name, path in model_paths.items()]
+    models.append(("MLP", keras.models.load_model("models/mlp.hdf5")))
+    return models
+
+def predict(rel):
+    """
+    Predicts whether there will be a betrayal or not next turn based on the given relationship.
+    """
+    assert len(rel) == 3, "Currently you need exactly 3 YAML files."
+    fvs = []
+    for s in rel.get_season_trigrams()[0]:
+        fvs += s.to_feature_vector()
+    Xs = np.array(fvs).reshape(1, -1)
+    yes_nos = [model.predict(Xs).tolist()[0] for _, model in load_models()]
+    yes_nos = [yn[0] if type(yn) == list else yn for yn in yes_nos]
+    yes_nos = [round(yn) for yn in yes_nos]
+    print(yes_nos)
+    return yes_nos

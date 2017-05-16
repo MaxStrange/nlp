@@ -7,20 +7,20 @@ a_to_b:
   to_country: Russia
   messages:
     - >
-"Germany wants you to take Galicia. Will Germany support the Russians?"
+        "Gotcha, I will support your stay in Romania."
     - >
-"Gotcha, I will support your stay in Romania."
+        "Germany wants you to take Galicia. Will Germany support the Russians?"
     - >
-"Spaceebo comrade! Do you think that Serbia will try and push into Bulgaria or try and take Greece?"
+        "Serbia
+        Would you support my advancement into Serbia in order to stop the expansion of Austria?"
     - >
-"I think we need to take the star in order to get the country?"
+        "Spaceebo comrade! Do you think that Serbia will try and push into Bulgaria or try and take Greece?"
     - >
-"Not so my comrade! There is plans to try and kick you out of Romania!"
+        "Not so my comrade! There is plans to try and kick you out of Romania!"
     - >
-"Serbia
-Would you support my advancement into Serbia in order to stop the expansion of Austria?"
+        "Aye that is a good point. I've never trusted the pre-Nazis, though they wear stylish uniforms..."
     - >
-"Aye that is a good point. I've never trusted the pre-Nazis, though they wear stylish uniforms..."
+        "I think we need to take the star in order to get the country?"
 b_to_a:
   from_player: Russia
   from_country: Russia
@@ -28,19 +28,19 @@ b_to_a:
   to_country: Turkey
   messages:
     - >
-"I don't think someone will move into rumania this turn. I'm pretty safe. However, i'm afraid that austrian tank will try to take your bulgaria. You should hold Bulgaria and i'll support bulgaria. That'll guarantee you bulgaria for the build phase."
+        "Austria keeps messaging me asking to take over turkey. I keep ignoring him. lol"
     - >
-"Austria keeps messaging me asking to take over turkey. I keep ignoring him. lol"
+        "Thanks for the heads up. I'll hold you and support me in Rumania plz. <3"
     - >
-"Aye comrade, you will be supported"
+        "No star on Galicia so I don't have much incentive to move there. He may just want me out of warsaw.
+        I'm staying put, comrad."
     - >
-"Thanks for the heads up. I'll hold you and support me in Rumania plz. <3"
+        "I don't think someone will move into rumania this turn. I'm pretty safe. However, i'm afraid that austrian tank will try to take your bulgaria. You should hold Bulgaria and i'll support bulgaria. That'll guarantee you bulgaria for the build phase."
     - >
-"Looks like we got Rumania and Bulg. Should we hold out this turn so we can build at the end of this phase?"
+        "Aye comrade, you will be supported"
     - >
-"I think he'll go for greece."
+        "I think he'll go for greece."
     - >
-"Correct. You got a new star since you moved into Bulgaria. As long as you stay there until the end of this phase, you get another unit. I'll support bulgaria in case that dude in serbia tries to move into your Bulgaria."
+        "Looks like we got Rumania and Bulg. Should we hold out this turn so we can build at the end of this phase?"
     - >
-"No star on Galicia so I don't have much incentive to move there. He may just want me out of warsaw.
-I'm staying put, comrad."
+        "Correct. You got a new star since you moved into Bulgaria. As long as you stay there until the end of this phase, you get another unit. I'll support bulgaria in case that dude in serbia tries to move into your Bulgaria."

@@ -7,11 +7,11 @@ a_to_b:
   to_country: Turkey
   messages:
     - >
-"you can try to strike a deal with Russian in exchange of some land? or take Rumainia from Russia"
+        "Plans?
+        What are you thinking of doing now?
+        Seems like you should be able to take over Sevastopol or start the invasion of Austria"
     - >
-"Plans?
-What are you thinking of doing now?
-Seems like you should be able to take over Sevastopol or start the invasion of Austria"
+        "you can try to strike a deal with Russian in exchange of some land? or take Rumainia from Russia"
 b_to_a:
   from_player: Turkey
   from_country: Turkey
@@ -19,4 +19,4 @@ b_to_a:
   to_country: France
   messages:
     - >
-"Indeed! However, Serbia seems to be impenetrable!"
+        "Indeed! However, Serbia seems to be impenetrable!"

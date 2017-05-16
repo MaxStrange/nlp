@@ -1,0 +1,24 @@
+year: 1904
+season: Fall
+a_to_b:
+  from_player: Austria
+  from_country: Austria
+  to_player: England
+  to_country: England
+  messages:
+    - >
+        "Russia
+        What are your moves into Russia?"
+    - >
+        "Moscow
+        What are your intentions with Moscow? west or south?"
+b_to_a:
+  from_player: England
+  from_country: England
+  to_player: Austria
+  to_country: Austria
+  messages:
+    - >
+        "Waiting for support from France and Austria"
+    - >
+        "I'm going to try and hold. Support from the North is on the way."

@@ -1,0 +1,33 @@
+year: 1901
+season: Spring
+a_to_b:
+  from_player: Austria
+  from_country: Austria
+  to_player: Italy
+  to_country: Italy
+  messages:
+    - >
+        "Will see about Russia."
+    - >
+        "We might have Rus. Will you work toward Munich?"
+    - >
+        "Hey!
+        Are you going toward Germany?"
+    - >
+        "Hmm on second thought I will take Tyrolia"
+    - >
+        "Probably doesnt matter too much cuz it has no supply. I think I move Tyrolia. Making sure that its not blocked. Are you working toward France? Will you support move to Munich."
+b_to_a:
+  from_player: Italy
+  from_country: Italy
+  to_player: Austria
+  to_country: Austria
+  messages:
+    - >
+        "Here's what I propose: You move Vienna->Bohemia, Trieste->Albania, Budapest->Rumania or trieste (if you don't trust me).
+        I will move to Tyrolia, then next turnI will support bohemia to munich, or you could support me to munich.
+        I like this plan."
+    - >
+        "Killing Germany? You want to kill Germany? Hmm. I can get behind this. Who else do you have to help?"
+    - >
+        "You want me to move to Tyrolia? That's technically your territory. But I will do it, if you want."

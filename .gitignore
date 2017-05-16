@@ -94,3 +94,6 @@ ENV/
 # External Stanford Library
 */external/stanford*
 
+# Mac OS X
+*.DS_Store
+

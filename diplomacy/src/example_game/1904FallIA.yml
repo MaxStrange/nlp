@@ -7,22 +7,22 @@ a_to_b:
   to_country: Austria
   messages:
     - >
-"Was thinking I'd cede most of my territory to France. Why?"
+        "Was thinking I'd cede most of my territory to France. Why?"
     - >
-"Munich is moving to Berlin. We hate Russia. I don't know why. We just do."
+        "Okay, I could take Greece with your support or I could support Serbia to Greece. I think me taking Greece is more likely to succeed. Up to you though."
     - >
-"Serbia support Ionian Sea to Greece."
+        "Serbia support Ionian Sea to Greece."
     - >
-"Yes! This is a good idea. What do you have in mind?"
+        "First of all:
+        I'll support Serbia to Bulgaria with Greece. I don't know how well that will go down. But I think that's a good guess. Especially if you can get Russia to help out.
+        Second:
+        I will take Venice with your support. I can agree to that. We of the mostly dead should not let anyone else build up too much."
     - >
-"I would rather destroy Russia and Turkey. France has done well by me."
+        "Munich is moving to Berlin. We hate Russia. I don't know why. We just do."
     - >
-"Okay, I could take Greece with your support or I could support Serbia to Greece. I think me taking Greece is more likely to succeed. Up to you though."
+        "I would rather destroy Russia and Turkey. France has done well by me."
     - >
-"First of all:
-I'll support Serbia to Bulgaria with Greece. I don't know how well that will go down. But I think that's a good guess. Especially if you can get Russia to help out.
-Second:
-I will take Venice with your support. I can agree to that. We of the mostly dead should not let anyone else build up too much."
+        "Yes! This is a good idea. What do you have in mind?"
 b_to_a:
   from_player: Austria
   from_country: Austria
@@ -30,25 +30,25 @@ b_to_a:
   to_country: Italy
   messages:
     - >
-"Venice
-Can I interest you to take Venice back? I can support with Rome. Tyrr Sea moves in Lyon to take inner France otherwise your just letting France build up."
+        "Turkey
+        Will you support my moves into Turkey, I think I may need to leave italy"
     - >
-"France
-Will you consider going into France? Otherwise he will never back off current Italy and Austria."
+        "Venice
+        Can I interest you to take Venice back? I can support with Rome. Tyrr Sea moves in Lyon to take inner France otherwise your just letting France build up."
     - >
-"You take Greece since you have more support in the seas, so I will use Serb to support who?"
+        "One of us needs greece."
     - >
-"Munic
-Do you have moves into France or Russia?"
+        "Just wondering which direction you were pushing. if i can get in on action."
     - >
-"plans
-Are you planning to move to greece or will you support?"
+        "Munic
+        Do you have moves into France or Russia?"
     - >
-"Can you have Much hit Tyrolia? or is there something else going on?"
+        "plans
+        Are you planning to move to greece or will you support?"
     - >
-"One of us needs greece."
+        "France
+        Will you consider going into France? Otherwise he will never back off current Italy and Austria."
     - >
-"Just wondering which direction you were pushing. if i can get in on action."
+        "You take Greece since you have more support in the seas, so I will use Serb to support who?"
     - >
-"Turkey
-Will you support my moves into Turkey, I think I may need to leave italy"
+        "Can you have Much hit Tyrolia? or is there something else going on?"

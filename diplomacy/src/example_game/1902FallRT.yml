@@ -7,13 +7,13 @@ a_to_b:
   to_country: Turkey
   messages:
     - >
-"Deal."
+        "Already comrade, shall we continue the invasion of austria? I can move my army in the ukraine to galicia then begin invading the season after. What do you think?"
     - >
-"Already comrade, shall we continue the invasion of austria? I can move my army in the ukraine to galicia then begin invading the season after. What do you think?"
+        "Deal."
     - >
-"Austria claims he wants Bulgaria. He may blitz me in Rumania or take greece from you."
+        "I know what i'm doing lolololol ^_^"
     - >
-"I know what i'm doing lolololol ^_^"
+        "Austria claims he wants Bulgaria. He may blitz me in Rumania or take greece from you."
 b_to_a:
   from_player: Turkey
   from_country: Turkey
@@ -21,9 +21,9 @@ b_to_a:
   to_country: Russia
   messages:
     - >
-"Austria and Turkey both tried for Greece last time. We are both interested in Greece. I will support you in Rumania if you support me in Bulgaria!"
+        "Austria and Turkey both tried for Greece last time. We are both interested in Greece. I will support you in Rumania if you support me in Bulgaria!"
     - >
-"lol! Thanks Mengief, your strong red cape prevailed!
-Austria definitely wants to move into Turkey and Russia... Austria is a double agent!"
+        "lol! Thanks Mengief, your strong red cape prevailed!
+        Austria definitely wants to move into Turkey and Russia... Austria is a double agent!"
     - >
-"Excellent!"
+        "Excellent!"

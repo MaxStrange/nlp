@@ -1,0 +1,21 @@
+year: 1905
+season: Spring
+a_to_b:
+  from_player: Austria
+  from_country: Austria
+  to_player: Italy
+  to_country: Italy
+  messages:
+    - >
+        "Okay Serb > Bulgaria with Greece support. Russia has been backing Turks so need to watch for that."
+    - >
+        "Bulgaria
+        Actually I think bulgaria will get blocked. I think my best move is to take Rum. Can you use Greece to block their supports to Rum."
+b_to_a:
+  from_player: Italy
+  from_country: Italy
+  to_player: Austria
+  to_country: Austria
+  messages:
+    - >
+        "Will do! I will move Greece to Bulgaria to cut support."

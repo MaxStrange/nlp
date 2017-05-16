@@ -7,20 +7,20 @@ a_to_b:
   to_country: Russia
   messages:
     - >
-"Invasion
-The plan that I am thinking of is prep for another turn or two and you can invade Berlin
-while I take over Bel. and Hol.
-I will also send an invitation to the the royal family of England to see if they are willing to take over Denmark so we don't have to worry about too much fleets going around.
-How does this sound?"
+        "Invasion
+        The plan that I am thinking of is prep for another turn or two and you can invade Berlin
+        while I take over Bel. and Hol.
+        I will also send an invitation to the the royal family of England to see if they are willing to take over Denmark so we don't have to worry about too much fleets going around.
+        How does this sound?"
     - >
-"Open invite
-Hey people of Russia, I am here to invite you on an alliance to battle off the infidels of the barbaric lands of Germany and the Empire on which the sun never sets.
-We can execute our plans in the next couple season since we are preparing for winter.
-After the hard winter, we shall prevail against those bastards!"
+        "Open invite
+        Hey people of Russia, I am here to invite you on an alliance to battle off the infidels of the barbaric lands of Germany and the Empire on which the sun never sets.
+        We can execute our plans in the next couple season since we are preparing for winter.
+        After the hard winter, we shall prevail against those bastards!"
     - >
-"A correction on last invitation
-Hi, I have made a mistake and thought that Germany and England were in alliance, but now looking at the map, I can help you in the conquering of Germany!
-Au Revoir"
+        "A correction on last invitation
+        Hi, I have made a mistake and thought that Germany and England were in alliance, but now looking at the map, I can help you in the conquering of Germany!
+        Au Revoir"
 b_to_a:
   from_player: Russia
   from_country: Russia
@@ -28,11 +28,11 @@ b_to_a:
   to_country: France
   messages:
     - >
-"Greetings comrade,
-How are things on your end?"
+        "Greetings comrade,
+        How are things on your end?"
     - >
-"We can do that. Let me know how the royal family feels about this plan. I don't think they like me very much."
+        "I accept. We will discuss further next season"
     - >
-"Aye, comrade. Winter is coming. We will shall be brother in arms soon."
+        "We can do that. Let me know how the royal family feels about this plan. I don't think they like me very much."
     - >
-"I accept. We will discuss further next season"
+        "Aye, comrade. Winter is coming. We will shall be brother in arms soon."

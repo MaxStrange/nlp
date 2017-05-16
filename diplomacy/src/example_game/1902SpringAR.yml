@@ -7,13 +7,13 @@ a_to_b:
   to_country: Russia
   messages:
     - >
-"Rumania?
-What are your plans with Rum?"
+        "Turkey?
+        Do you have moves in Turk?"
     - >
-"We need to push the Bulg out. It is yours if you wish to have Rum take it. Dont worry about Buda taking it."
+        "Rumania?
+        What are your plans with Rum?"
     - >
-"Turkey?
-Do you have moves in Turk?"
+        "We need to push the Bulg out. It is yours if you wish to have Rum take it. Dont worry about Buda taking it."
 b_to_a:
   from_player: Russia
   from_country: Russia
@@ -21,4 +21,4 @@ b_to_a:
   to_country: Austria
   messages:
     - >
-"Ankara is an easy target for my fleet via the black sea."
+        "Ankara is an easy target for my fleet via the black sea."

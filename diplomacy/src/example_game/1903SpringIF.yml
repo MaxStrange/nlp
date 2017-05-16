@@ -7,13 +7,13 @@ a_to_b:
   to_country: France
   messages:
     - >
-"Awesome.
-About Bohemia... You should have Burgundy support Bohemia to Munich. Meanwhile, attack Ruhr with Belgium.
-Unless you want me to contact Russia about what I should do with Bohemia. That would be fine too. Up to you."
+        "Excellent."
     - >
-"Austria is going to attack Bohemia without question. That would cut my support. You should help Bohemia move to Munich instead. That is more likely to succeed."
+        "Austria is going to attack Bohemia without question. That would cut my support. You should help Bohemia move to Munich instead. That is more likely to succeed."
     - >
-"Excellent."
+        "Awesome.
+        About Bohemia... You should have Burgundy support Bohemia to Munich. Meanwhile, attack Ruhr with Belgium.
+        Unless you want me to contact Russia about what I should do with Bohemia. That would be fine too. Up to you."
 b_to_a:
   from_player: France
   from_country: France
@@ -21,10 +21,10 @@ b_to_a:
   to_country: Italy
   messages:
     - >
-"Movement
-I shall be moving my troops into Tus. and I believe that Austria is going to hold off for a turn"
+        "That sounds like a plan, I have supported your aggression in Munich"
     - >
-"assistance
-I am here to ask for assistance in overtaking Munich, my troop in Burgundy will be moving in there for a full on attack because they offended me when I offered suggestions."
+        "Movement
+        I shall be moving my troops into Tus. and I believe that Austria is going to hold off for a turn"
     - >
-"That sounds like a plan, I have supported your aggression in Munich"
+        "assistance
+        I am here to ask for assistance in overtaking Munich, my troop in Burgundy will be moving in there for a full on attack because they offended me when I offered suggestions."

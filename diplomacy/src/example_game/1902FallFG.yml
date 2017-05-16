@@ -7,12 +7,12 @@ a_to_b:
   to_country: Germany
   messages:
     - >
-"Suggestion
-I suggest you to protect your southern lands, I think Austria might be moving north"
+        "Suggestion
+        I suggest you to protect your southern lands, I think Austria might be moving north"
     - >
-"That was a neutral land so it was fair game.
-Now you will have to defend against the Brits and Austria.
-Its a friendly recommendation on my side."
+        "That was a neutral land so it was fair game.
+        Now you will have to defend against the Brits and Austria.
+        Its a friendly recommendation on my side."
 b_to_a:
   from_player: Germany
   from_country: Germany
@@ -20,6 +20,6 @@ b_to_a:
   to_country: France
   messages:
     - >
-"And for my friendly recommendation. You stepped on my land."
+        "And for my friendly recommendation. You stepped on my land."
     - >
-"Attacking me and suggest me to move out. I don't think i care now."
+        "Attacking me and suggest me to move out. I don't think i care now."

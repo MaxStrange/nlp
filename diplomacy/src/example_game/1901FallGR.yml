@@ -7,10 +7,10 @@ a_to_b:
   to_country: Russia
   messages:
     - >
-"Haha, that was suppose to be France and UK since one of them ask about it."
+        "Haha, that was suppose to be France and UK since one of them ask about it."
     - >
-"Need sup on taking out Sweden?
-U gonna take sweden out?"
+        "Need sup on taking out Sweden?
+        U gonna take sweden out?"
 b_to_a:
   from_player: Russia
   from_country: Russia
@@ -18,4 +18,4 @@ b_to_a:
   to_country: Germany
   messages:
     - >
-"Yeah man. I'm going to take Sweden out."
+        "Yeah man. I'm going to take Sweden out."

@@ -1,0 +1,21 @@
+year: 1901
+season: Spring
+a_to_b:
+  from_player: Germany
+  from_country: Germany
+  to_player: Austria
+  to_country: Austria
+  messages:
+    - >
+        "Can't get to them unless i can move to Tyrolia"
+b_to_a:
+  from_player: Austria
+  from_country: Austria
+  to_player: Germany
+  to_country: Germany
+  messages:
+    - >
+        "Hey!
+        Would you be interested in taking out Italy a bit?"
+    - >
+        "Thats where you would go and I support next round. I will try to take the sea."

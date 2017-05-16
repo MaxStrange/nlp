@@ -7,12 +7,12 @@ a_to_b:
   to_country: Austria
   messages:
     - >
-"Bohemia
-Can u sup my troops to bohemia from silesia?"
+        "keep pressure on italy. I guess he will start talking to France take my munich. I will move in while this happened."
     - >
-"Gonna get turkey in this to drop their supply so they have to back off. I need turkey to move into tunis and you move into italy anyway possible while i focus on Franc and UK"
+        "Gonna get turkey in this to drop their supply so they have to back off. I need turkey to move into tunis and you move into italy anyway possible while i focus on Franc and UK"
     - >
-"keep pressure on italy. I guess he will start talking to France take my munich. I will move in while this happened."
+        "Bohemia
+        Can u sup my troops to bohemia from silesia?"
 b_to_a:
   from_player: Austria
   from_country: Austria
@@ -20,9 +20,9 @@ b_to_a:
   to_country: Germany
   messages:
     - >
-"Italy and France
-How do you plan to deal with the two France is pretty strong on your front and they look like that might be getting help from italy."
+        "That Bohemia is a problem, too wild."
     - >
-"Maybe, I have to see where France stands, need to be defensive on him."
+        "Italy and France
+        How do you plan to deal with the two France is pretty strong on your front and they look like that might be getting help from italy."
     - >
-"That Bohemia is a problem, too wild."
+        "Maybe, I have to see where France stands, need to be defensive on him."

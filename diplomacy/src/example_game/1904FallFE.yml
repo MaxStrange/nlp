@@ -1,0 +1,26 @@
+year: 1904
+season: Fall
+a_to_b:
+  from_player: France
+  from_country: France
+  to_player: England
+  to_country: England
+  messages:
+    - >
+        "ya, going to take berlin next round and work towards warsaw."
+    - >
+        "Ok I am going to take over Kiel. you might want to take over Denmark and prevent Russia from taking that area"
+    - >
+        "Plans?
+        Where should be attack after this? Im thinking that you can try to take over Denmark and Sweden."
+b_to_a:
+  from_player: England
+  from_country: England
+  to_player: France
+  to_country: France
+  messages:
+    - >
+        "I'm doing Holland SUPPORT Ruhr to Kiel"
+    - >
+        "I'm moving my units into St. Petersburg and encircling Russia from all sides.
+        He will have to retreat, so you can just advance as fast as you can into Germany. Probably Berlin first."

@@ -7,7 +7,7 @@ a_to_b:
   to_country: France
   messages:
     - >
-"Not invading Italy. Suggest you get your Spain back."
+        "Not invading Italy. Suggest you get your Spain back."
 b_to_a:
   from_player: France
   from_country: France
@@ -15,11 +15,11 @@ b_to_a:
   to_country: Austria
   messages:
     - >
-"Fine wine
-Bonjour,
-we have come here to give you a couple crates of our new wine and cheese
-hope you enjoy!"
+        "Fine wine
+        Bonjour,
+        we have come here to give you a couple crates of our new wine and cheese
+        hope you enjoy!"
     - >
-"Italy
-Are you invading Italy?
-They have ignored my good will and moved units near my border and needs to be penalized for it."
+        "Italy
+        Are you invading Italy?
+        They have ignored my good will and moved units near my border and needs to be penalized for it."

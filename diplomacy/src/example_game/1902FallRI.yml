@@ -1,0 +1,26 @@
+year: 1902
+season: Fall
+a_to_b:
+  from_player: Russia
+  from_country: Russia
+  to_player: Italy
+  to_country: Italy
+  messages:
+    - >
+        "We tried.
+        From Russia with love <3"
+    - >
+        "You are supported, comrade!"
+    - >
+        "Aye, Comrade. I will support you. In return, lets pick on austria together."
+b_to_a:
+  from_player: Italy
+  from_country: Italy
+  to_player: Russia
+  to_country: Russia
+  messages:
+    - >
+        "Sounds awesome. Okay, I will move to Silesia."
+    - >
+        "Kill ze Germans
+        Hey Russia, you want to support my army in Bohemia into Selisia? Or other moves. I'm open to suggestions."

@@ -103,7 +103,7 @@ class Season:
             else:
                 yield mp.victim
 
-    def to_feature_vector(self, reverse):
+    def to_feature_vector(self, reverse=False):
         """
         Returns a feature vector version of this Season.
         """
@@ -128,6 +128,9 @@ class Relationship:
         self.people = data["people"]        # The countries represented by the two players
         self.seasons = [Season(s, False) for s in data["seasons"]]
         self.seasons[-1].is_last_season_in_relationship = True
+
+    def __len__(self):
+        return len(self.seasons)
 
     def __str__(self):
         s  = "ID: " + str(self.idx) + " "

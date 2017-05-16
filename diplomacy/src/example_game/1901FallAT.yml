@@ -1,0 +1,30 @@
+year: 1901
+season: Fall
+a_to_b:
+  from_player: Austria
+  from_country: Austria
+  to_player: Turkey
+  to_country: Turkey
+  messages:
+    - >
+        "Sup
+        Are you good friends with Russia? I propose we kick out Rumania."
+    - >
+        "I propose you might be able to take another from russia. Bulgaria to Rumania."
+    - >
+        "Moves
+        Will you Bulg > Rum, Const > Bulg? I will support your move to Rum."
+    - >
+        "If I supported your move, you get a supply and kick Russia up. and move constan to Rum"
+b_to_a:
+  from_player: Turkey
+  from_country: Turkey
+  to_player: Austria
+  to_country: Austria
+  messages:
+    - >
+        "My friend, I fear for your safety, perhaps you should fortify your locations?"
+    - >
+        "I am afraid of the read hammer. I will hold my current place."
+    - >
+        "That was *red not *read. I plan not to invade but to take the countries uninhabited. What are your future endeavors?"

@@ -1,0 +1,27 @@
+year: 1901
+season: Spring
+a_to_b:
+  from_player: Italy
+  from_country: Italy
+  to_player: Turkey
+  to_country: Turkey
+  messages:
+    - >
+        "France before England I would guess."
+    - >
+        "What is your plan, Turkey?"
+b_to_a:
+  from_player: Turkey
+  from_country: Turkey
+  to_player: Italy
+  to_country: Italy
+  messages:
+    - >
+        "Kidding! Let work together to better our countries!"
+    - >
+        "Hey read me
+        ITALY SUCKS"
+    - >
+        "Split Austria, then perhaps England?"
+    - >
+        "Aye sir, I will support you in the encounter!"

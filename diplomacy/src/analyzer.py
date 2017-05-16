@@ -36,11 +36,15 @@ politeness_model = _pickle.load(open(POLITE_FILEPATH, 'rb'), encoding='latin1', 
 # Start a link to the server
 corenlp = StanfordCoreNLP("http://localhost:9000")
 
+def _preprocess(msg):
+    return msg.strip().strip("\"")
+
 def analyze_message(msg):
     """
     Returns a dict of the form:
     (nwords, nsentences, nrequests, politeness, sentiment, lexicon_words, frequent_words)
     """
+    msg = _preprocess(msg)
     reqs = get_requests(msg)
     politenesses = [get_politeness(r) for r in reqs] if reqs else [get_politeness(msg)]
     politeness = np.mean([item[1]['polite'] for item in list(itertools.chain.from_iterable(politenesses))])
@@ -116,7 +120,12 @@ def get_sentiment(raw_text):
     """
     res = corenlp.annotate(raw_text, properties={'annotators': 'sentiment', 'outputFormat': 'json', 'timeout':1000})
     sentences = get_sentences(raw_text)
-    accumulated_sents = [(s['index'], sentences[i], s['sentimentValue'], s['sentiment']) for i, s in enumerate(res['sentences'])]
+    accumulated_sents = []
+    for i, s in enumerate(res['sentences']):
+        try:
+            accumulated_sents.append((s['index'], sentences[i], s['sentimentValue'], s['sentiment']))
+        except IndexError:
+            pass
     return accumulated_sents
 
 def get_words(raw_text):

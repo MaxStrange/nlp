@@ -7,12 +7,12 @@ a_to_b:
   to_country: Turkey
   messages:
     - >
-"Pressure from north should force them back soon. Get Russia to take Galicia and things should be easy for us."
+        "Pressure from north should force them back soon. Get Russia to take Galicia and things should be easy for us."
     - >
-"Hold Bugaria!!!!!
-Must hold ur spot. Let me know if you need any thing. I can invade after the winter"
+        "I would if he wants to"
     - >
-"I would if he wants to"
+        "Hold Bugaria!!!!!
+        Must hold ur spot. Let me know if you need any thing. I can invade after the winter"
 b_to_a:
   from_player: Turkey
   from_country: Turkey
@@ -20,7 +20,7 @@ b_to_a:
   to_country: Germany
   messages:
     - >
-"Thank you my friend, I will hold the line!
-I feel that Austria is trying to squeeze thru and escape!"
+        "Will help support Russia to take Galicia?"
     - >
-"Will help support Russia to take Galicia?"
+        "Thank you my friend, I will hold the line!
+        I feel that Austria is trying to squeeze thru and escape!"

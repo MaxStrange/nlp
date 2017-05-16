@@ -7,10 +7,10 @@ a_to_b:
   to_country: Italy
   messages:
     - >
-"I will support to Venice"
+        "I will support to Venice"
     - >
-"What are you doing?
-What are you doing with your 3 moves?"
+        "What are you doing?
+        What are you doing with your 3 moves?"
 b_to_a:
   from_player: Italy
   from_country: Italy
@@ -18,4 +18,4 @@ b_to_a:
   to_country: Austria
   messages:
     - >
-"Moving Apulia to Venice. Would love your support. Tyrrh to Ionian Sea. Greece to Bulgaria. Would love support there too."
+        "Moving Apulia to Venice. Would love your support. Tyrrh to Ionian Sea. Greece to Bulgaria. Would love support there too."

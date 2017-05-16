@@ -7,29 +7,29 @@ a_to_b:
   to_country: Italy
   messages:
     - >
-"Taking back our glorious land
-I can support you taking back Venice with my army.
-We will bring back Italy's glorious days!"
+        "Supporting question
+        So can I send the army in Piedmont to attack Venice and use my army in Marseilles to support the Piedmont army's attack?"
     - >
-"Movement
-Thought you were trying to move to Rome"
+        "Support
+        I have supported your army in Trye? to go into Venice"
     - >
-"NVM last message
-Went through the history and now i know why"
+        "Movement
+        Thought you were trying to move to Rome"
     - >
-"ok will do"
+        "NVM last message
+        Went through the history and now i know why"
     - >
-"Supporting question
-So can I send the army in Piedmont to attack Venice and use my army in Marseilles to support the Piedmont army's attack?"
+        "Ok thanks!
+        I am negotiating a deal with Austria; I want them to hold off for a turn or two so I will be able to move to Tus. and after that I will take Venice for Francily!"
     - >
-"Ok thanks!
-I am negotiating a deal with Austria; I want them to hold off for a turn or two so I will be able to move to Tus. and after that I will take Venice for Francily!"
+        "ok will do"
     - >
-"Tus not Frye
-~.~"
+        "Taking back our glorious land
+        I can support you taking back Venice with my army.
+        We will bring back Italy's glorious days!"
     - >
-"Support
-I have supported your army in Trye? to go into Venice"
+        "Tus not Frye
+        ~.~"
 b_to_a:
   from_player: Italy
   from_country: Italy
@@ -37,7 +37,7 @@ b_to_a:
   to_country: France
   messages:
     - >
-"I'm going to move that tank to Rome actually, in case he tries for Rome. You should move Piedmont to Tuscany and Marseilles in to Piedmont, then you should be in a better place next turn for taking out Austria and my carcass."
+        "I'm going to move that tank to Rome actually, in case he tries for Rome. You should move Piedmont to Tuscany and Marseilles in to Piedmont, then you should be in a better place next turn for taking out Austria and my carcass."
     - >
-"No. Because Marseilles cannot move to Venice.
-A can support B moving to C if and only if A itself could move to C."
+        "No. Because Marseilles cannot move to Venice.
+        A can support B moving to C if and only if A itself could move to C."

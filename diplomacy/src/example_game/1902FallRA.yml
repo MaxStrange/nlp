@@ -7,13 +7,13 @@ a_to_b:
   to_country: Austria
   messages:
     - >
-"Agreed. you leave Constan for me though"
+        "I totally supported the move on bulg. Not sure what happened. It might be due to me being a fleet and not an army which prevents me from supporting certain units. That or my commands didn't go through."
     - >
-"I must have clicked around too much because i thought my command didn't go through"
+        "I must have clicked around too much because i thought my command didn't go through"
     - >
-"I totally supported the move on bulg. Not sure what happened. It might be due to me being a fleet and not an army which prevents me from supporting certain units. That or my commands didn't go through."
+        "Deal"
     - >
-"Deal"
+        "Agreed. you leave Constan for me though"
 b_to_a:
   from_player: Austria
   from_country: Austria
@@ -21,12 +21,12 @@ b_to_a:
   to_country: Russia
   messages:
     - >
-"Support
-Will you support my move into Bulgaria?"
+        "Support
+        Will you support my move into Bulgaria?"
     - >
-"Okay, so my Serbia > Bulgaria will need your Rum support. Is that good? Can take Const and I will support in future, but he will get Greece."
+        "Okay, so my Serbia > Bulgaria will need your Rum support. Is that good? Can take Const and I will support in future, but he will get Greece."
     - >
-"What happened?
-Did you support my move to Turks or the Turks hold?"
+        "It looks like you supported Turkey to hold Bulgaria not my invasion."
     - >
-"It looks like you supported Turkey to hold Bulgaria not my invasion."
+        "What happened?
+        Did you support my move to Turks or the Turks hold?"

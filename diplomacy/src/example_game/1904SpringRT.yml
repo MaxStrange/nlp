@@ -1,0 +1,22 @@
+year: 1904
+season: Spring
+a_to_b:
+  from_player: Russia
+  from_country: Russia
+  to_player: Turkey
+  to_country: Turkey
+  messages:
+    - >
+        "You mean rumania? You already own bulgaria"
+    - >
+        "I have your unit supported for the invasion of rumania"
+b_to_a:
+  from_player: Turkey
+  from_country: Turkey
+  to_player: Russia
+  to_country: Russia
+  messages:
+    - >
+        "Oh yea... lol getting tired."
+    - >
+        "Aye sir, I will invade from Bulgaria!"

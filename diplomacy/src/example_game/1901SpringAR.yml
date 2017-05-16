@@ -1,0 +1,22 @@
+year: 1901
+season: Spring
+a_to_b:
+  from_player: Austria
+  from_country: Austria
+  to_player: Russia
+  to_country: Russia
+  messages:
+    - >
+        "Will you support moves into Germany?"
+    - >
+        "I think Ill be working with Italy to push Germany upward. You should go toward Turkey. Think I will either hold one season or move one to Bohemia?"
+    - >
+        "Are you going down into Germany? Like with Warsaw?"
+b_to_a:
+  from_player: Russia
+  from_country: Russia
+  to_player: Austria
+  to_country: Austria
+  messages:
+    - >
+        "Yeah. Which city are you taking?"

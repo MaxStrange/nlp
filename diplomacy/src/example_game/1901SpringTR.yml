@@ -7,18 +7,18 @@ a_to_b:
   to_country: Russia
   messages:
     - >
-"Truce!
-I don't want any beef with the commies, let's be friend!"
+        "Truce!
+        I don't want any beef with the commies, let's be friend!"
     - >
-"Aye sir, taking Bulg then supporting you."
+        "Alright! Split the uninhabited Bulgaria area?"
     - >
-"great! we shall lazily stroll in and surround him!"
+        "great! we shall lazily stroll in and surround him!"
     - >
-"Alright! Split the uninhabited Bulgaria area?"
+        "Aye, agreed!"
     - >
-"I do like steam rolling! Hammer and huka?"
+        "Aye sir, taking Bulg then supporting you."
     - >
-"Aye, agreed!"
+        "I do like steam rolling! Hammer and huka?"
 b_to_a:
   from_player: Russia
   from_country: Russia
@@ -26,13 +26,13 @@ b_to_a:
   to_country: Turkey
   messages:
     - >
-"okay.
-Go ahead and take bulgaria first, then please support me the turn after when i take rumania"
+        "seems like everybody is going after Austria. i think you and i will be pretty safe for a bit"
     - >
-"You should take bulgaria and rumania. eventually we'll work up towards austria"
+        "I like this strat. We shall be kings of the right side and then steam roll them later in the game."
     - >
-"seems like everybody is going after Austria. i think you and i will be pretty safe for a bit"
+        "okay.
+        Go ahead and take bulgaria first, then please support me the turn after when i take rumania"
     - >
-"I like this strat. We shall be kings of the right side and then steam roll them later in the game."
+        "Agreed. We shall be comrads. Lets try to conquer our right side of the map then move left"
     - >
-"Agreed. We shall be comrads. Lets try to conquer our right side of the map then move left"
+        "You should take bulgaria and rumania. eventually we'll work up towards austria"

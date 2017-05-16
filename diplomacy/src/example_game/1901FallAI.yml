@@ -7,10 +7,10 @@ a_to_b:
   to_country: Italy
   messages:
     - >
-"Na that goods, do you have plans in Turk?"
+        "What are your moves?
+        What are your moves?"
     - >
-"What are your moves?
-What are your moves?"
+        "Na that goods, do you have plans in Turk?"
 b_to_a:
   from_player: Italy
   from_country: Italy
@@ -18,8 +18,8 @@ b_to_a:
   to_country: Austria
   messages:
     - >
-"Piedmont -> Marseilles, Venice holds or moves to Piedmont, depending on how I feel.
-Ionian Sea obviously takes Tunis.
-You have a better idea?"
+        "Piedmont -> Marseilles, Venice holds or moves to Piedmont, depending on how I feel.
+        Ionian Sea obviously takes Tunis.
+        You have a better idea?"
     - >
-"No. Maybe long term. I am just going for tunis right now. Would love Greece, but what about you?"
+        "No. Maybe long term. I am just going for tunis right now. Would love Greece, but what about you?"

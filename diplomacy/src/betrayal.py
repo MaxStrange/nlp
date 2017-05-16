@@ -19,8 +19,7 @@ def _predict(rel):
     """
     Predicts the betrayal probabilities and returns them as an inference.Output object.
     """
-    # TODO
-    return rel
+    return inference.predict(rel)
 
 def _load_yaml_files(files):
     """
@@ -39,7 +38,7 @@ if __name__ == "__main__":
         print("Need at least one YAML file.")
         print("USAGE:", "python3", sys.argv[0], "msg_pairs_one.yml msg_pairs_two.yml ... msg_pairs_n.yml")
         exit(1)
-    elif len(sys.argv) < 5:
+    elif len(sys.argv) < 4:
         print("WARNING: With less than three YAML files, you will be running in debug mode. You need three YAML files to make this work.")
 
     print("Loading YAML files...")

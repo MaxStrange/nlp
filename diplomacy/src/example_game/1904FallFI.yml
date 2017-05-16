@@ -7,15 +7,15 @@ a_to_b:
   to_country: Italy
   messages:
     - >
-"Great that is what im doning now"
+        "Great that is what im doning now"
     - >
-"Berlin
-I will be moving onto Berlin and ask for your support from Munich"
+        "ok, i will move my burgundy unit in munich and i will support your battle in tunis"
     - >
-"ok, i will move my burgundy unit in munich and i will support your battle in tunis"
+        "Taking back Tunis?
+        Are you going to take back Tunis? I can give you support if you want"
     - >
-"Taking back Tunis?
-Are you going to take back Tunis? I can give you support if you want"
+        "Berlin
+        I will be moving onto Berlin and ask for your support from Munich"
 b_to_a:
   from_player: Italy
   from_country: Italy
@@ -23,12 +23,12 @@ b_to_a:
   to_country: France
   messages:
     - >
-"Alright."
+        "Alright."
     - >
-"If you move to Western Mediterranean, then we could maybe swing that. I will be moving Ionian to Eastern Mediterranean and using Apulia to support Tuscany to Venice.
-I assume that is what you desire?
-Also, I'll move Munich to Berlin to attempt to cut support. You can attack Munich to make things easier for you, or you could attack Kiel with England's help if you can get it. Up to you."
+        "Awesome."
     - >
-"Awesome."
+        "I'm dismantling Munich now that Bozo took Rome."
     - >
-"I'm dismantling Munich now that Bozo took Rome."
+        "If you move to Western Mediterranean, then we could maybe swing that. I will be moving Ionian to Eastern Mediterranean and using Apulia to support Tuscany to Venice.
+        I assume that is what you desire?
+        Also, I'll move Munich to Berlin to attempt to cut support. You can attack Munich to make things easier for you, or you could attack Kiel with England's help if you can get it. Up to you."
