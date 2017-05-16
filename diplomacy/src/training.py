@@ -379,6 +379,7 @@ def pca_display(Xs, Ys, dimensions=3):
     """
     assert dimensions == 2 or dimensions == 3, "Only 2D or 3D views are supported for pca_display"
     pca = decomposition.PCA(n_components=dimensions)
+    print(Xs.shape)
     pca.fit(Xs)
     print("Here is how much variance is accounted for after dimension reduction:")
     print(pca.explained_variance_ratio_)
@@ -407,15 +408,21 @@ def pca_display(Xs, Ys, dimensions=3):
 class Ensemble:
     def __init__(self, models, names):
         self.models = models
-        print(self.models)
         self.names = names
-        print(self.names)
 
     def predict(self, Xs):
-        yes_nos = np.array([model.predict(Xs) for model in self.models])
-        print(yes_nos[0])
-        return yes_nos
-
+        ys = []
+        for X in Xs:
+            Y = []
+            for name, model in zip(self.names, self.models):
+                if name == "MLP":
+                    Y.append(np.array([model.predict(X.reshape(1, 30)).tolist()[0]]))
+                else:
+                    Y.append(model.predict(X).tolist()[0])
+            ys.append(Y)
+        # TODO: This just uses a simple threshold to determine Y/N - but we should really weight the models according to their precision vs recall
+        ys = [np.array([1]) if sum(Y) >= 3 else np.array([0]) for Y in ys]
+        return ys
 
 if __name__ == "__main__":
     Xs, Ys = _get_xy()
@@ -425,7 +432,7 @@ if __name__ == "__main__":
     print("Betrayals:", len(ones))
     print("Non betrayals:", len(zeros))
 
-    pca_display(Xs, Ys, dimensions=2)
+    pca_display(Xs, Ys, dimensions=3)
 
     #train_rnn(path_to_save_model="rnn.hdf5", subplot=236, title="RNN")
     #train_mlp(path_to_save_model="mlp.hdf5", subplot=231, title="MLP")
@@ -442,10 +449,9 @@ if __name__ == "__main__":
     svm = train_svm(load_model=True, path_to_load="models/svm.model", subplot=235, title="SVM")
     #rnn = train_rnn(load_model=True, path_to_load="models/rnn.hdf5", subplot=236, title="RNN")
 
+    #logregr = train_logregr(load_model=True, path_to_load="models/logregr.model", subplot=236, title="Log Reg")
 
-    logregr = train_logregr(load_model=True, path_to_load="models/logregr.model", subplot=236, title="Log Reg")
-
-#    ensemble = Ensemble([mlp, knn, tree, forest, svm], ["MLP", "KNN", "Tree", "Forest", "SVM"])
-#    compute_confusion_matrix(ensemble, upsample=False, subplot=236, title="Ensemble")
+    ensemble = Ensemble([mlp, knn, tree, forest, svm], ["MLP", "KNN", "Tree", "Forest", "SVM"])
+    compute_confusion_matrix(ensemble, upsample=False, subplot=236, title="Ensemble")
     plt.show()
 
