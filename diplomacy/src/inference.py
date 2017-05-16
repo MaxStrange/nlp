@@ -56,8 +56,7 @@ def predict(rel):
     for s in rel.get_season_trigrams()[0]:
         fvs += s.to_feature_vector()
     Xs = np.array(fvs).reshape(1, -1)
-    yes_nos = [model.predict(Xs).tolist()[0] for _, model in load_models()]
-    yes_nos = [yn[0] if type(yn) == list else yn for yn in yes_nos]
-    yes_nos = [round(yn) for yn in yes_nos]
-    print(yes_nos)
+    yes_nos = [(name, model.predict(Xs).tolist()[0]) for name, model in load_models()]
+    yes_nos = [(name, round(yn[0])) if type(yn) == list else (name, yn) for name, yn in yes_nos]
     return yes_nos
+

@@ -141,10 +141,11 @@ def train_knn(path_to_data=None, path_to_save_model=None, load_model=False, path
     """
     print("Training the KNN with inverse weights...")
     if load_model:
-        clf = load_model(path_to_load)
+        clf = load_model_from_path(path_to_load)
+        compute_confusion_matrix(clf, upsample=False, subplot=subplot, title=title, path_to_data=path_to_data, binary=binary)
     else:
         clf = neighbors.KNeighborsClassifier(n_neighbors=3, weights='distance')
-    clf = train_model(clf, cross_validate=True, conf_matrix=True, save_model_at_path=path_to_save_model, subplot=subplot, title=title)
+        clf = train_model(clf, cross_validate=True, conf_matrix=True, save_model_at_path=path_to_save_model, subplot=subplot, title=title)
     return clf
 
 def train_logregr(path_to_data=None, path_to_save_model=None, load_model=False, path_to_load=None, binary=True, subplot=111, title=""):
@@ -159,11 +160,12 @@ def train_logregr(path_to_data=None, path_to_save_model=None, load_model=False, 
     """
     print("Training logistic regression model...")
     if load_model:
-        clf = load_model(path_to_load)
+        clf = load_model_from_path(path_to_load)
+        compute_confusion_matrix(clf, upsample=False, subplot=subplot, title=title, path_to_data=path_to_data, binary=binary)
     else:
         clf = LogisticRegression(penalty='l2', dual=False, tol=0.0001, C=0.1, fit_intercept=True,
                              intercept_scaling=1, class_weight='balanced', random_state=None, solver='liblinear', max_iter=200)
-    clf = train_model(clf, cross_validate=True, conf_matrix=True, save_model_at_path=path_to_save_model, subplot=subplot, title=title)
+        clf = train_model(clf, cross_validate=True, conf_matrix=True, save_model_at_path=path_to_save_model, subplot=subplot, title=title)
     return clf
 
 def train_rnn(path_to_data=None, path_to_save_model="rnn.hdf5", load_model=False, path_to_load="rnn.hdf5", binary=True, subplot=111, title=""):
@@ -267,6 +269,7 @@ def train_mlp(path_to_data=None, path_to_save_model="mlp.hdf5", load_model=False
     print("  |-> Accuracy:", score[1])
 
     compute_confusion_matrix(model, upsample=False, subplot=subplot, title=title, round_data=True)
+    return model
 
 def train_random_forest(path_to_data=None, path_to_save_model=None, load_model=False, path_to_load=None, binary=True, subplot=111, title=""):
     """
@@ -280,10 +283,11 @@ def train_random_forest(path_to_data=None, path_to_save_model=None, load_model=F
     """
     print("Training the random forest...")
     if load_model:
-        clf = load_model(path_to_load)
+        clf = load_model_from_path(path_to_load)
+        compute_confusion_matrix(clf, upsample=False, subplot=subplot, title=title, path_to_data=path_to_data, binary=binary)
     else:
         clf = RandomForestClassifier(class_weight='balanced')
-    clf = train_model(clf, cross_validate=True, conf_matrix=True, save_model_at_path=path_to_save_model, subplot=subplot, title=title)
+        clf = train_model(clf, cross_validate=True, conf_matrix=True, save_model_at_path=path_to_save_model, subplot=subplot, title=title)
     return clf
 
 def train_svm(path_to_data=None, path_to_save_model=None, load_model=False, path_to_load=None, binary=True, subplot=111, title=""):
@@ -298,10 +302,11 @@ def train_svm(path_to_data=None, path_to_save_model=None, load_model=False, path
     """
     print("Training the SVM with nonlinear kernel (RBF)...")
     if load_model:
-        clf = load_model(path_to_load)
+        clf = load_model_from_path(path_to_load)
+        compute_confusion_matrix(clf, upsample=False, subplot=subplot, title=title, path_to_data=path_to_data, binary=binary)
     else:
         clf = svm.SVC(class_weight='balanced')
-    clf = train_model(clf, cross_validate=True, conf_matrix=True, save_model_at_path=path_to_save_model, subplot=subplot, title=title)
+        clf = train_model(clf, cross_validate=True, conf_matrix=True, save_model_at_path=path_to_save_model, subplot=subplot, title=title)
     return clf
 
 def train_tree(path_to_data=None, path_to_save_model=None, load_model=False, path_to_load=None, binary=True, subplot=111, title=""):
@@ -316,10 +321,11 @@ def train_tree(path_to_data=None, path_to_save_model=None, load_model=False, pat
     """
     print("Training the decision tree model...")
     if load_model:
-        clf = load_model(path_to_load)
+        clf = load_model_from_path(path_to_load)
+        compute_confusion_matrix(clf, upsample=False, subplot=subplot, title=title, path_to_data=path_to_data, binary=binary)
     else:
         clf = tree.DecisionTreeClassifier(class_weight='balanced')
-    clf = train_model(clf, cross_validate=True, conf_matrix=True, save_model_at_path=path_to_save_model, subplot=subplot, title=title)
+        clf = train_model(clf, cross_validate=True, conf_matrix=True, save_model_at_path=path_to_save_model, subplot=subplot, title=title)
     return clf
 
 def train_model(clf, cross_validate=False, conf_matrix=False, path_to_data=None, binary=True, save_model_at_path=None, subplot=111, title="Confusion Matrix"):
@@ -362,7 +368,7 @@ def compute_confusion_matrix(clf, upsample=True, X_test=None, y_test=None, subpl
     prfs = precision_recall_fscore_support(y_test, y_pred, average='weighted')
     print("Precision, Recall, FScore, Support | Weighted", prfs)
 
-def load_model(path):
+def load_model_from_path(path):
     """
     Returns a clf from the given path.
     """
@@ -398,6 +404,18 @@ def pca_display(Xs, Ys, dimensions=3):
 
     plt.show()
 
+class Ensemble:
+    def __init__(self, models, names):
+        self.models = models
+        print(self.models)
+        self.names = names
+        print(self.names)
+
+    def predict(self, Xs):
+        yes_nos = np.array([model.predict(Xs) for model in self.models])
+        print(yes_nos[0])
+        return yes_nos
+
 
 if __name__ == "__main__":
     Xs, Ys = _get_xy()
@@ -417,13 +435,17 @@ if __name__ == "__main__":
     #train_svm(path_to_save_model="svm.model", subplot=235, title="SVM")
     #train_logregr(path_to_save_model="logregr.model", subplot=236, title="Log Reg")
 
-    train_mlp(load_model=True, path_to_load="mlp.hdf5", subplot=231, title="MLP")
-    train_knn(load_model=True, path_to_load="models/knn.model", subplot=232, title="KNN")
-    train_tree(load_model=True, path_to_load="models/tree.model", subplot=233, title="Tree")
-    train_random_forest(load_model=True, path_to_load="models/forest.model", subplot=234, title="Forest")
-    train_svm(load_model=True, path_to_load="models/svm.model", subplot=235, title="SVM")
-    #train_rnn(load_model=True, path_to_load="models/rnn.hdf5", subplot=236, title="RNN")
-    train_logregr(load_model=True, path_to_load="models/logregr.model", subplot=236, title="Log Reg")
+    mlp = train_mlp(load_model=True, path_to_load="models/mlp.hdf5", subplot=231, title="MLP")
+    knn = train_knn(load_model=True, path_to_load="models/knn.model", subplot=232, title="KNN")
+    tree = train_tree(load_model=True, path_to_load="models/tree.model", subplot=233, title="Tree")
+    forest = train_random_forest(load_model=True, path_to_load="models/forest.model", subplot=234, title="Forest")
+    svm = train_svm(load_model=True, path_to_load="models/svm.model", subplot=235, title="SVM")
+    #rnn = train_rnn(load_model=True, path_to_load="models/rnn.hdf5", subplot=236, title="RNN")
 
+
+    logregr = train_logregr(load_model=True, path_to_load="models/logregr.model", subplot=236, title="Log Reg")
+
+#    ensemble = Ensemble([mlp, knn, tree, forest, svm], ["MLP", "KNN", "Tree", "Forest", "SVM"])
+#    compute_confusion_matrix(ensemble, upsample=False, subplot=236, title="Ensemble")
     plt.show()
 
