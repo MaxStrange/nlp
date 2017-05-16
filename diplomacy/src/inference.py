@@ -1,6 +1,11 @@
 """
 This is the API for the part of the program that does the inference.
 """
+import os
+if not "SSH_CONNECTION" in os.environ:
+    # Disable annoying TF warnings when importing keras (which imports TF)
+    os.environ['TF_CPP_MIN_LOG_LEVEL']='2'
+    import tensorflow as tf
 import analyzer
 import data
 import keras

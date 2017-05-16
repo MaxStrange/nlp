@@ -7,6 +7,10 @@ E.g.:
 >>> training.train_tree("path/to/data", "path/to/save/model/at")
 """
 import os
+if not "SSH_CONNECTION" in os.environ:
+    # Disable annoying TF warnings when importing keras (which imports TF)
+    os.environ['TF_CPP_MIN_LOG_LEVEL']='2'
+    import tensorflow as tf
 import data
 import itertools
 import keras
@@ -418,11 +422,50 @@ class Ensemble:
                 if name == "MLP":
                     Y.append(np.array([model.predict(X.reshape(1, 30)).tolist()[0]]))
                 else:
-                    Y.append(model.predict(X).tolist()[0])
+                    Y.append(model.predict(X.reshape(1, -1)).tolist()[0])
             ys.append(Y)
         # TODO: This just uses a simple threshold to determine Y/N - but we should really weight the models according to their precision vs recall
-        ys = [np.array([1]) if sum(Y) >= 3 else np.array([0]) for Y in ys]
-        return ys
+        #ys = [np.array([1]) if sum(Y) >= 3 else np.array([0]) for Y in ys]
+        #return ys
+
+        # The MLP is very conservative in guessing betrayal, so if it guesses betrayal, it should be heavily weighted.
+        # The tree is very poor at guessing betrayal - a betrayal guess by it should weigh less
+        # The tree is very good at guessing no betrayal though - a no betrayal guess should be weighted higher
+        # The forest and SVM are similar to the tree, but to a lesser degree
+        weighted_ys = []
+        precision = 0.87 + 0.8+ 0.85 + 0.85 + 0.83
+        recall = 0.89 + 0.78 + 0.63 + 0.71 + 0.69
+        for Y in ys:
+            weighted_Y = []
+            for name, y in zip(self.names, Y):
+                to_append = 0
+                if name == "MLP" and y:
+                    to_append = 1 * 0.89 / recall
+                elif name == "MLP" and not y:
+                    to_append = -1 * 0.87 / precision
+                elif name == "KNN" and y:
+                    to_append = 1 * 0.78 / recall
+                elif name == "KNN" and not y:
+                    to_append = -1 * 0.8 / precision
+                elif name == "Tree" and y:
+                    to_append = 1 * 0.63 / recall
+                elif name == "Tree" and not y:
+                    to_append = -1 * 0.85 / precision
+                elif name == "Forest" and y:
+                    to_append = 1 * 0.71 / recall
+                elif name == "Forest" and not y:
+                    to_append = -1 * 0.85 / precision
+                elif name == "SVM" and y:
+                    to_append = 1 * 0.69 / recall
+                elif name == "SVM" and not y:
+                    to_append = -1 * 0.83 /precision
+                else:
+                    assert False, "Model: " + name + " not accounted for when y is " + bool(y)
+                weighted_Y.append(to_append)
+            print(weighted_Y)
+            prediction = np.array([1]) if sum(weighted_Y) > 0.51 else np.array([0])
+            weighted_ys.append(prediction)
+        return weighted_ys
 
 if __name__ == "__main__":
     Xs, Ys = _get_xy()
