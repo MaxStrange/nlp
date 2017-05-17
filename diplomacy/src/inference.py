@@ -13,6 +13,57 @@ import numpy as np
 from sklearn.externals import joblib
 
 
+class Ensemble:
+    def __init__(self, models, names):
+        self.models = models
+        self.names = names
+
+    def predict(self, Xs):
+        ys = []
+        for X in Xs:
+            Y = []
+            for name, model in zip(self.names, self.models):
+                if name == "MLP":
+                    Y.append(np.array([model.predict(X.reshape(1, 30)).tolist()[0]]))
+                else:
+                    Y.append(model.predict(X.reshape(1, -1)).tolist()[0])
+            ys.append(Y)
+        weighted_ys = []
+        precision = 0.87 + 0.8+ 0.85 + 0.85 + 0.83
+        recall = 0.89 + 0.78 + 0.63 + 0.71 + 0.69
+        for Y in ys:
+            weighted_Y = []
+            for name, y in zip(self.names, Y):
+                to_append = 0
+                if name == "MLP" and y:
+                    to_append = 1 * 0.89 / recall
+                elif name == "MLP" and not y:
+                    to_append = -1 * 0.87 / precision
+                elif name == "KNN" and y:
+                    to_append = 1 * 0.78 / recall
+                elif name == "KNN" and not y:
+                    to_append = -1 * 0.8 / precision
+                elif name == "Tree" and y:
+                    to_append = 1 * 0.63 / recall
+                elif name == "Tree" and not y:
+                    to_append = -1 * 0.85 / precision
+                elif name == "Forest" and y:
+                    to_append = 1 * 0.71 / recall
+                elif name == "Forest" and not y:
+                    to_append = -1 * 0.85 / precision
+                elif name == "SVM" and y:
+                    to_append = 1 * 0.69 / recall
+                elif name == "SVM" and not y:
+                    to_append = -1 * 0.83 /precision
+                else:
+                    assert False, "Model: " + name + " not accounted for when y is " + bool(y)
+                weighted_Y.append(to_append)
+            prediction = np.array([1]) if sum(weighted_Y) > 0.51 else np.array([0])
+            weighted_ys.append(prediction)
+        return np.array(weighted_ys)
+
+
+
 def get_relationship(rel_as_yam):
     """
     Creates a data.Relationship object from the given files.
@@ -50,6 +101,7 @@ def load_models():
                   }
     models = [(name, joblib.load(path)) for name, path in model_paths.items()]
     models.append(("MLP", keras.models.load_model("models/mlp.hdf5")))
+    models.append(("Ensemble", Ensemble([m[1] for m in models], [m[0] for m in models])))
     return models
 
 def predict(rel):

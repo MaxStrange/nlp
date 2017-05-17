@@ -424,14 +424,6 @@ class Ensemble:
                 else:
                     Y.append(model.predict(X.reshape(1, -1)).tolist()[0])
             ys.append(Y)
-        # TODO: This just uses a simple threshold to determine Y/N - but we should really weight the models according to their precision vs recall
-        #ys = [np.array([1]) if sum(Y) >= 3 else np.array([0]) for Y in ys]
-        #return ys
-
-        # The MLP is very conservative in guessing betrayal, so if it guesses betrayal, it should be heavily weighted.
-        # The tree is very poor at guessing betrayal - a betrayal guess by it should weigh less
-        # The tree is very good at guessing no betrayal though - a no betrayal guess should be weighted higher
-        # The forest and SVM are similar to the tree, but to a lesser degree
         weighted_ys = []
         precision = 0.87 + 0.8+ 0.85 + 0.85 + 0.83
         recall = 0.89 + 0.78 + 0.63 + 0.71 + 0.69
@@ -462,7 +454,6 @@ class Ensemble:
                 else:
                     assert False, "Model: " + name + " not accounted for when y is " + bool(y)
                 weighted_Y.append(to_append)
-            print(weighted_Y)
             prediction = np.array([1]) if sum(weighted_Y) > 0.51 else np.array([0])
             weighted_ys.append(prediction)
         return weighted_ys
