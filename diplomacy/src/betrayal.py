@@ -1,7 +1,7 @@
 """
 This is the UI for the program. Call this script with:
 
-python3 betrayal.py msg_pairs_one.yml msg_pairs_two.yml msg_pairs_n.yml
+python3 betrayal.py msg_pairs_one.yml msg_pairs_two.yml msg_pairs_three.yml
 
 """
 import data
@@ -33,19 +33,33 @@ def _load_yaml_files(files):
             relationship_as_yaml.append(y)
     return relationship_as_yaml
 
-if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Need at least one YAML file.")
-        print("USAGE:", "python3", sys.argv[0], "msg_pairs_one.yml msg_pairs_two.yml ... msg_pairs_n.yml")
-        exit(1)
-    elif len(sys.argv) < 4:
-        print("WARNING: With less than three YAML files, you will be running in debug mode. You need three YAML files to make this work.")
-
+def betrayal(paths):
+    """
+    The main function for this program.
+    Takes the user args (YAML files), turns them into a relationship, then evaluates that relationship using
+    the NLP methods and ML models.
+    Returns the betrayals list and the formed relationship.
+    """
     print("Loading YAML files...")
-    relationship_as_yaml = _load_yaml_files(sys.argv[1:])
+    relationship_as_yaml = _load_yaml_files(paths)
     print("Converting YAML files into a single relationship b/w the two players and doing NLP analysis...")
     relationship = _convert_relationship_from_yaml(relationship_as_yaml)
     print("Predicting the betrayal likelihoods...")
     betrayals = _predict(relationship)
+    return betrayals, relationship
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print("Need at least one YAML file.")
+        print("USAGE:", sys.argv[0], "path/to/file.yml path/to/otherfile.yml path/to/finalfile.yml")
+        exit(1)
+    elif len(sys.argv) < 4:
+        print("WARNING: With less than three YAML files, you will be running in debug mode. You need three YAML files to make this work.")
+    elif len(sys.argv > 4):
+        print("This program requires exactly three YAML files.")
+        print("USAGE:", sys.argv[0], "path/to/file.yml path/to/otherfile.yml path/to/finalfile.yml")
+        exit(1)
+
+    betrayals, _relationship = betrayal(sys.argv[1:])
     print(betrayals)
 

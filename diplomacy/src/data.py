@@ -48,7 +48,7 @@ class Season:
     """
     A game turn along with all the messages sent during that time.
     """
-    def __init__(self, data, last):
+    def __init__(self, data, last, betrayer, victim):
         self.year = int(data["season"])
         self.season = "spring" if (data["season"] - self.year) == 0 else "winter"
         self.interaction = data["interaction"]
@@ -59,6 +59,8 @@ class Season:
         zipped = zip(betrayer_messages, victim_messages)
         self.messages = [MessagePair(betrayer=Message(m[0]), victim=Message(m[1])) for m in zipped]
         self.is_last_season_in_relationship = last
+        self.betrayer = betrayer
+        self.victim = victim
 
     def __str__(self):
         s  = "Year: " + str(self.year) + " "
@@ -126,8 +128,12 @@ class Relationship:
         self.game = data["game"]            # Unique ID of the game this sequence comes from
         self.betrayal = data["betrayal"]    # Whether the relationship ended in betrayal
         self.people = data["people"]        # The countries represented by the two players
-        self.seasons = [Season(s, False) for s in data["seasons"]]
+        self.seasons = [Season(s, False, self.people[0], self.people[1]) for s in data["seasons"]]
         self.seasons[-1].is_last_season_in_relationship = True
+
+    def __iter__(self):
+        for s in self.seasons:
+            yield s
 
     def __len__(self):
         return len(self.seasons)
