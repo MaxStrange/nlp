@@ -27,6 +27,31 @@ def plot_triplet(relationship):
     # TODO: Plot each of these lists over time, b and v on the same plot
     print(b, v) # France, Russia
 
+    def plot_feature(subplotnum, title, xlabel, line, color, plot_label):
+        plt.subplot(subplotnum)
+        plt.title(title)
+        plt.xlabel(xlabel)
+        plt.plot(line, color, label=plot_label)
+        plt.legend()
+        plt.tight_layout()
+
+    plot_feature(231, "Number of words", "Turn", b_nwords, "ro-", b)
+    plot_feature(231, "Number of words", "Turn", v_nwords, "b^--", v)
+
+    plot_feature(232, "Number of Sentences", "Turn", b_nsents, "ro-", b)
+    plot_feature(232, "Number of Sentences", "Turn", v_nsents, "b^--", v)
+
+    plot_feature(233, "Number of Requests", "Turn", b_nrequs, "ro-", b)
+    plot_feature(233, "Number of Requests", "Turn", v_nrequs, "b^--", v)
+
+    plot_feature(234, "Avg Message Politeness", "Turn", b_polite, "ro-", b)
+    plot_feature(234, "Avg Message Politeness", "Turn", v_polite, "b^--", v)
+
+    plot_feature(235, "Avg Message Sentiment", "Turn", b_sentim, "ro-", b)
+    plot_feature(235, "Avg Message Sentiment", "Turn", v_sentim, "b^--", v)
+
+    plt.show()
+
 def execute(args):
     """
     Execute the program based on the given arguments.
