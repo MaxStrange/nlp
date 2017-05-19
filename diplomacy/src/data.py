@@ -50,7 +50,7 @@ class Season:
     """
     def __init__(self, data, last, betrayer, victim):
         self.year = int(data["season"])
-        self.season = "spring" if (data["season"] - self.year) == 0 else "winter"
+        self.season = "spring" if (data["season"] - self.year) == 0 else "fall"
         self.interaction = data["interaction"]
 
         MessagePair = namedtuple("MessagePair", ["betrayer", "victim"])

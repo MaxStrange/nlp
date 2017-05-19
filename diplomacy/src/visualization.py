@@ -24,13 +24,13 @@ def plot_triplet(relationship):
     v_sentim = [fv[9] for fv in fvs]
     b = relationship.people[0]
     v = relationship.people[1]
-    # TODO: Plot each of these lists over time, b and v on the same plot
-    print(b, v) # France, Russia
+    print(b, v) # E.g., France, Russia
 
     def plot_feature(subplotnum, title, xlabel, line, color, plot_label):
         plt.subplot(subplotnum)
         plt.title(title)
         plt.xlabel(xlabel)
+        plt.xticks([0, 1, 2], [str(s.year) + " " + s.season.title() for s in relationship])
         plt.plot(line, color, label=plot_label)
         plt.legend()
         plt.tight_layout()
