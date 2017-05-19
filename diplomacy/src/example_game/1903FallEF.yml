@@ -1,31 +1,61 @@
 year: 1903
+
 season: Fall
-a_to_b:
-  from_player: France
-  from_country: France
-  to_player: England
-  to_country: England
-  messages:
-    - >
-        "I am going to invade Kiel the next turn and hold my position."
-    - >
-        "A threat
-        There is a threat on our eastern front, Russia.
-        We need to both defend our grounds and attack Russia because they have become too big, we can't trust mother Russia anymore.
-        This is a formal invitation of invading Russia"
-    - >
-        "Ok, I will try to fix that problem for you and take over Ruhr"
+
 b_to_a:
+
   from_player: England
+
   from_country: England
+
   to_player: France
+
   to_country: France
+
   messages:
+
     - >
+
         "i shall support your attack"
+
     - >
+
         "Agreed.
+
         They may have grown beyond our power to fight back, but we must do our best"
+
     - >
+
         "This is a problematic request. The fleet in Holland has nowhere to go.
+
         If you would please kick out Ruhr an exchange of Holland could happen soon."
+
+a_to_b:
+
+  from_player: France
+
+  from_country: France
+
+  to_player: England
+
+  to_country: England
+
+  messages:
+
+    - >
+
+        "I am going to invade Kiel the next turn and hold my position."
+
+    - >
+
+        "A threat
+
+        There is a threat on our eastern front, Russia.
+
+        We need to both defend our grounds and attack Russia because they have become too big, we can't trust mother Russia anymore.
+
+        This is a formal invitation of invading Russia"
+
+    - >
+
+        "Ok, I will try to fix that problem for you and take over Ruhr"

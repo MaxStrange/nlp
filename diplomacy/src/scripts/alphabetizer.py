@@ -50,6 +50,7 @@ for path in os.listdir(sys.argv[1]):
             lines = [line for line in f]
         lines, new_name = rearrange(lines, path)
         with open(os.path.join(sys.argv[1], new_name), 'w') as f:
-            f.write(os.linesep.join(lines))
-       os.remove(os.path.join(sys.argv[1], path))
+            f.write("".join(lines))
+        if new_name != path:
+            os.remove(os.path.join(sys.argv[1], path))
 

@@ -1,26 +1,51 @@
 year: 1903
+
 season: Spring
-a_to_b:
-  from_player: France
-  from_country: France
-  to_player: England
-  to_country: England
-  messages:
-    - >
-        "Exchange of land
-        I am here to strike a deal.
-        Do you mind giving me Holand?
-        In return I can support your battles against Russia in the future,
-        especially the battles in Denmark and Sweden."
-    - >
-        "Invasion of Germany
-        I have started my aggression on Germany because they have offended my in our communications"
+
 b_to_a:
+
   from_player: England
+
   from_country: England
+
   to_player: France
+
   to_country: France
+
   messages:
+
     - >
+
         "How disgraceful.
+
         They shall pay dearly for their wandering tongue."
+
+a_to_b:
+
+  from_player: France
+
+  from_country: France
+
+  to_player: England
+
+  to_country: England
+
+  messages:
+
+    - >
+
+        "Exchange of land
+
+        I am here to strike a deal.
+
+        Do you mind giving me Holand?
+
+        In return I can support your battles against Russia in the future,
+
+        especially the battles in Denmark and Sweden."
+
+    - >
+
+        "Invasion of Germany
+
+        I have started my aggression on Germany because they have offended my in our communications"

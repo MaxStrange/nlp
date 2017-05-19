@@ -1,0 +1,55 @@
+year: 1902
+
+season: Fall
+
+b_to_a:
+
+  from_player: Austria
+
+  from_country: Austria
+
+  to_player: Germany
+
+  to_country: Germany
+
+  messages:
+
+    - >
+
+        "That Bohemia is a problem, too wild."
+
+    - >
+
+        "Italy and France
+
+        How do you plan to deal with the two France is pretty strong on your front and they look like that might be getting help from italy."
+
+    - >
+
+        "Maybe, I have to see where France stands, need to be defensive on him."
+
+a_to_b:
+
+  from_player: Germany
+
+  from_country: Germany
+
+  to_player: Austria
+
+  to_country: Austria
+
+  messages:
+
+    - >
+
+        "keep pressure on italy. I guess he will start talking to France take my munich. I will move in while this happened."
+
+    - >
+
+        "Gonna get turkey in this to drop their supply so they have to back off. I need turkey to move into tunis and you move into italy anyway possible while i focus on Franc and UK"
+
+    - >
+
+        "Bohemia
+
+        Can u sup my troops to bohemia from silesia?"

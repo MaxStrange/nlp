@@ -1,26 +1,51 @@
 year: 1903
+
 season: Spring
-a_to_b:
-  from_player: Russia
-  from_country: Russia
-  to_player: Austria
-  to_country: Austria
-  messages:
-    - >
-        "Yup. I think i got the command right this time."
-    - >
-        "I'm scared. I may just hold and see if anybody else catches on file."
+
 b_to_a:
+
   from_player: Austria
+
   from_country: Austria
+
   to_player: Russia
+
   to_country: Russia
+
   messages:
+
     - >
+
         "This turn
+
         What are you plans this turn?"
+
     - >
+
         "Try this agian
+
         Lets do this again, its better than a hold. Will you support Serbia into Bulgaria with your Rum?"
+
     - >
+
         "If you have interest in Turk you should take his east side with your Ukraine and ship in Rum."
+
+a_to_b:
+
+  from_player: Russia
+
+  from_country: Russia
+
+  to_player: Austria
+
+  to_country: Austria
+
+  messages:
+
+    - >
+
+        "Yup. I think i got the command right this time."
+
+    - >
+
+        "I'm scared. I may just hold and see if anybody else catches on file."

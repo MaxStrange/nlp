@@ -1,0 +1,107 @@
+year: 1904
+
+season: Fall
+
+b_to_a:
+
+  from_player: Austria
+
+  from_country: Austria
+
+  to_player: Italy
+
+  to_country: Italy
+
+  messages:
+
+    - >
+
+        "Turkey
+
+        Will you support my moves into Turkey, I think I may need to leave italy"
+
+    - >
+
+        "Venice
+
+        Can I interest you to take Venice back? I can support with Rome. Tyrr Sea moves in Lyon to take inner France otherwise your just letting France build up."
+
+    - >
+
+        "One of us needs greece."
+
+    - >
+
+        "Just wondering which direction you were pushing. if i can get in on action."
+
+    - >
+
+        "Munic
+
+        Do you have moves into France or Russia?"
+
+    - >
+
+        "plans
+
+        Are you planning to move to greece or will you support?"
+
+    - >
+
+        "France
+
+        Will you consider going into France? Otherwise he will never back off current Italy and Austria."
+
+    - >
+
+        "You take Greece since you have more support in the seas, so I will use Serb to support who?"
+
+    - >
+
+        "Can you have Much hit Tyrolia? or is there something else going on?"
+
+a_to_b:
+
+  from_player: Italy
+
+  from_country: Italy
+
+  to_player: Austria
+
+  to_country: Austria
+
+  messages:
+
+    - >
+
+        "Was thinking I'd cede most of my territory to France. Why?"
+
+    - >
+
+        "Okay, I could take Greece with your support or I could support Serbia to Greece. I think me taking Greece is more likely to succeed. Up to you though."
+
+    - >
+
+        "Serbia support Ionian Sea to Greece."
+
+    - >
+
+        "First of all:
+
+        I'll support Serbia to Bulgaria with Greece. I don't know how well that will go down. But I think that's a good guess. Especially if you can get Russia to help out.
+
+        Second:
+
+        I will take Venice with your support. I can agree to that. We of the mostly dead should not let anyone else build up too much."
+
+    - >
+
+        "Munich is moving to Berlin. We hate Russia. I don't know why. We just do."
+
+    - >
+
+        "I would rather destroy Russia and Turkey. France has done well by me."
+
+    - >
+
+        "Yes! This is a good idea. What do you have in mind?"

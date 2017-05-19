@@ -1,24 +1,47 @@
 year: 1904
+
 season: Fall
-a_to_b:
-  from_player: Turkey
-  from_country: Turkey
-  to_player: Russia
-  to_country: Russia
-  messages:
-    - >
-        "I will support you if you take Budapest from Galiacia."
-    - >
-        "I agree! I can't believe they took Greece and Moscow!"
+
 b_to_a:
+
   from_player: Russia
+
   from_country: Russia
+
   to_player: Turkey
+
   to_country: Turkey
+
   messages:
+
     - >
+
         "confirmed. thank you comrade!"
+
     - >
+
         "btw, great job with Tunis!"
+
     - >
+
         "They're coming after us dude. Perhaps we should hold back and retake our side of the map."
+
+a_to_b:
+
+  from_player: Turkey
+
+  from_country: Turkey
+
+  to_player: Russia
+
+  to_country: Russia
+
+  messages:
+
+    - >
+
+        "I will support you if you take Budapest from Galiacia."
+
+    - >
+
+        "I agree! I can't believe they took Greece and Moscow!"
