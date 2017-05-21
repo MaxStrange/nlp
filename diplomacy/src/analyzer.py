@@ -77,10 +77,8 @@ def get_lexwords(raw_text):
     """
     with open("external/pdtb-parser/diplomacy/tmp.txt", 'w') as f:
         f.write(raw_text)
-    # Execute java -jar whatever.jar on the text
     p = subprocess.Popen(["java", "-jar", "parser.jar", "diplomacy"], cwd="external/pdtb-parser", stdout=subprocess.DEVNULL)
     p.wait(timeout=5)
-    # Get the output from output/name.txt.pipe
     output_path = "external/pdtb-parser/diplomacy/output/tmp.txt.pipe"
     with open(output_path) as f:
         lines = [line for line in f]
