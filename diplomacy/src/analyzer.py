@@ -55,7 +55,7 @@ def analyze_message(msg):
                     "neutral":  len([s for s in sentiments if int(s[2]) == 2]),
                     "negative": len([s for s in sentiments if int(s[2]) < 2])
                 }
-    lexwords = None # {"allsubj": ..., "disc_expansion": ..., "disc_comparison": ..., "disc_temporal_future": ..., "premise": ...}
+    lexwords = get_lexwords(msg) # {"allsubj": ..., "disc_expansion": ..., "disc_comparison": ..., "disc_temporal_future": ..., "premise": ...}
     freqwords = None
     return {
                 "n_words": len(get_words(msg)),
@@ -84,7 +84,18 @@ def get_lexwords(raw_text):
         lines = [line for line in f]
     ret = "".join(lines)
     shutil.rmtree("external/pdtb-parser/diplomacy/output")
-    return ret
+
+    lexwords = {"disc_explicit": [],
+                "disc_expansion": [],
+                "disc_temporal": [],
+                "disc_comparison": []}
+    for field in ret.split('|'):
+        field = "disc_" + field.strip().lower()
+        try:
+            lexwords[field].append("actual_word_doesnt_matter_only_number")
+        except KeyError:
+            pass
+    return lexwords
 
 def get_politeness(raw_text):
     """
@@ -146,9 +157,10 @@ def get_words(raw_text):
 if __name__ == "__main__":
     text = """
 Please, if you wouldn't mind, could you get me the butter? It's across the table from you.
-I know this is a pain, but I was hoping you could maybe get me the thingy. Also, I
-personally believe you are a loser, and I wish you would shut up and give me the thing.
-Swine, give me what I desire!"""
+I know this is a pain, but I was hoping you could maybe get me the thingy.
+Also, I personally believe you are a loser, and I wish you would shut up and give me the thing.
+Swine, give me what I desire! Next, please give me the other thing too.
+And then after that, could you give me all of the other things as well?"""
     print(":::::::::::::  PLANNING :::::::::::::::")
     planning = get_lexwords(text)
     print(planning)
