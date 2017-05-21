@@ -14,6 +14,7 @@ import os
 from pycorenlp import StanfordCoreNLP
 import scipy
 from scipy.sparse import csr_matrix
+import shutil
 import sklearn
 import subprocess
 import time
@@ -74,9 +75,18 @@ def get_lexwords(raw_text):
 
     Returns this dict.
     """
-    # TODO
-    raise NotImplemented()
-    pass
+    with open("external/pdtb-parser/diplomacy/tmp.txt", 'w') as f:
+        f.write(raw_text)
+    # Execute java -jar whatever.jar on the text
+    p = subprocess.Popen(["java", "-jar", "parser.jar", "diplomacy"], cwd="external/pdtb-parser", stdout=subprocess.DEVNULL)
+    p.wait(timeout=5)
+    # Get the output from output/name.txt.pipe
+    output_path = "external/pdtb-parser/diplomacy/output/tmp.txt.pipe"
+    with open(output_path) as f:
+        lines = [line for line in f]
+    ret = "".join(lines)
+    shutil.rmtree("external/pdtb-parser/diplomacy/output")
+    return ret
 
 def get_politeness(raw_text):
     """
@@ -141,6 +151,14 @@ Please, if you wouldn't mind, could you get me the butter? It's across the table
 I know this is a pain, but I was hoping you could maybe get me the thingy. Also, I
 personally believe you are a loser, and I wish you would shut up and give me the thing.
 Swine, give me what I desire!"""
+    print(":::::::::::::  PLANNING :::::::::::::::")
+    planning = get_lexwords(text)
+    print(planning)
+
+    print("")
+    print("==============================================================")
+    print("")
+
     print(":::::::::::::  POLITENESS  :::::::::::::::")
     pol = get_politeness(text)
     print(pol)
