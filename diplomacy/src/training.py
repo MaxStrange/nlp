@@ -475,14 +475,14 @@ if __name__ == "__main__":
     pca_display(Xs, Ys, dimensions=2)
 
     #train_rnn(path_to_save_model="rnn.hdf5", subplot=236, title="RNN")
-    train_mlp(path_to_save_model="mlp.hdf5", subplot=231, title="MLP")
+    #train_mlp(path_to_save_model="mlp.hdf5", subplot=231, title="MLP")
     #train_knn(path_to_save_model="knn.model", subplot=232, title="KNN")
     #train_tree(path_to_save_model="tree.model", subplot=233, title="Tree")
     #train_random_forest(path_to_save_model="forest.model", subplot=234, title="Forest")
     #train_svm(path_to_save_model="svm.model", subplot=235, title="SVM")
     #train_logregr(path_to_save_model="logregr.model", subplot=236, title="Log Reg")
 
-    #mlp = train_mlp(load_model=True, path_to_load="models/mlp.hdf5", subplot=231, title="MLP")
+    mlp = train_mlp(load_model=True, path_to_load="models/mlp.hdf5", subplot=231, title="MLP")
     knn = train_knn(load_model=True, path_to_load="models/knn.model", subplot=232, title="KNN")
     tree = train_tree(load_model=True, path_to_load="models/tree.model", subplot=233, title="Tree")
     forest = train_random_forest(load_model=True, path_to_load="models/forest.model", subplot=234, title="Forest")
