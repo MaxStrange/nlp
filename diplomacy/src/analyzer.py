@@ -11,12 +11,14 @@ import itertools
 import nltk
 import numpy as np
 import os
+import pandas
 from pycorenlp import StanfordCoreNLP
 import scipy
 from scipy.sparse import csr_matrix
 import shutil
 import sklearn
 import subprocess
+import sys
 import time
 
 ## Start up the coreNLP server
@@ -155,12 +157,8 @@ def get_words(raw_text):
 
 
 if __name__ == "__main__":
-    text = """
-Please, if you wouldn't mind, could you get me the butter? It's across the table from you.
-I know this is a pain, but I was hoping you could maybe get me the thingy.
-Also, I personally believe you are a loser, and I wish you would shut up and give me the thing.
-Swine, give me what I desire! Next, please give me the other thing too.
-And then after that, could you give me all of the other things as well?"""
+    text = sys.argv[1]
+
     print(":::::::::::::  PLANNING :::::::::::::::")
     planning = get_lexwords(text)
     print(planning)
@@ -172,6 +170,8 @@ And then after that, could you give me all of the other things as well?"""
     print(":::::::::::::  POLITENESS  :::::::::::::::")
     pol = get_politeness(text)
     print(pol)
+    plist = [tup[1]['polite'] for tup in pol]
+    politeness_feature = sum(plist) / len(plist)
 
     print("")
     print("==============================================================")
@@ -180,6 +180,8 @@ And then after that, could you give me all of the other things as well?"""
     print(":::::::::::::  SENTIMENT  :::::::::::::::")
     sent = get_sentiment(text)
     print(sent)
+    slist = [int(tup[2]) for tup in sent]
+    sentiment_features = sum(slist) / len(slist)
 
     print("")
     print("==============================================================")
@@ -188,6 +190,7 @@ And then after that, could you give me all of the other things as well?"""
     print(":::::::::::::  REQUESTS  :::::::::::::::")
     requests = get_requests(text)
     print(requests)
+    request_features = len(requests)
 
     print("")
     print("==============================================================")
@@ -196,6 +199,7 @@ And then after that, could you give me all of the other things as well?"""
     print(":::::::::::::  SENTENCES  :::::::::::::::")
     sentences = get_sentences(text)
     print(sentences)
+    sentences_features = len(sentences)
 
     print("")
     print("==============================================================")
@@ -205,6 +209,16 @@ And then after that, could you give me all of the other things as well?"""
     print(":::::::::::::  WORDS  :::::::::::::::")
     words = get_words(text)
     print(words)
+    word_features = len(words)
+
+    print("")
+    print("==============================================================")
+    print("")
+
+    print(":::::::::::::  FEATURES :::::::::::::::")
+    features = np.array([politeness_feature, sentiment_features, request_features, sentences_features, word_features])
+    pandafeatures = pandas.DataFrame([dict(zip(["Politeness", "Sentiment", "nRequests", "nSentences", "nWords"], features))])
+    print(pandafeatures)
 
     print("")
     print("==============================================================")

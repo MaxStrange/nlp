@@ -28,6 +28,10 @@ class Message:
         self.sentiment = data["sentiment"]
         self.lexicon_words = data["lexicon_words"]
         self.frequent_words = data["frequent_words"]
+        try:
+            self.temporal = self.lexicon_words["disc_temporal_future"]
+        except KeyError:
+            self.temporal = 0
         if len(self.sentiment) == 0:
             self.avg_sentiment = 0.0
         else:
@@ -105,14 +109,19 @@ class Season:
             else:
                 yield mp.victim
 
-    def to_feature_vector(self, reverse=False):
+    def to_feature_vector(self, reverse=False, replicate=False):
         """
         Returns a feature vector version of this Season.
+
+        If replicate is True, this feature vector will also include the number of temporal discourse tags.
         """
         b = [self._sum_betrayer('nwords'), self._sum_betrayer('nsentences'), self._sum_betrayer('nrequests'),
              self._avg_betrayer('politeness'), self._avg_betrayer('avg_sentiment')]
         v = [self._sum_victim('nwords'), self._sum_victim('nsentences'), self._sum_victim('nrequests'),
              self._avg_victim('politeness'), self._avg_victim('avg_sentiment')]
+        if replicate:
+            b.append(self._sum_betrayer('temporal'))
+            v.append(self._sum_betrayer('temporal'))
         if reverse:
             return v + b
         else:
@@ -186,17 +195,17 @@ def get_all_sequences(datapath=None):
     for seq in training_set:
         yield seq
 
-def _concatenate_trigram(tri, reverse):
+def _concatenate_trigram(tri, reverse, replicate=False):
     """
     Takes an iterable of three Season objects and returns a numpy vector of
     all the features of each Season concatenated.
     """
     fv = []
     for s in tri:
-        fv += s.to_feature_vector(reverse)
+        fv += s.to_feature_vector(reverse, replicate)
     return np.array(fv)
 
-def get_X_feed(reverse=True, datapath=None, upsample=False):
+def get_X_feed(reverse=True, datapath=None, upsample=False, replicate=False):
     """
     Generator for getting all the X vectors. Returns a tuple of (reversed, X) at each yield.
 
@@ -215,13 +224,15 @@ def get_X_feed(reverse=True, datapath=None, upsample=False):
 
     When upsample is True, we add duplicate betrayal datapoints to address the class imbalance. These extra betrayals are all added to the end, so
     you should probably shuffle the data when you get it.
+
+    The replicate parameter is whether or not you should include the planning discourse tags as well.
     """
     def get_them():
         for relationship in get_all_sequences(datapath):
             season_trigrams = relationship.get_season_trigrams()
             for tri in season_trigrams:
                 r = random.choice([True, False]) if reverse else False
-                yield relationship, tri, r, _concatenate_trigram(tri, r)
+                yield relationship, tri, r, _concatenate_trigram(tri, r, replicate)
 
     if upsample:
         base = [(r, t) for _, _, r, t in get_them()]
@@ -233,13 +244,13 @@ def get_X_feed(reverse=True, datapath=None, upsample=False):
         for _, _, r, t in get_them():
             yield r, t
 
-def get_validation_set(datapath=None):
+def get_validation_set(datapath=None, replicate=False):
     def get_Xs():
         for relationship in validation_set:
             season_trigrams = relationship.get_season_trigrams()
             for tri in season_trigrams:
                 r = random.choice([True, False])
-                yield _concatenate_trigram(tri, r)
+                yield _concatenate_trigram(tri, r, replicate)
 
     def get_ys():
         for i, relationship in enumerate(validation_set):
