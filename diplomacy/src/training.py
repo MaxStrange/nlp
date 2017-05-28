@@ -1,10 +1,7 @@
 """
 This is a front end module for running the program in training mode.
 
-To use this module, simply either script it, or else load it in a Python3 shell session.
-E.g.:
->>> import training
->>> training.train_tree("path/to/data", "path/to/save/model/at")
+This module was used to train the models and evaluate them.
 """
 import os
 if not "SSH_CONNECTION" in os.environ:
@@ -32,12 +29,13 @@ from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 import pickle
 import random
+import scipy
 from sklearn import decomposition, neighbors, svm, tree
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.externals import joblib
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, confusion_matrix, precision_recall_fscore_support
-from sklearn.model_selection import cross_val_score, train_test_split
+from sklearn.metrics import accuracy_score, confusion_matrix, precision_recall_fscore_support, roc_curve, auc
+from sklearn.model_selection import cross_val_score, StratifiedKFold, train_test_split
 from sklearn.neural_network import MLPClassifier
 
 random.seed(12345)
@@ -349,13 +347,54 @@ def train_model(clf, cross_validate=False, conf_matrix=False, path_to_data=None,
         print("  |-> Scores:", scores)
     if confusion_matrix:
         compute_confusion_matrix(clf, upsample=False, subplot=subplot, title=title, path_to_data=path_to_data, binary=binary)
+        #compute_roc_curve(clf, X_train, y_train, subplot=subplot, title=title)
 
     if save_model_at_path:
         joblib.dump(clf, save_model_at_path)
 
     return clf
 
-def compute_confusion_matrix(clf, upsample=True, X_test=None, y_test=None, subplot=111, title="Confusion Matrix", path_to_data=None, binary=True, round_data=False):
+def compute_roc_curve(clf, X, y, subplot=111, title="ROC"):
+    """
+    Computes and plots an ROC curve for the given classifier.
+    """
+    # Run classifier with cross-validation and plot ROC curves
+    cv = StratifiedKFold(n_splits=6)
+    classifier = clf
+    classifier.probability=True
+
+    mean_tpr = 0.0
+    mean_fpr = np.linspace(0, 1, 100)
+
+    colors = itertools.cycle(['cyan', 'indigo', 'seagreen', 'yellow', 'blue', 'darkorange'])
+    lw = 2
+
+    i = 0
+    for (train, test), color in zip(cv.split(X, y), colors):
+        probas_ = classifier.fit(X[train], y[train]).predict_proba(X[test])
+        # Compute ROC curve and area the curve
+        fpr, tpr, thresholds = roc_curve(y[test], probas_[:, 1])
+        mean_tpr += scipy.interp(mean_fpr, fpr, tpr)
+        mean_tpr[0] = 0.0
+        roc_auc = auc(fpr, tpr)
+        plt.subplot(subplot)
+        plt.plot(fpr, tpr, lw=lw, color=color, label='Fold %d (area = %0.2f)' % (i, roc_auc))
+        i += 1
+    plt.plot([0, 1], [0, 1], linestyle='--', lw=lw, color='k', label='Luck')
+
+    mean_tpr /= cv.get_n_splits(X, y)
+    mean_tpr[-1] = 1.0
+    mean_auc = auc(mean_fpr, mean_tpr)
+    plt.plot(mean_fpr, mean_tpr, color='g', linestyle='--', label='Mean (area = %0.2f)' % mean_auc, lw=lw)
+
+    plt.xlim([-0.05, 1.05])
+    plt.ylim([-0.05, 1.05])
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.title(title)
+    plt.legend(loc="lower right")
+
+def compute_confusion_matrix(clf, upsample=True, subplot=111, title="Confusion Matrix", path_to_data=None, binary=True, round_data=False):
     """
     Computes and plots a confusion matrix.
 
@@ -476,23 +515,23 @@ if __name__ == "__main__":
 
     #train_rnn(path_to_save_model="rnn.hdf5", subplot=236, title="RNN")
     #train_mlp(path_to_save_model="mlp.hdf5", subplot=231, title="MLP")
-    #train_knn(path_to_save_model="knn.model", subplot=232, title="KNN")
-    #train_tree(path_to_save_model="tree.model", subplot=233, title="Tree")
-    #train_random_forest(path_to_save_model="forest.model", subplot=234, title="Forest")
-    #train_svm(path_to_save_model="svm.model", subplot=235, title="SVM")
+    knn = train_knn(path_to_save_model="knn.model", subplot=232, title="KNN")
+    tree =train_tree(path_to_save_model="tree.model", subplot=233, title="Tree")
+    forest = train_random_forest(path_to_save_model="forest.model", subplot=234, title="Forest")
+    svm = train_svm(path_to_save_model="svm.model", subplot=235, title="SVM")
     #train_logregr(path_to_save_model="logregr.model", subplot=236, title="Log Reg")
 
-    mlp = train_mlp(load_model=True, path_to_load="models/mlp.hdf5", subplot=231, title="MLP")
-    knn = train_knn(load_model=True, path_to_load="models/knn.model", subplot=232, title="KNN")
-    tree = train_tree(load_model=True, path_to_load="models/tree.model", subplot=233, title="Tree")
-    forest = train_random_forest(load_model=True, path_to_load="models/forest.model", subplot=234, title="Forest")
-    svm = train_svm(load_model=True, path_to_load="models/svm.model", subplot=235, title="SVM")
+    #mlp = train_mlp(load_model=True, path_to_load="models/mlp.hdf5", subplot=231, title="MLP")
+    #knn = train_knn(load_model=True, path_to_load="models/knn.model", subplot=232, title="KNN")
+    #tree = train_tree(load_model=True, path_to_load="models/tree.model", subplot=233, title="Tree")
+    #forest = train_random_forest(load_model=True, path_to_load="models/forest.model", subplot=234, title="Forest")
+    #svm = train_svm(load_model=True, path_to_load="models/svm.model", subplot=235, title="SVM")
     #rnn = train_rnn(load_model=True, path_to_load="models/rnn.hdf5", subplot=236, title="RNN")
 
     #logregr = train_logregr(load_model=True, path_to_load="models/logregr.model", subplot=236, title="Log Reg", replicate=True)
 
-    ensemble = Ensemble([mlp, knn, tree, forest, svm], ["MLP", "KNN", "Tree", "Forest", "SVM"])
-    print("Computing the ensemble...")
-    compute_confusion_matrix(ensemble, upsample=False, subplot=236, title="Ensemble")
+    #ensemble = Ensemble([mlp, knn, tree, forest, svm], ["MLP", "KNN", "Tree", "Forest", "SVM"])
+    #print("Computing the ensemble...")
+    #compute_confusion_matrix(ensemble, upsample=False, subplot=236, title="Ensemble")
     plt.show()
 
