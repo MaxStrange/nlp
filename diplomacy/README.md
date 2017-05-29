@@ -56,9 +56,9 @@ occurred between two players.
 Here is an example file:
 
 ```yaml
-year: 1901            # <-- This is the year that is ABOUT to be played, not the one that was just played
-season: Spring        # <-- This is the season that is ABOUT to be played, not the one that was just played
-game: 19
+year: 1901            # <-- This is the year whose orders are going to be resolved after these messages
+season: Spring        # <-- This is the season whose orders are going to be resolved after these messages
+game: 19              # <-- Not used, just for your records
 
 a_to_b:
   from_player: Alice  # <-- Not used, just for your records
