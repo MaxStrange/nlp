@@ -55,7 +55,7 @@ if __name__ == "__main__":
         exit(1)
     elif len(sys.argv) < 4:
         print("WARNING: With less than three YAML files, you will be running in debug mode. You need three YAML files to make this work.")
-    elif len(sys.argv > 4):
+    elif len(sys.argv) > 4:
         print("This program requires exactly three YAML files.")
         print("USAGE:", sys.argv[0], "path/to/file.yml path/to/otherfile.yml path/to/finalfile.yml")
         exit(1)

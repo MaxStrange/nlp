@@ -77,6 +77,9 @@ def get_lexwords(raw_text):
 
     Returns this dict.
     """
+    # THIS FUNCTION IS NOT USED IN THE FINAL VERSION AND SLOWS DOWN THE OUTPUT CONSIDERABLY
+    return {}
+    #######################################################################################
     with open("external/pdtb-parser/diplomacy/tmp.txt", 'w') as f:
         f.write(raw_text)
     p = subprocess.Popen(["java", "-jar", "parser.jar", "diplomacy"], cwd="external/pdtb-parser", stdout=subprocess.DEVNULL)
