@@ -14,6 +14,8 @@ np.random.seed(12345)
 DATA_PATH = os.path.join("..", "data_from_paper", "diplomacy_data.json")
 UPSAMPLE_TIMES = 4
 validation_set = None
+training_set = None
+already_got_all_sequences = False
 
 class Message:
     """
@@ -183,15 +185,19 @@ def get_all_sequences(datapath=None):
     """
     Gets all the relationship sequences and yields them one at a time except for the validation set.
     """
-    dp = datapath if datapath else DATA_PATH
-    with open(dp) as f:
-        data = json.load(f)
+    global already_got_all_sequences
+    if not already_got_all_sequences:
+        dp = datapath if datapath else DATA_PATH
+        with open(dp) as f:
+            data = json.load(f)
 
-    sequences = [Relationship(seq) for seq in data]
-    random.shuffle(sequences)
-    global validation_set
-    validation_set = sequences[-50:]
-    training_set = sequences[:-50]
+        sequences = [Relationship(seq) for seq in data]
+        random.shuffle(sequences)
+        global validation_set
+        global training_set
+        validation_set = sequences[-50:]
+        training_set = sequences[:-50]
+        already_got_all_sequences = True
     for seq in training_set:
         yield seq
 
@@ -429,10 +435,6 @@ if __name__ == "__main__":
 
     Xs = [x for x in get_X_feed(reverse=False)]
     Ys = [y for y in get_Y_feed(Xs)]
-    for i, y in enumerate(Ys):
-        print("Relationship: ", data[0])
-        print("X:", x_str(Xs[i][1]))
-        print("Y:", y_str(y))
-        if i >= 10:
-            break
+    print("Length of Xs:", len(Xs))
+    print("Length of Ys:", len(Ys))
 

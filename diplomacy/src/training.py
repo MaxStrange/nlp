@@ -241,10 +241,10 @@ def train_mlp(path_to_data=None, path_to_save_model="mlp.hdf5", load_model=False
     print("Training the MLP...")
     def make_model():
         model = Sequential()
-        model.add(Dense(512, input_dim=30, kernel_initializer='normal', activation='relu'))
-        model.add(Dropout(0.3))
+        model.add(Dense(1024, input_dim=30, kernel_initializer='normal', activation='relu'))
+        model.add(Dropout(0.5))
         model.add(Dense(256, kernel_initializer='normal', activation='relu'))
-        model.add(Dropout(0.2))
+        model.add(Dropout(0.4))
         model.add(Dense(1, kernel_initializer='normal', activation='sigmoid'))
         return model
 
@@ -260,12 +260,12 @@ def train_mlp(path_to_data=None, path_to_save_model="mlp.hdf5", load_model=False
         model = make_model()
 
         print("  |-> Compiling...")
-        model.compile(loss='binary_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
+        model.compile(loss='binary_crossentropy', optimizer='adagrad', metrics=['accuracy'])
 
         print("  |-> Fitting the model...")
         checkpointer = ModelCheckpoint(filepath=path_to_save_model, verbose=1, save_best_only=True)
         lr_reducer = keras.callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=50, min_lr=0.00001)
-        model.fit(X_train, y_train, batch_size=20, epochs=2000, verbose=2, validation_data=(X_test, y_test), callbacks=[checkpointer, lr_reducer])
+        model.fit(X_train, y_train, batch_size=20, epochs=1000, verbose=2, validation_data=(X_test, y_test), callbacks=[checkpointer, lr_reducer])
 
     print("  |-> Evaluating the model...")
     score = model.evaluate(X_test, y_test, verbose=1)
@@ -515,7 +515,7 @@ if __name__ == "__main__":
     pca_display(Xs, Ys, dimensions=2)
 
     #train_rnn(path_to_save_model="rnn.hdf5", subplot=236, title="RNN")
-    #train_mlp(path_to_save_model="mlp.hdf5", subplot=231, title="MLP")
+    #mlp = train_mlp(path_to_save_model="mlp.hdf5", subplot=231, title="MLP")
     #knn = train_knn(path_to_save_model="knn.model", subplot=232, title="KNN")
     #tree =train_tree(path_to_save_model="tree.model", subplot=233, title="Tree")
     #forest = train_random_forest(path_to_save_model="forest.model", subplot=234, title="Forest")
