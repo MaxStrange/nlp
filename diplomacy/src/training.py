@@ -109,14 +109,13 @@ def _get_xy(path_to_data=None, binary=True, upsample=True, replicate=False):
 def plot_confusion_matrix(cm, classes, subplot, normalize=False, title="Confusion matrix", cmap=plt.cm.Blues):
     """
     """
-    normalize=True
     plt.subplot(subplot)
     plt.imshow(cm, interpolation='nearest', cmap=cmap)
-    plt.title(title)
+    plt.title(title, fontsize=20, fontweight='bold')
 #    plt.colorbar()
     tick_marks = np.arange(len(classes))
-    plt.xticks(tick_marks, classes, rotation=45)
-    plt.yticks(tick_marks, classes)
+    plt.xticks(tick_marks, classes, fontsize=8)
+    plt.yticks(tick_marks, classes, fontsize=8)
 
     if normalize:
         cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
@@ -124,13 +123,15 @@ def plot_confusion_matrix(cm, classes, subplot, normalize=False, title="Confusio
 
     thresh = cm.max() / 2.
     for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
-        plt.text(j, i, cm[i, j],
+        plt.text(j, i, cm[i, j], fontsize=25,
                  horizontalalignment="center",
                  color="white" if cm[i, j] > thresh else "black")
 
-    plt.tight_layout()
-    plt.ylabel('True label')
-    plt.xlabel('Predicted label')
+    #plt.tight_layout()
+    if subplot == 231 or subplot == 234:
+        plt.ylabel('True label', fontsize=15)
+    if subplot == 234 or subplot == 235 or subplot == 236:
+        plt.xlabel('Predicted label', fontsize=15)
 
 def train_knn(path_to_data=None, path_to_save_model=None, load_model=False, path_to_load=None, binary=True, subplot=111, title=""):
     """
@@ -515,23 +516,23 @@ if __name__ == "__main__":
 
     #train_rnn(path_to_save_model="rnn.hdf5", subplot=236, title="RNN")
     #train_mlp(path_to_save_model="mlp.hdf5", subplot=231, title="MLP")
-    knn = train_knn(path_to_save_model="knn.model", subplot=232, title="KNN")
-    tree =train_tree(path_to_save_model="tree.model", subplot=233, title="Tree")
-    forest = train_random_forest(path_to_save_model="forest.model", subplot=234, title="Forest")
-    svm = train_svm(path_to_save_model="svm.model", subplot=235, title="SVM")
+    #knn = train_knn(path_to_save_model="knn.model", subplot=232, title="KNN")
+    #tree =train_tree(path_to_save_model="tree.model", subplot=233, title="Tree")
+    #forest = train_random_forest(path_to_save_model="forest.model", subplot=234, title="Forest")
+    #svm = train_svm(path_to_save_model="svm.model", subplot=235, title="SVM")
     #train_logregr(path_to_save_model="logregr.model", subplot=236, title="Log Reg")
 
-    #mlp = train_mlp(load_model=True, path_to_load="models/mlp.hdf5", subplot=231, title="MLP")
-    #knn = train_knn(load_model=True, path_to_load="models/knn.model", subplot=232, title="KNN")
-    #tree = train_tree(load_model=True, path_to_load="models/tree.model", subplot=233, title="Tree")
-    #forest = train_random_forest(load_model=True, path_to_load="models/forest.model", subplot=234, title="Forest")
-    #svm = train_svm(load_model=True, path_to_load="models/svm.model", subplot=235, title="SVM")
+    mlp = train_mlp(load_model=True, path_to_load="models/mlp.hdf5", subplot=231, title="MLP")
+    knn = train_knn(load_model=True, path_to_load="models/knn.model", subplot=232, title="KNN")
+    tree = train_tree(load_model=True, path_to_load="models/tree.model", subplot=233, title="Tree")
+    forest = train_random_forest(load_model=True, path_to_load="models/forest.model", subplot=234, title="Forest")
+    svm = train_svm(load_model=True, path_to_load="models/svm.model", subplot=235, title="SVM")
     #rnn = train_rnn(load_model=True, path_to_load="models/rnn.hdf5", subplot=236, title="RNN")
 
     #logregr = train_logregr(load_model=True, path_to_load="models/logregr.model", subplot=236, title="Log Reg", replicate=True)
 
-    #ensemble = Ensemble([mlp, knn, tree, forest, svm], ["MLP", "KNN", "Tree", "Forest", "SVM"])
-    #print("Computing the ensemble...")
-    #compute_confusion_matrix(ensemble, upsample=False, subplot=236, title="Ensemble")
+    ensemble = Ensemble([mlp, knn, tree, forest, svm], ["MLP", "KNN", "Tree", "Forest", "SVM"])
+    print("Computing the ensemble...")
+    compute_confusion_matrix(ensemble, upsample=False, subplot=236, title="Ensemble")
     plt.show()
 
