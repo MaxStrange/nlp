@@ -21,13 +21,17 @@ an NLP system end-to-end - the finished project is able to take messages in YAML
 This project aims to predict whether a betrayal is "about" to happen in the game of Diplomacy between two players. By this, I mean that the program will output the results of
 a bunch of binary classifiers based on the data. These results predict whether betrayal is imminent in the upcoming order resolution phase.
 
+- First, go to the Stanford CoreNLP website and download the zip file: [CoreNLP](https://stanfordnlp.github.io/CoreNLP/corenlp-server.html)
+- Unzip the file into nlp/diplomacy/external/stanford-corenlp-full-2016-10-31/
+- Now open two terminals.
+
 In one terminal:
 ```bash
 cd path/to/this/repo
 cd src
 ./run_server.sh
 ```
-This will run the Stanford CoreNLP server so that the Python code can communicate with it.
+This will run the Stanford CoreNLP server so that the Python code can communicate with it. If this fails, look at the run_server.sh script and pay attention to file names and paths. It shouldn't be hard to diagnose (the script is only one line long).
 Then in another terminal:
 ```bash
 cd path/to/this/repo
